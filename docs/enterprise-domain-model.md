@@ -66,3 +66,56 @@ enterprise reasoning.
 
 Recommendations require governance before becoming
 organizational knowledge.
+
+## Design Principles
+
+1. Business Outcomes before Technology
+
+2. Capabilities before Implementations
+
+3. Enterprise-first Vocabulary
+
+4. Familiarity before Novelty
+
+---
+
+# Enterprise Reasoning
+
+Enterprise reasoning represents the decision-making capability of the enterprise.
+
+Rather than relying on opaque AI inference, EAIOS applies established enterprise reasoning methods to produce transparent, explainable, and auditable recommendations.
+
+Enterprise reasoning methods include, but are not limited to:
+
+- Kepner-Tregoe
+- Five Whys
+- Fishbone (Ishikawa)
+- FMEA
+- Weighted Decision Matrix
+
+Artificial Intelligence augments these methods but does not replace them.
+
+---
+
+# Enterprise Domain Relationships
+
+```text
+Enterprise Goal
+        │
+        ▼
+Enterprise Capability
+        │
+        ▼
+Enterprise Reasoning
+        │
+        ▼
+Enterprise Recommendation
+        │
+        ▼
+Enterprise Decision
+        │
+        ▼
+Enterprise Observation
+        │
+        ▼
+Enterprise Knowledge
