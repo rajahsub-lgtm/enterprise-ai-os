@@ -99,23 +99,16 @@ Artificial Intelligence augments these methods but does not replace them.
 
 # Enterprise Domain Relationships
 
-```text
-Enterprise Goal
-        │
-        ▼
-Enterprise Capability
-        │
-        ▼
-Enterprise Reasoning
-        │
-        ▼
-Enterprise Recommendation
-        │
-        ▼
-Enterprise Decision
-        │
-        ▼
-Enterprise Observation
-        │
-        ▼
-Enterprise Knowledge
+Business Outcome
+        ↓
+Capability
+        ↓
+Tasks
+        ↓
+Skills
+        ↓
+Agents
+        ↓
+Execution
+        ↓
+Enterprise Learning
