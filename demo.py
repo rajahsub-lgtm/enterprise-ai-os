@@ -5,6 +5,7 @@ from src.eaios.runtime.skill_matcher import SkillMatcher
 from src.eaios.runtime.agent_orchestrator import AgentOrchestrator
 from src.eaios.runtime.safety_gate import SafetyGate
 from src.eaios.runtime.learning_manager import LearningManager
+from src.eaios.runtime.execution_reporter import ExecutionReporter
 
 
 def main() -> None:
@@ -15,6 +16,7 @@ def main() -> None:
     orchestrator = AgentOrchestrator()
     safety_gate = SafetyGate()
     learning_manager = LearningManager()
+    reporter = ExecutionReporter()
 
     trace = manager.start("Maintain Application Health")
 
@@ -43,6 +45,7 @@ def main() -> None:
 
     print(f"\nSafety Status: {trace.safety_status}")
     print(f"\nEnterprise Learning: {trace.learning_summary}")
+    print(reporter.generate(trace))
 
 
 if __name__ == "__main__":
