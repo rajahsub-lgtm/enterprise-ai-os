@@ -16,6 +16,7 @@ from src.eaios.runtime.execution_reporter import ExecutionReporter
 
 from src.eaios.runtime.capability_visualizer import CapabilityVisualizer
 from src.eaios.runtime.ecosystem_visualizer import EcosystemVisualizer
+from src.eaios.runtime.experiment_visualizer import ExperimentVisualizer
 
 
 def main() -> None:
@@ -29,6 +30,7 @@ def main() -> None:
     reporter = ExecutionReporter()
     visualizer = CapabilityVisualizer()
     ecosystem = EcosystemVisualizer()
+    experiment = ExperimentVisualizer()
 
     trace = manager.start("Maintain Application Health")
 
@@ -94,6 +96,7 @@ def main() -> None:
 
     print(visualizer.render(trace))
     print(ecosystem.render())
+    print(experiment.render())
 
     print(
         reporter.generate(
