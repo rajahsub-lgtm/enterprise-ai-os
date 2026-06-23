@@ -1,0 +1,9 @@
+{
+  "known_errors": [
+    {
+      "symptom": "checkout failures",
+      "probable_cause": "payment gateway timeout",
+      "recommended_action": "restart payment connector"
+    }
+  ]
+}

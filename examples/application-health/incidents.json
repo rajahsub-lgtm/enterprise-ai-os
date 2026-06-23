@@ -1,0 +1,9 @@
+{
+  "recent_incidents": [
+    {
+      "id": "INC001",
+      "symptom": "checkout failures",
+      "count": 42
+    }
+  ]
+}

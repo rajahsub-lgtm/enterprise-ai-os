@@ -1,0 +1,6 @@
+{
+  "service": "Order Management",
+  "error_rate": 8.7,
+  "latency_ms": 2400,
+  "status": "degraded"
+}

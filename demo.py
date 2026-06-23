@@ -1,3 +1,10 @@
+import json
+
+from src.eaios.agents.telemetry_agent import TelemetryAgent
+from src.eaios.agents.knowledge_agent import KnowledgeAgent
+from src.eaios.agents.reasoning_agent import ReasoningAgent
+from src.eaios.agents.recommendation_agent import RecommendationAgent
+
 from src.eaios.runtime.business_outcome_manager import BusinessOutcomeManager
 from src.eaios.runtime.capability_assessor import CapabilityAssessor
 from src.eaios.runtime.task_planner import TaskPlanner
@@ -45,7 +52,50 @@ def main() -> None:
 
     print(f"\nSafety Status: {trace.safety_status}")
     print(f"\nEnterprise Learning: {trace.learning_summary}")
-    print(reporter.generate(trace))
+
+    with open("examples/application-health/telemetry.json") as f:
+        telemetry = json.load(f)
+
+    with open("examples/application-health/incidents.json") as f:
+        incidents = json.load(f)
+
+    with open("examples/application-health/knowledge.json") as f:
+        knowledge = json.load(f)
+
+    telemetry_result = TelemetryAgent().execute(telemetry)
+    knowledge_result = KnowledgeAgent().execute(incidents, knowledge)
+    reasoning_result = ReasoningAgent().execute(
+        telemetry_result,
+        knowledge_result,
+    )
+    recommendation_result = RecommendationAgent().execute(
+        reasoning_result,
+        knowledge_result,
+    )
+
+    print("\n=== Agent Outputs ===")
+
+    print("\nTelemetry Agent")
+    print(telemetry_result)
+
+    print("\nKnowledge Agent")
+    print(knowledge_result)
+
+    print("\nReasoning Agent")
+    print(reasoning_result)
+
+    print("\nRecommendation Agent")
+    print(recommendation_result)
+
+    print(
+        reporter.generate(
+            trace,
+            telemetry_result,
+            knowledge_result,
+            reasoning_result,
+            recommendation_result,
+        )
+    )
 
 
 if __name__ == "__main__":
