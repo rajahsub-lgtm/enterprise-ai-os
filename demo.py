@@ -14,6 +14,8 @@ from src.eaios.runtime.safety_gate import SafetyGate
 from src.eaios.runtime.learning_manager import LearningManager
 from src.eaios.runtime.execution_reporter import ExecutionReporter
 
+from src.eaios.runtime.capability_visualizer import CapabilityVisualizer
+
 
 def main() -> None:
     manager = BusinessOutcomeManager()
@@ -24,6 +26,7 @@ def main() -> None:
     safety_gate = SafetyGate()
     learning_manager = LearningManager()
     reporter = ExecutionReporter()
+    visualizer = CapabilityVisualizer()
 
     trace = manager.start("Maintain Application Health")
 
@@ -86,6 +89,8 @@ def main() -> None:
 
     print("\nRecommendation Agent")
     print(recommendation_result)
+
+    print(visualizer.render(trace))
 
     print(
         reporter.generate(
