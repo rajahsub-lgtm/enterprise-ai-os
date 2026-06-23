@@ -15,6 +15,7 @@ from src.eaios.runtime.learning_manager import LearningManager
 from src.eaios.runtime.execution_reporter import ExecutionReporter
 
 from src.eaios.runtime.capability_visualizer import CapabilityVisualizer
+from src.eaios.runtime.ecosystem_visualizer import EcosystemVisualizer
 
 
 def main() -> None:
@@ -27,6 +28,7 @@ def main() -> None:
     learning_manager = LearningManager()
     reporter = ExecutionReporter()
     visualizer = CapabilityVisualizer()
+    ecosystem = EcosystemVisualizer()
 
     trace = manager.start("Maintain Application Health")
 
@@ -91,6 +93,7 @@ def main() -> None:
     print(recommendation_result)
 
     print(visualizer.render(trace))
+    print(ecosystem.render())
 
     print(
         reporter.generate(
