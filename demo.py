@@ -18,6 +18,9 @@ from src.eaios.runtime.capability_visualizer import CapabilityVisualizer
 from src.eaios.runtime.ecosystem_visualizer import EcosystemVisualizer
 from src.eaios.runtime.experiment_visualizer import ExperimentVisualizer
 
+from src.eaios.runtime.strategy_selector import StrategySelector
+from src.eaios.runtime.strategy_visualizer import StrategyVisualizer
+
 
 def main() -> None:
     manager = BusinessOutcomeManager()
@@ -31,6 +34,9 @@ def main() -> None:
     visualizer = CapabilityVisualizer()
     ecosystem = EcosystemVisualizer()
     experiment = ExperimentVisualizer()
+    strategy_selector = StrategySelector()
+    strategy_visualizer = StrategyVisualizer()
+    
 
     trace = manager.start("Maintain Application Health")
 
@@ -93,6 +99,9 @@ def main() -> None:
 
     print("\nRecommendation Agent")
     print(recommendation_result)
+
+    strategy = strategy_selector.select()
+    print(strategy_visualizer.render(strategy))
 
     print(visualizer.render(trace))
     print(ecosystem.render())
