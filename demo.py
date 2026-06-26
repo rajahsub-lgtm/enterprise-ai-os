@@ -25,6 +25,8 @@ from src.eaios.runtime.implementation_registry import ImplementationRegistry
 from src.eaios.runtime.agent_selector import AgentSelector
 from src.eaios.runtime.agent_selection_visualizer import AgentSelectionVisualizer
 
+from src.eaios.runtime.business_impact_visualizer import BusinessImpactVisualizer
+
 
 def main() -> None:
     manager = BusinessOutcomeManager()
@@ -43,6 +45,7 @@ def main() -> None:
     implementation_registry = ImplementationRegistry()
     agent_selector = AgentSelector()
     agent_selection_visualizer = AgentSelectionVisualizer()
+    business_impact = BusinessImpactVisualizer()
     
 
     trace = manager.start("Maintain Application Health")
@@ -109,6 +112,8 @@ def main() -> None:
 
     strategy = strategy_selector.select()
     print(strategy_visualizer.render(strategy))
+
+    print(business_impact.render())
         
     implementations = implementation_registry.get_implementations(
         "Knowledge Retrieval"
