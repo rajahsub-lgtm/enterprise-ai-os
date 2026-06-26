@@ -11,13 +11,13 @@ class StrategySelector:
             "historical_success_rate": "98%",
             "strategy": "Known Error Fast Path",
             "skipped_activities": [
-                "Knowledge Retrieval",
-                "Root Cause Analysis",
+                "Broad Knowledge Search",
+                "Full Root Cause Investigation",
             ],
             "reason": (
                 "This issue has been successfully diagnosed and "
-                "resolved repeatedly. EAIOS can skip full investigation "
-                "and proceed directly to human validation."
+                "resolved repeatedly. EAIOS can skip broad investigation "
+                "and proceed with known-error validation and human approval."
             ),
             "recommended_action": "restart payment connector",
             "human_validation": "Required",

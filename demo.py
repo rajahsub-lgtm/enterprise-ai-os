@@ -21,6 +21,10 @@ from src.eaios.runtime.experiment_visualizer import ExperimentVisualizer
 from src.eaios.runtime.strategy_selector import StrategySelector
 from src.eaios.runtime.strategy_visualizer import StrategyVisualizer
 
+from src.eaios.runtime.implementation_registry import ImplementationRegistry
+from src.eaios.runtime.agent_selector import AgentSelector
+from src.eaios.runtime.agent_selection_visualizer import AgentSelectionVisualizer
+
 
 def main() -> None:
     manager = BusinessOutcomeManager()
@@ -36,6 +40,9 @@ def main() -> None:
     experiment = ExperimentVisualizer()
     strategy_selector = StrategySelector()
     strategy_visualizer = StrategyVisualizer()
+    implementation_registry = ImplementationRegistry()
+    agent_selector = AgentSelector()
+    agent_selection_visualizer = AgentSelectionVisualizer()
     
 
     trace = manager.start("Maintain Application Health")
@@ -102,6 +109,18 @@ def main() -> None:
 
     strategy = strategy_selector.select()
     print(strategy_visualizer.render(strategy))
+        
+    implementations = implementation_registry.get_implementations(
+        "Knowledge Retrieval"
+    )
+
+    selection = agent_selector.select(
+        skill="Knowledge Retrieval",
+        context="Application Health Investigation",
+        implementations=implementations,
+    )
+
+    print(agent_selection_visualizer.render(selection))
 
     print(visualizer.render(trace))
     print(ecosystem.render())
