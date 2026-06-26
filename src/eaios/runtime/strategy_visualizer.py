@@ -17,24 +17,24 @@ Situation Assessment
 --------------------
 {strategy["situation"]}
 
-Occurrences
------------
-{strategy["occurrences"]}
+Enterprise Experience
+---------------------
+{strategy["occurrences"]} previous occurrences
 
-Historical Success Rate
------------------------
+Historical Resolution Success
+-----------------------------
 {strategy["historical_success_rate"]}
 
 Selected Strategy
 -----------------
 {strategy["strategy"]}
 
-Skipped Activities
-------------------
+Activities Deferred
+-------------------
 {skipped}
 
-Reason
-------
+Execution Rationale
+-------------------
 {strategy["reason"]}
 
 Recommended Action
@@ -44,6 +44,12 @@ Recommended Action
 Human Validation
 ----------------
 {strategy["human_validation"]}
+
+Operational Principle
+---------------------
+Enterprise learning reduces uncertainty.
+
+It never replaces professional judgment.
 
 ==================================================
 """

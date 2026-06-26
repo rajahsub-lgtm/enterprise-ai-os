@@ -27,6 +27,10 @@ from src.eaios.runtime.agent_selection_visualizer import AgentSelectionVisualize
 
 from src.eaios.runtime.business_impact_visualizer import BusinessImpactVisualizer
 
+from src.eaios.runtime.enterprise_memory import EnterpriseMemory
+from src.eaios.runtime.confidence_engine import ConfidenceEngine
+from src.eaios.runtime.confidence_visualizer import ConfidenceVisualizer
+
 
 def main() -> None:
     manager = BusinessOutcomeManager()
@@ -46,6 +50,9 @@ def main() -> None:
     agent_selector = AgentSelector()
     agent_selection_visualizer = AgentSelectionVisualizer()
     business_impact = BusinessImpactVisualizer()
+    enterprise_memory = EnterpriseMemory()
+    confidence_engine = ConfidenceEngine()
+    confidence_visualizer = ConfidenceVisualizer()
     
 
     trace = manager.start("Maintain Application Health")
@@ -110,7 +117,22 @@ def main() -> None:
     print("\nRecommendation Agent")
     print(recommendation_result)
 
-    strategy = strategy_selector.select()
+    memory_result = enterprise_memory.lookup("payment gateway timeout")
+
+    current_context = {
+        "context_match_score": 0.91,
+        "recent_failure_signal": "LOW",
+        "business_risk": "HIGH",
+    }
+
+    confidence = confidence_engine.evaluate(
+        memory_result,
+        current_context,
+    )
+
+    print(confidence_visualizer.render(confidence))
+
+    strategy = strategy_selector.select(confidence)
     print(strategy_visualizer.render(strategy))
 
     print(business_impact.render())
