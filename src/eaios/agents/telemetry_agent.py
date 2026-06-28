@@ -1,16 +1,21 @@
 class TelemetryAgent:
+    """
+    Converts an enterprise telemetry signal into an observation.
 
-    def execute(self, telemetry):
+    The Telemetry Agent observes. It does not diagnose.
+    """
 
-        if telemetry["error_rate"] > 5:
-
-            return {
-                "finding": "High error rate detected",
-                "severity": "HIGH",
-                "service": telemetry["service"]
-            }
-
+    def execute(self, alert: dict) -> dict:
         return {
-            "finding": "No issues detected",
-            "severity": "LOW"
+            "observation": (
+                f"Abnormal {alert['metric'].lower()} detected."
+            ),
+            "source": alert["source"],
+            "service": alert["service"],
+            "business_service": alert["business_service"],
+            "severity": alert["severity"],
+            "signal_type": alert["event_type"],
+            "current_value": alert["current_value"],
+            "threshold": alert["threshold"],
+            "requires_enterprise_reasoning": True,
         }

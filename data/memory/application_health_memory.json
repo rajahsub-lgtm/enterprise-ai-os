@@ -1,0 +1,13 @@
+{
+  "payment gateway timeout": {
+    "issue": "payment gateway timeout",
+    "occurrences": 8,
+    "historical_success_rate": 0.98,
+    "average_resolution": "12 minutes",
+    "known_resolution": "restart payment connector",
+    "recent_failures": 0,
+    "strength": 87,
+    "trend": "Stable",
+    "last_validated": "2026-06-27"
+  }
+}

@@ -1,72 +1,59 @@
+import json
+from pathlib import Path
+
+from src.eaios.runtime.pattern import Pattern
+
+
 class EnterpriseMemory:
     """
     Enterprise Memory stores organizational learning.
 
-    This is NOT agent memory.
+    This is not agent memory.
 
-    It represents the collective experience accumulated
-    across previous executions.
+    It represents distilled enterprise experience from
+    prior executions, incidents, resolutions, failures,
+    human interventions, and governance outcomes.
     """
 
-    """
-    Important Principle
+    def __init__(
+        self,
+        memory_path: str = "data/memory/application_health_memory.json",
+    ) -> None:
+        self.memory_path = Path(memory_path)
 
-    Enterprise Memory should guide execution, not blindly automate it.
+    def lookup(self, issue: str) -> Pattern:
+        memory = self._load_memory()
 
-    A known error fast path is only valid when the current situation
-    matches the historical pattern closely enough.
+        if issue in memory:
+            data = memory[issue]
 
-    If the same symptom starts failing with the known solution,
-    EAIOS must reduce confidence and choose a more cautious strategy.
+        return Pattern(
+            issue=data["issue"],
+            occurrences=data["occurrences"],
+            historical_success_rate=data["historical_success_rate"],
+            average_resolution=data["average_resolution"],
+            known_resolution=data["known_resolution"],
+            recent_failures=data["recent_failures"],
+            strength=data.get("strength", 50),
+            trend=data.get("trend", "Stable"),
+            last_validated=data.get("last_validated", "Unknown"),
+        )
 
-    Symptoms may have multiple causes.
+        return Pattern(
+            issue=issue,
+            occurrences=0,
+            historical_success_rate=0.0,
+            average_resolution="Unknown",
+            known_resolution="Unknown",
+            recent_failures=0,
+            strength=0,
+            trend="Unknown",
+            last_validated="Never",
+        )
 
-    Example:
-    "Order payment issue" may be caused by:
-    - payment gateway timeout
-    - authentication failure
-    - downstream billing outage
-    - network degradation
-    - recent change
+    def _load_memory(self) -> dict:
+        if not self.memory_path.exists():
+            return {}
 
-    Therefore, EAIOS must validate the current pattern before applying
-    a learned strategy.
-    """
-
-    def lookup(self, issue: str) -> dict:
-        if issue == "payment gateway timeout":
-           return {
-            "issue": issue,
-            "occurrences": 147,
-            "historical_success_rate": 0.98,
-            "average_resolution": "12 minutes",
-            "known_resolution": "restart payment connector",
-            "recent_failures": 2,
-        }
-
-        return {
-            "issue": issue,
-            "occurrences": 0,
-            "historical_success_rate": 0.0,
-            "average_resolution": "Unknown",
-            "known_resolution": "Unknown",
-            "recent_failures": 0,
-        }
-    
-"""
-Future Evolution
-
-Enterprise Memory will evolve into a persistent
-Collective Intelligence Store.
-
-Potential implementations:
-
-- Firestore
-- PostgreSQL
-- Neo4j
-- Knowledge Graph
-- Vector Database
-
-The operating model should remain unchanged
-regardless of storage technology.
-"""
+        with self.memory_path.open("r", encoding="utf-8") as file:
+            return json.load(file)

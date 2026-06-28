@@ -1,19 +1,57 @@
 class KnowledgeAgent:
+    """
+    Searches enterprise knowledge using incident context.
 
-    def execute(self, incidents, knowledge):
+    MVP behavior:
+    - Accepts either old incident format or new realistic list format.
+    - Looks for a knowledge article whose symptoms appear in incident summaries.
+    """
 
-        symptom = incidents["recent_incidents"][0]["symptom"]
+    def execute(self, incidents, knowledge) -> dict:
+        incident_list = self._normalize_incidents(incidents)
 
-        for error in knowledge["known_errors"]:
+        incident_text = " ".join(
+            incident.get("summary", "").lower()
+            for incident in incident_list
+        )
 
-            if error["symptom"] == symptom:
+        best_article = None
 
-                return {
-                    "finding": "Known error matched",
-                    "probable_cause": error["probable_cause"],
-                    "recommended_action": error["recommended_action"]
-                }
+        for article in knowledge:
+            symptoms = article.get("symptoms", [])
+
+            for symptom in symptoms:
+                if symptom.lower() in incident_text:
+                    best_article = article
+                    break
+
+            if best_article:
+                break
+
+        if best_article:
+            return {
+                "finding": "Knowledge match found",
+                "article": best_article["id"],
+                "title": best_article["title"],
+                "probable_cause": best_article["probable_cause"].lower(),
+                "recommended_action": best_article["resolution"].lower(),
+                "knowledge_status": best_article["status"],
+                "success_rate": best_article["success_rate"],
+            }
 
         return {
-            "finding": "No known error found"
+            "finding": "No knowledge match found",
+            "probable_cause": "unknown",
+            "recommended_action": "escalate for investigation",
+            "knowledge_status": "Missing",
+            "success_rate": 0.0,
         }
+
+    def _normalize_incidents(self, incidents):
+        if isinstance(incidents, list):
+            return incidents
+
+        if isinstance(incidents, dict):
+            return incidents.get("recent_incidents", [])
+
+        return []

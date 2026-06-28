@@ -15,6 +15,17 @@ class ExecutionReporter:
         recommendation_result: dict | None = None,
     ) -> str:
 
+        evidence = "No telemetry evidence available"
+
+        if telemetry_result:
+            evidence = telemetry_result.get(
+                "observation",
+                telemetry_result.get(
+                    "finding",
+                    "No telemetry evidence available",
+                ),
+            )
+
         return f"""
 ==================================================
 EAIOS EXECUTION REPORT
@@ -33,7 +44,8 @@ Service:
 {telemetry_result.get("service", "UNKNOWN") if telemetry_result else "UNKNOWN"}
 
 Evidence:
-{telemetry_result.get("finding", "No telemetry evidence available") if telemetry_result else "No telemetry evidence available"}
+---------
+{evidence}
 
 Knowledge Match:
 {knowledge_result.get("finding", "No knowledge match available") if knowledge_result else "No knowledge match available"}

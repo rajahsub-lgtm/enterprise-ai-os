@@ -1,9 +1,196 @@
-{
-  "recent_incidents": [
-    {
-      "id": "INC001",
-      "symptom": "checkout failures",
-      "count": 42
-    }
-  ]
-}
+[
+  {
+    "id": "INC000001",
+    "service": "Order Management",
+    "summary": "Checkout fails during payment submission",
+    "priority": "P1",
+    "severity": "HIGH",
+    "status": "Closed",
+    "assignment_group": "Commerce Operations",
+    "probable_cause": "payment gateway timeout",
+    "resolution": "restart payment connector"
+  },
+  {
+    "id": "INC000002",
+    "service": "Order Management",
+    "summary": "Payment authorization timeout",
+    "priority": "P1",
+    "severity": "HIGH",
+    "status": "Closed",
+    "assignment_group": "Commerce Operations",
+    "probable_cause": "payment gateway timeout",
+    "resolution": "restart payment connector"
+  },
+  {
+    "id": "INC000003",
+    "service": "Order Management",
+    "summary": "Customer cannot complete checkout",
+    "priority": "P1",
+    "severity": "HIGH",
+    "status": "Closed",
+    "assignment_group": "Commerce Operations",
+    "probable_cause": "payment gateway timeout",
+    "resolution": "restart payment connector"
+  },
+  {
+    "id": "INC000004",
+    "service": "Order Management",
+    "summary": "Checkout page hangs after payment",
+    "priority": "P2",
+    "severity": "MEDIUM",
+    "status": "Closed",
+    "assignment_group": "Commerce Operations",
+    "probable_cause": "payment gateway timeout",
+    "resolution": "restart payment connector"
+  },
+  {
+    "id": "INC000005",
+    "service": "Order Management",
+    "summary": "Orders remain pending after payment",
+    "priority": "P2",
+    "severity": "MEDIUM",
+    "status": "Closed",
+    "assignment_group": "Commerce Operations",
+    "probable_cause": "payment gateway timeout",
+    "resolution": "restart payment connector"
+  },
+
+  {
+    "id": "INC000006",
+    "service": "Order Management",
+    "summary": "Checkout unavailable",
+    "priority": "P1",
+    "severity": "HIGH",
+    "status": "Closed",
+    "assignment_group": "Commerce Operations",
+    "probable_cause": "database connection pool exhausted",
+    "resolution": "increase database pool"
+  },
+  {
+    "id": "INC000007",
+    "service": "Order Management",
+    "summary": "Checkout returns HTTP 500",
+    "priority": "P1",
+    "severity": "HIGH",
+    "status": "Closed",
+    "assignment_group": "Commerce Operations",
+    "probable_cause": "database connection pool exhausted",
+    "resolution": "increase database pool"
+  },
+  {
+    "id": "INC000008",
+    "service": "Order Management",
+    "summary": "Order API unavailable",
+    "priority": "P1",
+    "severity": "HIGH",
+    "status": "Closed",
+    "assignment_group": "Commerce Operations",
+    "probable_cause": "database connection pool exhausted",
+    "resolution": "increase database pool"
+  },
+
+  {
+    "id": "INC000009",
+    "service": "Inventory",
+    "summary": "Inventory synchronization delayed",
+    "priority": "P2",
+    "severity": "MEDIUM",
+    "status": "Closed",
+    "assignment_group": "Supply Chain",
+    "probable_cause": "Kafka backlog",
+    "resolution": "restart Kafka consumer"
+  },
+  {
+    "id": "INC000010",
+    "service": "Inventory",
+    "summary": "Stock levels incorrect",
+    "priority": "P2",
+    "severity": "MEDIUM",
+    "status": "Closed",
+    "assignment_group": "Supply Chain",
+    "probable_cause": "Kafka backlog",
+    "resolution": "restart Kafka consumer"
+  },
+
+  {
+    "id": "INC000011",
+    "service": "Identity",
+    "summary": "Users cannot log in",
+    "priority": "P1",
+    "severity": "HIGH",
+    "status": "Closed",
+    "assignment_group": "IAM",
+    "probable_cause": "LDAP unavailable",
+    "resolution": "fail over to secondary LDAP"
+  },
+  {
+    "id": "INC000012",
+    "service": "Identity",
+    "summary": "Authentication timeout",
+    "priority": "P1",
+    "severity": "HIGH",
+    "status": "Closed",
+    "assignment_group": "IAM",
+    "probable_cause": "LDAP unavailable",
+    "resolution": "fail over to secondary LDAP"
+  },
+
+  {
+    "id": "INC000013",
+    "service": "Payment Gateway",
+    "summary": "Credit card authorization delayed",
+    "priority": "P1",
+    "severity": "HIGH",
+    "status": "Closed",
+    "assignment_group": "Payments",
+    "probable_cause": "provider latency",
+    "resolution": "reroute to backup provider"
+  },
+  {
+    "id": "INC000014",
+    "service": "Payment Gateway",
+    "summary": "Payment API latency",
+    "priority": "P2",
+    "severity": "MEDIUM",
+    "status": "Closed",
+    "assignment_group": "Payments",
+    "probable_cause": "provider latency",
+    "resolution": "reroute to backup provider"
+  },
+
+  {
+    "id": "INC000015",
+    "service": "Shipping",
+    "summary": "Shipping label generation failed",
+    "priority": "P2",
+    "severity": "MEDIUM",
+    "status": "Closed",
+    "assignment_group": "Logistics",
+    "probable_cause": "carrier API unavailable",
+    "resolution": "retry after carrier recovery"
+  },
+
+  {
+    "id": "INC000016",
+    "service": "Customer Portal",
+    "summary": "Portal response time exceeded SLA",
+    "priority": "P2",
+    "severity": "MEDIUM",
+    "status": "Closed",
+    "assignment_group": "Digital Experience",
+    "probable_cause": "web server CPU saturation",
+    "resolution": "scale web tier"
+  },
+
+  {
+    "id": "INC000017",
+    "service": "Customer Portal",
+    "summary": "Portal unavailable",
+    "priority": "P1",
+    "severity": "HIGH",
+    "status": "Closed",
+    "assignment_group": "Digital Experience",
+    "probable_cause": "load balancer failure",
+    "resolution": "fail over load balancer"
+  }
+]

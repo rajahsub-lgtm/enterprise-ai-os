@@ -1,0 +1,20 @@
+{
+  "service": "Order Management",
+  "tier": "Tier 1",
+  "business_capabilities": [
+    "Checkout",
+    "Order Capture",
+    "Billing"
+  ],
+  "upstream": [
+    "Customer Portal",
+    "Identity Service"
+  ],
+  "downstream": [
+    "Payment Gateway",
+    "Inventory",
+    "Shipping"
+  ],
+  "service_owner": "Retail IT",
+  "business_owner": "Global Commerce"
+}

@@ -1,0 +1,14 @@
+{
+  "timestamp": "2026-06-28T10:30:00Z",
+  "source": "Dynatrace",
+  "service": "Order Management",
+  "business_service": "Checkout",
+  "metric": "Memory Leak Rate",
+  "current_value": 98.0,
+  "threshold": 40.0,
+  "severity": "HIGH",
+  "environment": "Production",
+  "region": "US-East",
+  "alert_id": "DT-482933",
+  "event_type": "Threshold Breach"
+}

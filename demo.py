@@ -31,6 +31,12 @@ from src.eaios.runtime.enterprise_memory import EnterpriseMemory
 from src.eaios.runtime.confidence_engine import ConfidenceEngine
 from src.eaios.runtime.confidence_visualizer import ConfidenceVisualizer
 
+from src.eaios.runtime.execution_logger import ExecutionLogger
+
+from src.eaios.runtime.learning_engine import LearningEngine
+
+from src.eaios.runtime.learning_summary_visualizer import LearningSummaryVisualizer
+
 
 def main() -> None:
     manager = BusinessOutcomeManager()
@@ -53,6 +59,9 @@ def main() -> None:
     enterprise_memory = EnterpriseMemory()
     confidence_engine = ConfidenceEngine()
     confidence_visualizer = ConfidenceVisualizer()
+    execution_logger = ExecutionLogger()
+    learning_engine = LearningEngine()
+    learning_summary_visualizer = LearningSummaryVisualizer()
     
 
     trace = manager.start("Maintain Application Health")
@@ -83,7 +92,7 @@ def main() -> None:
     print(f"\nSafety Status: {trace.safety_status}")
     print(f"\nEnterprise Learning: {trace.learning_summary}")
 
-    with open("examples/application-health/telemetry.json") as f:
+    with open("examples/application-health-realistic/telemetry_alert.json") as f:
         telemetry = json.load(f)
 
     with open("examples/application-health/incidents.json") as f:
@@ -92,6 +101,19 @@ def main() -> None:
     with open("examples/application-health/knowledge.json") as f:
         knowledge = json.load(f)
 
+        print("\n==================================================")
+        print("EAIOS ENTERPRISE ALERT")
+        print("==================================================")
+        print(f"Source: {telemetry['source']}")
+        print(f"Service: {telemetry['service']}")
+        print(f"Business Service: {telemetry['business_service']}")
+        print(f"Signal: {telemetry['metric']}")
+        print(f"Current Value: {telemetry['current_value']}")
+        print(f"Threshold: {telemetry['threshold']}")
+        print(f"Severity: {telemetry['severity']}")
+        print("Enterprise Reasoning: INITIATED")
+        print("==================================================")
+    
     telemetry_result = TelemetryAgent().execute(telemetry)
     knowledge_result = KnowledgeAgent().execute(incidents, knowledge)
     reasoning_result = ReasoningAgent().execute(
@@ -152,6 +174,21 @@ def main() -> None:
     print(visualizer.render(trace))
     print(ecosystem.render())
     print(experiment.render())
+
+    record = execution_logger.build_record(
+        trace,
+        confidence,
+        strategy,
+        recommendation_result,
+    )
+
+    execution_logger.record(record)
+
+    updated_memory = learning_engine.update_memory(
+    "payment gateway timeout"
+)
+
+    print(learning_summary_visualizer.render(updated_memory))
 
     print(
         reporter.generate(
