@@ -2,13 +2,13 @@
 
 ## Vision
 
-Build an Enterprise AI Operating System (EAIOS) that enables organizations to continuously improve their ability to solve business outcomes through governed collective intelligence.
+Build an Enterprise AI Operating System (EAIOS) that enables organizations to transform collective intelligence into explainable, governed, continuously improving enterprise decisions through enterprise reasoning.
 
 The platform evolves through an iterative cycle:
 
 **Build → Learn → Architect → Build**
 
-Architecture is expected to evolve as collective intelligence grows.
+Architecture is expected to evolve through experimentation and enterprise validation.
 
 ---
 
@@ -16,11 +16,11 @@ Architecture is expected to evolve as collective intelligence grows.
 
 ## Foundation
 
-* ✅ ADR-001 Enterprise AI Operating System
-* ✅ ADR-002 Business Outcome First Architecture
-* ✅ ADR-003 Enterprise Reasoning Framework
-* ✅ ADR-004 Business Outcome Driven Capability Orchestration
-* ✅ ADR-005 Collective Intelligence as a First-Class Enterprise Capability
+* ✅ ADR-001 — Enterprise AI Operating System
+* ✅ ADR-002 — Business Outcome First Architecture
+* ✅ ADR-003 — Enterprise Reasoning Framework
+* ✅ ADR-004 — Business Outcome Driven Capability Orchestration
+* ✅ ADR-005 — Collective Intelligence as a First-Class Enterprise Capability
 
 ---
 
@@ -28,23 +28,19 @@ Architecture is expected to evolve as collective intelligence grows.
 
 ## v0.1 — Runtime Skeleton ✅
 
+Established the core execution model:
+
+```text
 Business Outcome
-
-↓
-
+        ↓
 Capability
-
-↓
-
+        ↓
 Tasks
-
-↓
-
+        ↓
 Skills
-
-↓
-
+        ↓
 Agents
+```
 
 ---
 
@@ -64,10 +60,10 @@ Introduced:
 
 Introduced:
 
-* Business Outcome
-* Capability
+* Business Outcome visualization
+* Capability decomposition
 * Skill decomposition
-* Skill-to-Agent mapping
+* Skill-to-agent mapping
 
 ---
 
@@ -104,7 +100,7 @@ Introduced:
 
 ---
 
-## v0.7 — Dynamic Agent Selection ✅
+## v0.7 — Dynamic Implementation Selection ✅
 
 Introduced:
 
@@ -135,14 +131,13 @@ Introduced:
 * Historical enterprise experience
 * Operational Confidence
 * Current situation validation
-* Targeted due diligence
 * Confidence-driven execution strategy
 
 ---
 
 ## v1.0 — Enterprise Operating Model (Alpha) ✅
 
-Completed the first end-to-end Enterprise AI Operating Model.
+Validated the first end-to-end Enterprise AI Operating Model.
 
 Introduced:
 
@@ -151,65 +146,45 @@ Introduced:
 * Operational Confidence
 * Adaptive Execution Strategy
 * Business Impact Assessment
-* Context-aware Agent Selection
+* Context-aware Implementation Selection
 * Enterprise Learning
 * Collective Intelligence
+
+Validated using realistic Application Health scenarios.
 
 ---
 
 # Current Runtime
 
-Business Outcome
-
-↓
-
+```text
+Desired Business Outcome
+            ↓
 Capability Assessment
-
-↓
-
+            ↓
+Task Planning
+            ↓
+Skill Matching
+            ↓
+Implementation Selection
+            ↓
 Enterprise Memory
-
-↓
-
+            ↓
 Operational Confidence
-
-↓
-
+            ↓
 Execution Strategy
-
-↓
-
-Required Skill
-
-↓
-
-Candidate Implementations
-
-↓
-
-Selected Implementation
-
-↓
-
-Execution
-
-↓
-
-Business Impact
-
-↓
-
+            ↓
+Recommendation
+            ↓
 Enterprise Learning
-
-↓
-
+            ↓
 Collective Intelligence
+```
 
 ---
 
 # Architectural Discoveries
 
-The following architectural principles emerged during implementation and now guide future evolution.
+The following architectural principles emerged through implementation and validation.
 
 * Business outcomes drive architecture.
 * Capabilities are the primary enterprise abstraction.
@@ -217,14 +192,17 @@ The following architectural principles emerged during implementation and now gui
 * Agents are implementations of skills.
 * Multiple implementations may exist for the same skill.
 * Enterprise reasoning is more important than AI reasoning.
-* Enterprise memory belongs to the enterprise, not individual agents.
-* Operational confidence combines enterprise learning with current situation validation.
+* Enterprise Memory belongs to the enterprise, not individual agents.
+* Enterprise Memory stores validated patterns rather than individual events.
+* Operational Confidence combines enterprise learning with current situation validation.
 * Strategy determines execution.
 * Learning improves future execution.
 * Governance enables innovation.
 * Context determines the optimal implementation.
 * Enterprise learning reduces uncertainty but never replaces professional judgment.
 * Due diligence is accelerated through enterprise experience rather than eliminated.
+* Evidence must be reconciled before conclusions are drawn.
+* Reasoning transforms collective intelligence into governed action.
 
 ---
 
@@ -242,13 +220,27 @@ The objective is to prove that enterprise AI can be organized around:
 * Enterprise Learning
 * Collective Intelligence
 
-Cloud deployment, persistent storage, enterprise integrations, and autonomous optimization are intentionally deferred to future versions.
+EAIOS 1 validates the enterprise reasoning operating model using realistic enterprise scenarios rather than production integrations.
+
+Cloud deployment, persistent storage, enterprise integrations, and autonomous optimization are intentionally deferred.
 
 ---
 
 # Future Roadmap
 
-## v1.1 — Persistent Enterprise Memory
+## v1.1 — Evidence Fusion
+
+Introduce:
+
+* Multi-source evidence correlation
+* Evidence reconciliation
+* Hypothesis ranking
+* Confidence refinement
+* Explainable reasoning
+
+---
+
+## v1.2 — Persistent Enterprise Memory
 
 Introduce:
 
@@ -260,7 +252,7 @@ Introduce:
 
 ---
 
-## v1.2 — Containerized Runtime
+## v1.3 — Containerized Runtime
 
 Introduce:
 
@@ -272,11 +264,11 @@ Introduce:
 
 ---
 
-## v1.3 — Cloud Runtime
+## v1.4 — Cloud Runtime
 
 Introduce:
 
-* GCP deployment
+* Google Cloud deployment
 * Cloud-native runtime
 * Managed services
 * Persistent storage
@@ -284,7 +276,7 @@ Introduce:
 
 ---
 
-## v1.4 — Enterprise Integrations
+## v1.5 — Enterprise Integrations
 
 Introduce:
 
@@ -297,22 +289,21 @@ Introduce:
 
 ---
 
-# Future Vision (Beyond MVP)
+# Future Vision
 
-The following concepts are intentionally deferred to preserve MVP focus.
+The following concepts are intentionally deferred while EAIOS matures.
 
-* Evidence Fusion Engine
-* Adaptive knowledge acquisition
+* Adaptive Knowledge Strategy
 * Dynamic multi-agent collaboration
 * Agent marketplaces
 * Autonomous remediation
 * Capability marketplaces
 * Knowledge dependency optimization
 * Collective intelligence scoring
-* Enterprise AI workforce
+* Enterprise AI Workforce
 * Cloud-native observability
 * Production governance dashboards
-* Real enterprise integrations
+* Domain-independent operating models
 * Autonomous capability evolution
 
 ---
@@ -321,8 +312,8 @@ The following concepts are intentionally deferred to preserve MVP focus.
 
 Do not build EAIOS 17.
 
-Build the smallest believable Enterprise AI Operating System that proves the operating model.
+Build the smallest believable Enterprise AI Operating System that validates the enterprise reasoning operating model.
 
 Every sprint should answer one question:
 
-**Does this improve the enterprise's ability to solve business outcomes through collective intelligence?**
+**Does this improve the enterprise's ability to transform collective intelligence into explainable, governed, continuously improving decisions?**

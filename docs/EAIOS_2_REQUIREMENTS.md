@@ -217,3 +217,18 @@ Learn from outcome
 Evidence Fusion & Hypothesis Ranking
 
 The system should generate multiple candidate explanations, score them based on telemetry, historical patterns, knowledge quality, and business context, and carry those confidence scores through the reasoning process.
+......
+
+Business Outcome may generalize to Desired Outcome.
+
+Application Health:
+Maintain Application Health
+
+Healthcare:
+Improve Patient Outcome
+
+Banking:
+Protect and Grow Customer Wealth
+
+Core question:
+What are we trying to achieve?
