@@ -1,5 +1,29 @@
 # EAIOS 2 Requirements Backlog
 
+## Status
+
+Active Backlog — Unlocked
+
+EAIOS 2 requirements are intentionally kept unlocked during early implementation sprints.
+
+Requirements may be refined, split, merged, renamed, or retired as the architecture is tested against realistic execution scenarios.
+
+The backlog should be locked only after the core architectural ideas have been validated through working software.
+
+## Locking Criteria
+
+EAIOS 2 requirements should be considered for architectural lock only after several implementation sprints validate:
+
+* Zero Trust Agent Governance
+* Governed Evidence Fusion
+* AI Risk Governance
+* Risk-Aware Recommendation
+* Auditable Enterprise Reasoning
+* Enterprise Learning updates
+* Enterprise Command Center visibility
+
+Once locked, changes should move into EAIOS 3 unless they are required to fix architectural defects.
+
 ## Purpose
 
 EAIOS 2 captures architectural improvements discovered while validating EAIOS 1 with realistic enterprise-shaped data.
