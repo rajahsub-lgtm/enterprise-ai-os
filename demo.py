@@ -1,4 +1,9 @@
 import json
+import sys
+
+
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
 
 from src.eaios.agents.telemetry_agent import TelemetryAgent
 from src.eaios.agents.knowledge_agent import KnowledgeAgent
