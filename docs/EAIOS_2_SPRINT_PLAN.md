@@ -874,6 +874,8 @@ All scenarios must be implemented as automated assertions in `tests/test\_scenar
 
 | 11 | Audit failure on governed action          | `FAIL\_CLOSED`            |
 
+| 12 | Goal-category spoofing by unauthorized caller | `DENIED` |
+
 
 
 \---
@@ -1445,6 +1447,23 @@ Proves the broker does not allow governed access when mandatory auditability can
 \---
 
 
+## Scenario 12 — Goal-Category Spoofing
+
+```text
+Caller:
+application_health_agent
+
+Claimed Goal Category:
+hr_support
+
+Requested capability:
+retrieve_best_knowledge
+
+Requested source:
+human_resources_knowledge
+
+Expected decision:
+DENIED
 
 \# Sprint 1 Acceptance Criteria
 
@@ -1456,7 +1475,7 @@ Sprint 1 is complete when:
 
 1\. Sprint 0 smoke tests pass.
 
-2\. All 11 governance scenarios pass in `tests/test\_scenarios.py`.
+2\. All 12 governance scenarios pass in `tests/test\_scenarios.py`.
 
 3\. Each scenario asserts the expected decision.
 
@@ -1482,7 +1501,7 @@ Sprint 1 is complete when:
 
 14\. The implementation maturity map is documented so operational capabilities are not confused with foundations, interfaces, or roadmap capabilities.
 
-
+15\. Goal-category spoofing is denied when a caller asserts a Goal Context category it is not entitled to use.
 
 \---
 
@@ -1704,7 +1723,7 @@ EAIOS 2 Sprint 1 implements and tests the runtime governance path for Knowledge 
 
 
 
-It operationalizes Agent Registry, Data Source Registry, Policy Registry, Goal Context, ActionRequest, AGS/PDP, Broker/PEP, governed knowledge access, caller identity validation against the registry, default-deny behavior, governance debt recording, basic audit, and fail-closed behavior for audit failure on the governed access path.
+It operationalizes Agent Registry, Data Source Registry, Policy Registry, Goal Context, ActionRequest, AGS/PDP, Broker/PEP, governed knowledge access, caller identity validation against the registry, default-deny behavior, governance debt recording, basic audit, caller goal-category entitlement validation and fail-closed behavior for audit failure on the governed access path.
 
 
 
