@@ -32,13 +32,17 @@ Required command:
 python -m pytest
 ```
 
-Expected current baseline:
+Required result:
 
 ```text
-13 passed
+All existing tests pass with zero failures.
 ```
 
+The exact test count may change as Sprint 1 evolves. The gate is not a fixed number of tests; the gate is a clean baseline.
+
 Sprint 2 must not begin if Sprint 0 or Sprint 1 tests are failing.
+
+If the smoke test fails because of unrelated EAIOS 1 runtime breakage, fix that first and commit it separately before starting Sprint 2 implementation.
 
 ---
 
@@ -106,6 +110,8 @@ Each Evidence object must include:
 * access_decision_audit_id
 * source_id
 * source owner
+* item owner
+* item validation timestamp
 * collection timestamp
 * collecting agent
 * collection method
@@ -130,18 +136,18 @@ Later lifecycle events append new audit records; they do not rewrite old ones.
 
 These are built and tested in Sprint 2.
 
-| Capability                | Sprint 2 Implementation                                                           |
-| ------------------------- | --------------------------------------------------------------------------------- |
-| Evidence object           | Structured Evidence with identity, source, provenance, quality, safety, and usage |
-| EvidenceFactory           | Converts governed retrieval results into Evidence                                 |
-| Evidence provenance       | Source ID, source owner, collection time, collecting agent, method, content hash  |
-| EvidenceQualityScorer     | Deterministic quality scoring from metadata and content signals                   |
-| ContentSafetyGateway      | Classifies content before it can enter reasoning                                  |
-| EvidenceStore             | Records created Evidence objects                                                  |
-| Evidence-to-audit linkage | Evidence carries request_id and access_decision_audit_id                          |
-| Reasoning eligibility     | Evidence includes content_safety.allowed_for_reasoning                            |
-| Authority marking         | Evidence includes usage.authoritative and usage.level                             |
-| Safe evidence boundary    | Unsafe or review-required content cannot proceed to reasoning                     |
+| Capability                | Sprint 2 Implementation                                                                                                 |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| Evidence object           | Structured Evidence with identity, source, item metadata, provenance, quality, safety, and usage                        |
+| EvidenceFactory           | Converts governed retrieval results into Evidence                                                                       |
+| Evidence provenance       | Source ID, source owner, item owner, item validation timestamp, collection time, collecting agent, method, content hash |
+| EvidenceQualityScorer     | Deterministic quality scoring from metadata and content signals                                                         |
+| ContentSafetyGateway      | Classifies content before it can enter reasoning                                                                        |
+| EvidenceStore             | Records created Evidence objects                                                                                        |
+| Evidence-to-audit linkage | Evidence carries request_id and access_decision_audit_id                                                                |
+| Reasoning eligibility     | Evidence includes content_safety.allowed_for_reasoning                                                                  |
+| Authority marking         | Evidence includes usage.authoritative and usage.level                                                                   |
+| Safe evidence boundary    | Unsafe or review-required content cannot proceed to reasoning                                                           |
 
 ## Architectural Foundations
 
@@ -232,6 +238,28 @@ Sprint 2 validation must be automated. It must not rely on manual demo review.
 
 ---
 
+# Sprint 2 Data Contract
+
+`mock_knowledge_items.json` must include item-level metadata.
+
+Required fields:
+
+* item_id
+* source_id
+* item_owner
+* item_last_validated
+* content
+* content_summary
+* trust_level override, if needed
+
+Source-level metadata comes from the Data Source Registry.
+
+Item-level metadata comes from the retrieved knowledge item.
+
+This distinction matters because the Data Source Registry may have a valid source owner while an individual wiki page, runbook, or knowledge item may have a missing or stale item owner.
+
+---
+
 # Evidence Object Contract
 
 Example shape:
@@ -243,6 +271,9 @@ Example shape:
   "access_decision_audit_id": "audit-req-001-20260707120000",
   "source_id": "support_knowledge",
   "source_owner": "Enterprise Support Operations",
+  "item_id": "kb-001",
+  "item_owner": "Checkout Support Team",
+  "item_last_validated": "2026-06-15",
   "classification": "internal",
   "trust_level": "approved",
   "collected_by": "knowledge_agent",
@@ -255,15 +286,16 @@ Example shape:
     "level": "HIGH",
     "signals": [
       "approved_source",
-      "owner_present",
-      "last_validated_present",
+      "source_owner_present",
+      "item_owner_present",
+      "item_last_validated_present",
       "fresh_content"
     ]
   },
   "usage": {
     "level": "authoritative",
     "authoritative": true,
-    "reason": "Approved support knowledge with owner and freshness metadata."
+    "reason": "Approved support knowledge with item owner and freshness metadata."
   },
   "content_safety": {
     "status": "SAFE_WITH_CONTROLS",
@@ -276,6 +308,19 @@ Example shape:
   }
 }
 ```
+
+Field ownership:
+
+| Field                 | Source                         |
+| --------------------- | ------------------------------ |
+| `source_owner`        | Data Source Registry           |
+| `item_id`             | Individual mock knowledge item |
+| `item_owner`          | Individual mock knowledge item |
+| `item_last_validated` | Individual mock knowledge item |
+
+The missing-owner rule applies to `item_owner`, not `source_owner`.
+
+The stale-content rule applies to `item_last_validated`, not the Data Source Registry.
 
 The `source_owner` value must come from the Data Source Registry. It should not be hardcoded independently in the EvidenceFactory.
 
@@ -309,24 +354,29 @@ The `source_owner` value must come from the Data Source Registry. It should not 
 
 Sprint 2 uses deterministic metadata and content-pattern rules.
 
-These rules are intentionally simple so tests and implementation agree on the contract.
+Rules are evaluated in order. First match wins.
 
-| Rule                                        | Conditions                                                                                                                   | Status               | Usage                  |
-| ------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | -------------------- | ---------------------- |
-| Approved operational source                 | `trust_level == approved`, owner present, `last_validated` present and fresh, operational action content                     | `SAFE_WITH_CONTROLS` | authoritative          |
-| Conditional source with owner and freshness | `trust_level == conditional`, owner present, `last_validated` present and fresh                                              | `SUPPORTING_ONLY`    | supporting             |
-| Missing owner                               | owner missing or blank                                                                                                       | `NEEDS_HUMAN_REVIEW` | not authoritative      |
-| Stale content with owner                    | `last_validated` older than stale threshold, owner present                                                                   | `SUPPORTING_ONLY`    | supporting             |
-| Prompt-injection pattern                    | content contains instruction-like override such as “ignore previous instructions”, “bypass policy”, or “override governance” | `UNSAFE`             | blocked                |
-| Unsafe operational command                  | content recommends destructive or production-impacting command without validation language                                   | `NEEDS_HUMAN_REVIEW` | blocked pending review |
-| Low-trust content                           | `trust_level` below approved or conditional                                                                                  | `SUPPORTING_ONLY`    | supporting only        |
+This prevents ambiguity when one item matches multiple rules.
+
+## Rule Precedence
+
+| Order | Rule                                                   | Conditions                                                                                                                                         | Status               | Usage                  |
+| ----: | ------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------- | ---------------------- |
+|     1 | Prompt-injection pattern                               | Content contains instruction-like override such as `ignore previous instructions`, `bypass policy`, `override governance`, or `disable guardrails` | `UNSAFE`             | blocked                |
+|     2 | Unsafe operational command without validation language | Content contains destructive or production-impacting command and does not contain validation language                                              | `NEEDS_HUMAN_REVIEW` | blocked pending review |
+|     3 | Missing item owner                                     | `item_owner` missing or blank                                                                                                                      | `NEEDS_HUMAN_REVIEW` | not authoritative      |
+|     4 | Low-trust content                                      | `trust_level` is `unverified`, `unknown`, or null                                                                                                  | `SUPPORTING_ONLY`    | supporting only        |
+|     5 | Stale content with item owner                          | `item_last_validated` older than stale threshold and `item_owner` present                                                                          | `SUPPORTING_ONLY`    | supporting             |
+|     6 | Conditional source with item owner and freshness       | `trust_level == conditional`, `item_owner` present, `item_last_validated` present and fresh                                                        | `SUPPORTING_ONLY`    | supporting             |
+|     7 | Approved operational source                            | `trust_level == approved`, `item_owner` present, `item_last_validated` present and fresh, operational action content                               | `SAFE_WITH_CONTROLS` | authoritative          |
+|     8 | Approved non-operational source                        | `trust_level == approved`, `item_owner` present, `item_last_validated` present and fresh, no operational action content                            | `SAFE`               | authoritative          |
 
 ## Staleness Definition
 
 For Sprint 2, content is stale when:
 
 ```text
-last_validated is more than 180 days before collected_at
+item_last_validated is more than 180 days before collected_at
 ```
 
 This threshold is policy-configurable in future sprints, but fixed in Sprint 2 tests.
@@ -344,6 +394,75 @@ unknown/null  = low trust
 
 Low-trust content cannot be authoritative and cannot independently drive a recommendation.
 
+## Prompt-Injection Pattern Tokens
+
+Sprint 2 uses deterministic token matching for prompt-injection-like content.
+
+Initial blocked tokens:
+
+```text
+ignore previous instructions
+bypass policy
+override governance
+disable guardrails
+ignore governance
+act outside policy
+```
+
+If any of these patterns appear in content, the result is `UNSAFE`.
+
+Prompt-injection detection has highest precedence.
+
+## Unsafe Operational Command Tokens
+
+Sprint 2 treats the following as production-impacting or destructive command signals:
+
+```text
+restart production
+delete records
+disable monitoring
+shutdown service
+drop table
+force deploy
+bypass approval
+```
+
+If one of these command patterns appears without validation language, the result is `NEEDS_HUMAN_REVIEW`.
+
+## Validation-Language Tokens
+
+The following validation-language tokens prevent an operational command from being automatically classified as unsafe-command review in Sprint 2:
+
+```text
+validate
+confirm
+approved change
+change ticket
+human approval
+rollback plan
+maintenance window
+```
+
+Example:
+
+```text
+restart production service immediately
+```
+
+returns:
+
+```text
+NEEDS_HUMAN_REVIEW
+```
+
+But:
+
+```text
+restart production service after approved change ticket, validation, and rollback plan
+```
+
+does not trigger the unsafe-command rule and continues to later rule evaluation.
+
 ---
 
 # Quality Scoring Rules
@@ -354,18 +473,19 @@ The quality score is not a production model. It is a testable starting point.
 
 ## Quality Signals
 
-| Signal                 | Effect                               |
-| ---------------------- | ------------------------------------ |
-| approved source        | increases quality                    |
-| conditional source     | moderate quality                     |
-| owner present          | increases quality                    |
-| owner missing          | lowers quality and triggers review   |
-| last_validated present | increases quality                    |
-| fresh content          | increases quality                    |
-| stale content          | lowers quality                       |
-| content hash present   | increases quality                    |
-| low-trust source       | lowers quality                       |
-| unsafe content pattern | quality does not make content usable |
+| Signal                      | Effect                               |
+| --------------------------- | ------------------------------------ |
+| approved source             | increases quality                    |
+| conditional source          | moderate quality                     |
+| source owner present        | increases quality                    |
+| item owner present          | increases quality                    |
+| item owner missing          | lowers quality and triggers review   |
+| item_last_validated present | increases quality                    |
+| fresh content               | increases quality                    |
+| stale content               | lowers quality                       |
+| content hash present        | increases quality                    |
+| low-trust source            | lowers quality                       |
+| unsafe content pattern      | quality does not make content usable |
 
 ## Quality Levels
 
@@ -385,18 +505,20 @@ A high-quality item may still be blocked if content safety is `UNSAFE`.
 
 All scenarios must be implemented as automated assertions in `tests/test_evidence_safety.py`.
 
-|  # | Scenario                                                            | Expected                                         |
-| -: | ------------------------------------------------------------------- | ------------------------------------------------ |
-|  1 | Approved support knowledge becomes evidence                         | `SAFE_WITH_CONTROLS`                             |
-|  2 | Wiki knowledge with owner and freshness becomes supporting evidence | `SUPPORTING_ONLY`                                |
-|  3 | Wiki knowledge missing owner requires review                        | `NEEDS_HUMAN_REVIEW`                             |
-|  4 | Stale content with owner is not authoritative                       | `SUPPORTING_ONLY`                                |
-|  5 | Prompt-injection-like content is blocked                            | `UNSAFE`                                         |
-|  6 | Unsafe operational command requires review                          | `NEEDS_HUMAN_REVIEW`                             |
-|  7 | Low-trust content cannot drive recommendation                       | `SUPPORTING_ONLY`                                |
-|  8 | Evidence record includes provenance and content hash                | Required fields asserted                         |
-|  9 | Evidence links back to access decision audit ID                     | request_id and access_decision_audit_id asserted |
-| 10 | Unsafe content does not proceed to reasoning                        | `allowed_for_reasoning == false`                 |
+|  # | Scenario                                                                 | Expected                                         |
+| -: | ------------------------------------------------------------------------ | ------------------------------------------------ |
+|  1 | Approved support knowledge becomes evidence                              | `SAFE_WITH_CONTROLS`                             |
+|  2 | Wiki knowledge with item owner and freshness becomes supporting evidence | `SUPPORTING_ONLY`                                |
+|  3 | Wiki knowledge item missing item owner requires review                   | `NEEDS_HUMAN_REVIEW`                             |
+|  4 | Stale knowledge item with item owner is not authoritative                | `SUPPORTING_ONLY`                                |
+|  5 | Prompt-injection-like content is blocked                                 | `UNSAFE`                                         |
+|  6 | Unsafe operational command requires review                               | `NEEDS_HUMAN_REVIEW`                             |
+|  7 | Low-trust content cannot drive recommendation                            | `SUPPORTING_ONLY`                                |
+|  8 | Evidence record includes provenance and content hash                     | Required fields asserted                         |
+|  9 | Evidence links back to access decision audit ID                          | request_id and access_decision_audit_id asserted |
+| 10 | Unsafe content does not proceed to reasoning                             | `allowed_for_reasoning == false`                 |
+| 11 | Prompt-injection precedence overrides otherwise valid metadata           | `UNSAFE`                                         |
+| 12 | Validation language prevents unsafe-command classification               | Continues to later rule evaluation               |
 
 ---
 
@@ -408,13 +530,16 @@ All scenarios must be implemented as automated assertions in `tests/test_evidenc
 Source:
 support_knowledge
 
+source_owner:
+Enterprise Support Operations
+
+item_owner:
+Checkout Support Team
+
 trust_level:
 approved
 
-owner:
-Enterprise Support Operations
-
-last_validated:
+item_last_validated:
 fresh
 
 Content:
@@ -436,19 +561,22 @@ Proves that approved support knowledge can become governed evidence, but operati
 
 ---
 
-## Scenario 2 — Wiki Knowledge With Owner and Freshness Becomes Supporting Evidence
+## Scenario 2 — Wiki Knowledge With Item Owner and Freshness Becomes Supporting Evidence
 
 ```text
 Source:
 wiki_knowledge
 
+source_owner:
+Enterprise Collaboration Platforms
+
+item_owner:
+Enterprise Knowledge Operations
+
 trust_level:
 conditional
 
-owner:
-Enterprise Knowledge Operations
-
-last_validated:
+item_last_validated:
 fresh
 
 Expected content safety:
@@ -470,17 +598,20 @@ Proves conditional knowledge may support reasoning but cannot be authoritative.
 
 ---
 
-## Scenario 3 — Wiki Knowledge Missing Owner Requires Review
+## Scenario 3 — Wiki Knowledge Item Missing Item Owner Requires Review
 
 ```text
 Source:
 wiki_knowledge
 
+source_owner:
+Enterprise Collaboration Platforms
+
+item_owner:
+missing
+
 trust_level:
 conditional
-
-owner:
-missing
 
 Expected content safety:
 NEEDS_HUMAN_REVIEW
@@ -494,23 +625,26 @@ false
 
 Purpose:
 
-Proves missing ownership prevents content from entering reasoning.
+Proves missing item ownership prevents content from entering reasoning, even when the source itself has a valid source owner.
 
 ---
 
-## Scenario 4 — Stale Content With Owner Is Not Authoritative
+## Scenario 4 — Stale Knowledge Item With Item Owner Is Not Authoritative
 
 ```text
 Source:
 wiki_knowledge
 
+source_owner:
+Enterprise Collaboration Platforms
+
+item_owner:
+Enterprise Knowledge Operations
+
 trust_level:
 conditional
 
-owner:
-present
-
-last_validated:
+item_last_validated:
 older than 180 days before collected_at
 
 Expected content safety:
@@ -577,7 +711,7 @@ false
 
 Purpose:
 
-Proves destructive or production-impacting operational commands require human review.
+Proves destructive or production-impacting operational commands require human review when validation language is absent.
 
 ---
 
@@ -616,6 +750,9 @@ request_id exists
 access_decision_audit_id exists
 source_id exists
 source_owner exists
+item_id exists
+item_owner exists
+item_last_validated exists
 collected_by exists
 collection_method exists
 collected_at exists
@@ -627,7 +764,7 @@ usage exists
 
 Purpose:
 
-Proves Evidence is not just content; it is content with provenance and governance metadata.
+Proves Evidence is not just content; it is content with provenance, item metadata, and governance metadata.
 
 ---
 
@@ -662,6 +799,56 @@ Proves unsafe content is blocked before reasoning.
 
 ---
 
+## Scenario 11 — Prompt-Injection Precedence Overrides Otherwise Valid Metadata
+
+```text
+Source:
+support_knowledge
+
+trust_level:
+approved
+
+source_owner:
+present
+
+item_owner:
+present
+
+item_last_validated:
+fresh
+
+Content:
+contains prompt-injection pattern
+
+Expected content safety:
+UNSAFE
+```
+
+Purpose:
+
+Proves safety-blocking rules take precedence over otherwise valid source and item metadata.
+
+---
+
+## Scenario 12 — Validation Language Prevents Unsafe-Command Classification
+
+```text
+Content:
+restart production service after approved change ticket, validation, and rollback plan
+
+Expected behavior:
+Does not trigger unsafe-command rule
+
+Expected content safety:
+Continues to later rule evaluation
+```
+
+Purpose:
+
+Proves deterministic validation-language tokens prevent operational content from being automatically escalated as unsafe command content.
+
+---
+
 # Sprint 2 Acceptance Criteria
 
 Sprint 2 is complete when:
@@ -672,7 +859,7 @@ Sprint 2 is complete when:
 4. Approved source access returns governed mock knowledge items.
 5. Each retrieved item is converted into an Evidence object.
 6. Each Evidence object includes provenance.
-7. Each Evidence object includes a deterministic quality score.
+7. Each Evidence object includes deterministic quality score.
 8. Each Evidence object includes content safety status.
 9. `UNSAFE` and `NEEDS_HUMAN_REVIEW` evidence has `content_safety.allowed_for_reasoning == false`.
 10. `SUPPORTING_ONLY` evidence has `content_safety.allowed_for_reasoning == true` and `usage.authoritative == false`.
@@ -681,7 +868,9 @@ Sprint 2 is complete when:
 13. The original Sprint 1 access-decision audit record is not mutated.
 14. No retrieved content enters reasoning without Evidence creation and content-safety classification.
 15. Deterministic content-safety rules are documented and covered by automated tests.
-16. The implementation maturity map is documented so operational capabilities are not confused with foundations, interfaces, or roadmap capabilities.
+16. Rule precedence is implemented as first-match-wins.
+17. Source-level ownership and item-level ownership are represented separately.
+18. The implementation maturity map is documented so operational capabilities are not confused with foundations, interfaces, or roadmap capabilities.
 
 ---
 
@@ -708,6 +897,6 @@ Sprint 2 explicitly does not include:
 
 EAIOS 2 Sprint 2 operationalizes governed evidence creation and content safety for approved knowledge access.
 
-It extends the Sprint 1 Zero Trust access path by converting retrieved knowledge into Evidence with provenance, deterministic quality signals, content-safety status, usage constraints, reasoning eligibility, and linkage back to the access-decision audit record.
+It extends the Sprint 1 Zero Trust access path by converting retrieved knowledge into Evidence with provenance, source-level and item-level metadata, deterministic quality signals, content-safety status, usage constraints, reasoning eligibility, rule precedence, and linkage back to the access-decision audit record.
 
 It does not implement full GraphRAG, real enterprise retrieval, LLM reasoning, full evidence fusion, production content safety, or production compliance automation.
