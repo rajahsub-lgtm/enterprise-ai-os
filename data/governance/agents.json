@@ -1,102 +1,50 @@
 [
   {
-    "agent_id": "knowledge_agent",
-    "agent_name": "Enterprise Knowledge Agent",
-    "agent_type": "knowledge_retrieval",
-    "status": "active",
-    "risk_tier": "medium",
-    "owner": {
-      "business_owner": "Enterprise Knowledge Management",
-      "technical_owner": "Knowledge Platform Team"
-    },
-    "description": "Retrieves, evaluates, summarizes, and updates governed enterprise knowledge in support of the current Goal Context.",
-    "standard_capabilities": [
-      {
-        "capability_id": "retrieve_best_knowledge",
-        "description": "Search approved non-restricted enterprise knowledge sources and return the most relevant trusted knowledge for the current Goal Context.",
-        "access_mode": "read",
-        "requires_goal_context": true,
-        "returns_quality_score": true
-      },
-      {
-        "capability_id": "evaluate_knowledge_quality",
-        "description": "Evaluate knowledge freshness, match strength, source trust, conflicts, and applicability.",
-        "access_mode": "read",
-        "requires_goal_context": true
-      },
-      {
-        "capability_id": "summarize_knowledge",
-        "description": "Summarize approved knowledge for the current audience and Goal Context.",
-        "access_mode": "read",
-        "requires_goal_context": true
-      },
-      {
-        "capability_id": "retrieve_identity_context",
-        "description": "Retrieve employee identity context only when explicitly authorized for an approved business purpose.",
-        "access_mode": "read",
-        "requires_goal_context": true,
-        "requires_business_justification": true,
-        "requires_privacy_check": true
-      },
-      {
-        "capability_id": "write_validated_learning",
-        "description": "Write validated enterprise learning back to an approved learning knowledge store.",
-        "access_mode": "write",
-        "requires_goal_context": true,
-        "requires_human_approval": true
-      }
-    ],
-    "default_constraints": {
-      "approved_sources_only": true,
-      "external_sources_allowed": false,
-      "pii_access_allowed": false,
-      "write_requires_human_approval": true
-    },
-    "requires_access_governance": true,
-    "requires_audit": true
-  },
-  {
     "agent_id": "application_health_agent",
-    "agent_name": "Application Health Agent",
-    "agent_type": "operational_reasoning",
-    "status": "active",
+    "name": "Application Health Agent",
+    "owner": "application_operations",
+    "status": "ACTIVE",
     "risk_tier": "medium",
-    "owner": {
-      "business_owner": "Enterprise Operations",
-      "technical_owner": "Application Reliability Team"
-    },
-    "description": "Evaluates application health signals and invokes supporting agents to determine likely operational causes and recommended actions.",
-    "standard_capabilities": [
-      {
-        "capability_id": "investigate_operational_issue",
-        "description": "Investigate operational alerts and request supporting evidence.",
-        "access_mode": "reason",
-        "requires_goal_context": true
-      }
-    ],
-    "requires_access_governance": true,
-    "requires_audit": true
+    "allowed_target_agents": ["knowledge_agent"],
+    "allowed_goal_categories": ["operational_troubleshooting"],
+    "capabilities": ["request_operational_support"]
   },
   {
-    "agent_id": "chatbot_agent",
-    "agent_name": "Employee Chatbot Agent",
-    "agent_type": "employee_self_help",
-    "status": "active",
+    "agent_id": "self_help_agent",
+    "name": "Self Help Agent",
+    "owner": "employee_experience",
+    "status": "ACTIVE",
     "risk_tier": "low",
-    "owner": {
-      "business_owner": "Employee Experience",
-      "technical_owner": "Conversational AI Team"
-    },
-    "description": "Answers employee questions using approved self-help and enterprise search knowledge.",
-    "standard_capabilities": [
-      {
-        "capability_id": "answer_employee_question",
-        "description": "Answer employee questions using approved self-help knowledge.",
-        "access_mode": "read",
-        "requires_goal_context": true
-      }
+    "allowed_target_agents": ["knowledge_agent"],
+    "allowed_goal_categories": ["self_help"],
+    "capabilities": ["request_self_help_support"]
+  },
+  {
+    "agent_id": "hr_support_agent",
+    "name": "HR Support Agent",
+    "owner": "human_resources",
+    "status": "ACTIVE",
+    "risk_tier": "high",
+    "allowed_target_agents": ["knowledge_agent"],
+    "allowed_goal_categories": ["hr_support"],
+    "capabilities": ["request_hr_support"]
+  },
+  {
+    "agent_id": "knowledge_agent",
+    "name": "Knowledge Agent",
+    "owner": "enterprise_knowledge",
+    "status": "ACTIVE",
+    "risk_tier": "medium",
+    "allowed_target_agents": [],
+    "allowed_goal_categories": [
+      "operational_troubleshooting",
+      "self_help",
+      "hr_support"
     ],
-    "requires_access_governance": true,
-    "requires_audit": true
+    "capabilities": [
+      "retrieve_best_knowledge",
+      "retrieve_identity_context",
+      "write_validated_learning"
+    ]
   }
 ]

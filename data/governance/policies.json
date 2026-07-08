@@ -1,125 +1,140 @@
 [
   {
-    "policy_id": "POL-GOAL-CONTEXT-001",
-    "policy_name": "Goal Context Required",
-    "description": "Agents must receive Goal Context before accessing enterprise knowledge sources.",
-    "applies_to_agent_types": [
-      "knowledge_retrieval"
-    ],
-    "rule": {
-      "goal_context_required": true
-    },
-    "on_violation": "DENY"
-  },
-  {
-    "policy_id": "POL-GOAL-CATEGORY-ENTITLEMENT-001",
-    "name": "Caller Must Be Entitled to Claimed Goal Category",
+    "policy_id": "POL-KNOWLEDGE-OPERATIONAL-001",
+    "name": "Operational Troubleshooting Knowledge Access",
     "owner": "enterprise_governance",
-    "risk_tier": "high",
-    "effect": {
-        "caller_not_entitled_to_goal_category": "DENY"
+    "risk_tier": "medium",
+    "subject": {
+      "target_agent_id": "knowledge_agent",
+      "capability": "retrieve_best_knowledge"
     },
+    "condition": {
+      "goal_category": "operational_troubleshooting",
+      "allowed_sources": [
+        "support_knowledge",
+        "wiki_knowledge",
+        "incomplete_operational_source",
+        "high_impact_incomplete_source"
+      ]
+    },
+    "controls": [
+      "audit_required",
+      "evidence_required",
+      "content_safety_required"
+    ]
   },
   {
-    "policy_id": "POL-KNOWLEDGE-SUPPORT-001",
-    "policy_name": "Support Knowledge for Operational Troubleshooting",
-    "description": "Operational troubleshooting and support investigations may use Support Knowledge, Wiki Knowledge, and Self-Help Knowledge when appropriate controls are applied.",
-    "applies_to_goal_categories": [
-      "operational_troubleshooting",
-      "incident_investigation",
-      "problem_management"
-    ],
-    "allowed_sources": [
-      "support_knowledge",
-      "wiki_knowledge",
-      "self_help_knowledge"
-    ],
-    "required_controls": [
-      "log_source_access",
-      "return_knowledge_quality_score",
-      "check_last_validated_date",
-      "distinguish_authoritative_vs_supporting_knowledge"
-    ],
-    "on_match": "ALLOW_WITH_CONTROLS"
-  },
-  {
-    "policy_id": "POL-KNOWLEDGE-SELFHELP-001",
-    "policy_name": "Self-Help Knowledge for Employee-Facing Assistance",
-    "description": "Employee-facing self-help experiences may use Self-Help Knowledge and approved Wiki Knowledge.",
-    "applies_to_goal_categories": [
-      "employee_self_help",
-      "chatbot_response",
-      "enterprise_search"
-    ],
-    "allowed_sources": [
-      "self_help_knowledge",
-      "wiki_knowledge"
-    ],
-    "required_controls": [
-      "log_source_access",
-      "return_knowledge_quality_score",
-      "audience_appropriate_summary"
-    ],
-    "on_match": "ALLOW_WITH_CONTROLS"
+    "policy_id": "POL-KNOWLEDGE-SELF-HELP-001",
+    "name": "Self Help Knowledge Access",
+    "owner": "enterprise_governance",
+    "risk_tier": "low",
+    "subject": {
+      "target_agent_id": "knowledge_agent",
+      "capability": "retrieve_best_knowledge"
+    },
+    "condition": {
+      "goal_category": "self_help",
+      "allowed_sources": [
+        "self_help_knowledge",
+        "wiki_knowledge"
+      ]
+    },
+    "controls": [
+      "audit_required",
+      "content_safety_required"
+    ]
   },
   {
     "policy_id": "POL-KNOWLEDGE-HR-001",
-    "policy_name": "HR Knowledge Restricted to HR Contexts",
-    "description": "Human Resources Knowledge may only be used for approved HR goal contexts or HR-authorized agents.",
-    "applies_to_sources": [
-      "human_resources_knowledge"
-    ],
-    "allowed_goal_categories": [
-      "hr_support",
-      "benefits_guidance",
-      "employee_relations"
-    ],
-    "required_controls": [
-      "log_source_access",
-      "hr_purpose_required",
-      "role_authorization_required"
-    ],
-    "on_violation": "DENY"
+    "name": "Human Resources Knowledge Restrictions",
+    "owner": "enterprise_governance",
+    "risk_tier": "high",
+    "subject": {
+      "target_agent_id": "knowledge_agent",
+      "capability": "retrieve_best_knowledge"
+    },
+    "condition": {
+      "requested_source": "human_resources_knowledge",
+      "allowed_goal_categories": ["hr_support"]
+    },
+    "controls": [
+      "human_review",
+      "least_privilege",
+      "audit_required"
+    ]
+  },
+  {
+    "policy_id": "POL-KNOWLEDGE-HR-ALLOWED-001",
+    "name": "Human Resources Knowledge Allowed Access",
+    "owner": "enterprise_governance",
+    "risk_tier": "high",
+    "subject": {
+      "target_agent_id": "knowledge_agent",
+      "capability": "retrieve_best_knowledge"
+    },
+    "condition": {
+      "goal_category": "hr_support",
+      "allowed_sources": ["human_resources_knowledge"]
+    },
+    "controls": [
+      "human_review",
+      "least_privilege",
+      "audit_required"
+    ]
   },
   {
     "policy_id": "POL-KNOWLEDGE-IDENTITY-001",
-    "policy_name": "Employee Identity Access Requires Business Justification",
-    "description": "Employee Identification Knowledge may only be accessed through identity-specific capabilities with business justification and privacy controls.",
-    "applies_to_sources": [
-      "employee_identification_knowledge"
-    ],
-    "allowed_capabilities": [
-      "retrieve_identity_context"
-    ],
-    "required_controls": [
-      "business_justification_required",
-      "privacy_policy_check",
-      "role_authorization_required",
-      "log_source_access"
-    ],
-    "on_violation": "DENY"
+    "name": "Employee Identification Knowledge Restrictions",
+    "owner": "enterprise_governance",
+    "risk_tier": "high",
+    "subject": {
+      "target_agent_id": "knowledge_agent"
+    },
+    "condition": {
+      "requested_source": "employee_identification_knowledge",
+      "required_capability": "retrieve_identity_context",
+      "required_goal_category": "hr_support",
+      "requires_business_justification": true
+    },
+    "effect": {
+      "generic_retrieval": "DENY",
+      "missing_business_justification": "DENY",
+      "valid_identity_context": "ESCALATE"
+    }
   },
   {
     "policy_id": "POL-KNOWLEDGE-WRITE-001",
-    "policy_name": "Human Approval Required for Knowledge Writes",
-    "description": "Agents may not write validated learning into enterprise knowledge stores without human approval.",
-    "applies_to_capabilities": [
-      "write_validated_learning"
-    ],
-    "required_controls": [
-      "human_approval_required",
-      "log_source_access",
-      "capture_learning_summary"
-    ],
-    "on_match": "ESCALATE"
+    "name": "Validated Learning Writes Require Human Approval",
+    "owner": "enterprise_governance",
+    "risk_tier": "high",
+    "subject": {
+      "target_agent_id": "knowledge_agent",
+      "capability": "write_validated_learning"
+    },
+    "condition": {
+      "requested_source": "validated_learning_store"
+    },
+    "effect": {
+      "write_request": "ESCALATE"
+    }
   },
   {
     "policy_id": "POL-GOVERNANCE-DEBT-001",
-    "policy_name": "Missing Governance Metadata Is Governance Debt",
-    "description": "Missing source ownership, trust level, classification, or policy mapping must not be treated as implicit approval.",
-    "rule": {
-      "missing_required_metadata": "ESCALATE"
-    },
-    "on_violation": "ESCALATE"
+    "name": "Unknown Source Is Governance Debt",
+    "owner": "enterprise_governance",
+    "risk_tier": "medium",
+    "effect": {
+      "unknown_source": "ESCALATE",
+      "missing_metadata": "ESCALATE"
+    }
+  },
+  {
+    "policy_id": "POL-RISK-HIGH-UNCERTAINTY-001",
+    "name": "High-Risk Uncertainty Default Denial",
+    "owner": "enterprise_governance",
+    "risk_tier": "high",
+    "effect": {
+      "missing_required_control_with_high_impact_signal": "DENY"
+    }
   }
 ]

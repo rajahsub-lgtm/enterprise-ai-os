@@ -1,138 +1,133 @@
 [
   {
     "source_id": "support_knowledge",
-    "source_name": "Support Knowledge",
-    "source_type": "knowledge_base",
-    "description": "Expert-facing knowledge used for complex troubleshooting, support operations, incident investigation, and problem resolution.",
-    "owner": "Enterprise Support Operations",
+    "name": "Support Knowledge",
+    "owner": "it_support",
     "classification": "internal",
     "trust_level": "approved",
-    "contains_pii": false,
-    "self_help_facing": false,
-    "write_allowed": false,
-    "allowed_capabilities": [
-      "retrieve_best_knowledge",
-      "evaluate_knowledge_quality"
-    ],
+    "allowed_capabilities": ["retrieve_best_knowledge"],
+    "allowed_goal_categories": ["operational_troubleshooting"],
+    "source_role": "primary",
     "required_controls": [
       "log_source_access",
       "return_knowledge_quality_score",
       "check_last_validated_date"
     ],
-    "default_usage": "primary"
-  },
-  {
-    "source_id": "self_help_knowledge",
-    "source_name": "Self-Help Knowledge",
-    "source_type": "knowledge_base",
-    "description": "End-user-facing knowledge used by chatbots, enterprise search, service portals, and self-service experiences.",
-    "owner": "Employee Experience / Service Desk",
-    "classification": "internal",
-    "trust_level": "approved",
-    "contains_pii": false,
-    "self_help_facing": true,
-    "write_allowed": false,
-    "allowed_capabilities": [
-      "retrieve_best_knowledge",
-      "summarize_knowledge",
-      "evaluate_knowledge_quality"
-    ],
-    "required_controls": [
-      "log_source_access",
-      "return_knowledge_quality_score",
-      "audience_appropriate_summary"
-    ],
-    "default_usage": "supporting"
+    "metadata_complete": true,
+    "high_impact_signals": []
   },
   {
     "source_id": "wiki_knowledge",
-    "source_name": "Wiki Knowledge",
-    "source_type": "wiki",
-    "description": "Enterprise wiki content containing technical documentation, process notes, team pages, architecture references, and informal runbooks.",
-    "owner": "Enterprise Collaboration Platforms",
+    "name": "Engineering Wiki Knowledge",
+    "owner": "engineering_enablement",
     "classification": "internal",
     "trust_level": "conditional",
-    "contains_pii": "unknown",
-    "self_help_facing": true,
-    "write_allowed": false,
-    "allowed_capabilities": [
-      "retrieve_best_knowledge",
-      "evaluate_knowledge_quality",
-      "summarize_knowledge"
-    ],
+    "allowed_capabilities": ["retrieve_best_knowledge"],
+    "allowed_goal_categories": ["operational_troubleshooting", "self_help"],
+    "source_role": "supporting",
     "required_controls": [
       "log_source_access",
-      "check_page_owner",
-      "check_last_validated_date",
+      "corroborating_evidence_required"
+    ],
+    "metadata_complete": true,
+    "high_impact_signals": []
+  },
+  {
+    "source_id": "self_help_knowledge",
+    "name": "Self Help Knowledge",
+    "owner": "employee_experience",
+    "classification": "internal",
+    "trust_level": "approved",
+    "allowed_capabilities": ["retrieve_best_knowledge"],
+    "allowed_goal_categories": ["self_help"],
+    "source_role": "primary",
+    "required_controls": [
+      "log_source_access",
       "return_knowledge_quality_score"
     ],
-    "default_usage": "supporting"
+    "metadata_complete": true,
+    "high_impact_signals": []
   },
   {
     "source_id": "human_resources_knowledge",
-    "source_name": "Human Resources Knowledge",
-    "source_type": "knowledge_base",
-    "description": "HR policy and process knowledge related to benefits, leave, employee relations, compensation processes, and workforce guidance.",
-    "owner": "Human Resources",
+    "name": "Human Resources Knowledge",
+    "owner": "human_resources",
     "classification": "confidential",
     "trust_level": "approved",
-    "contains_pii": false,
-    "self_help_facing": false,
-    "write_allowed": false,
-    "allowed_capabilities": [
-      "retrieve_best_knowledge",
-      "evaluate_knowledge_quality"
-    ],
+    "allowed_capabilities": ["retrieve_best_knowledge"],
+    "allowed_goal_categories": ["hr_support"],
+    "source_role": "restricted",
     "required_controls": [
       "log_source_access",
-      "hr_purpose_required",
-      "role_authorization_required",
-      "return_knowledge_quality_score"
+      "human_review",
+      "least_privilege"
     ],
-    "default_usage": "restricted"
+    "metadata_complete": true,
+    "high_impact_signals": ["employment_context"]
   },
   {
     "source_id": "employee_identification_knowledge",
-    "source_name": "Employee Identification Knowledge",
-    "source_type": "identity_directory",
-    "description": "Employee identity and directory knowledge used when employee personal information is required for an approved business purpose.",
-    "owner": "Identity and Access Management / Human Resources",
+    "name": "Employee Identification Knowledge",
+    "owner": "identity_and_access_management",
     "classification": "restricted",
     "trust_level": "approved",
-    "contains_pii": true,
-    "self_help_facing": false,
-    "write_allowed": false,
-    "allowed_capabilities": [
-      "retrieve_identity_context"
-    ],
+    "allowed_capabilities": ["retrieve_identity_context"],
+    "allowed_goal_categories": ["hr_support"],
+    "source_role": "restricted",
     "required_controls": [
-      "log_source_access",
       "business_justification_required",
-      "role_authorization_required",
-      "privacy_policy_check",
-      "human_approval_if_high_risk"
+      "human_review",
+      "least_privilege",
+      "audit_required"
     ],
-    "default_usage": "restricted"
+    "metadata_complete": true,
+    "high_impact_signals": ["identity_data"]
   },
   {
     "source_id": "validated_learning_store",
-    "source_name": "Validated Learning Store",
-    "source_type": "knowledge_base",
-    "description": "Approved enterprise learning store for validated lessons, patterns, and reusable organizational knowledge.",
-    "owner": "Enterprise Knowledge Management",
+    "name": "Validated Learning Store",
+    "owner": "enterprise_learning",
     "classification": "internal",
     "trust_level": "approved",
-    "contains_pii": false,
-    "self_help_facing": false,
-    "write_allowed": true,
-    "allowed_capabilities": [
-      "write_validated_learning"
+    "allowed_capabilities": ["write_validated_learning"],
+    "allowed_goal_categories": [
+      "operational_troubleshooting",
+      "self_help",
+      "hr_support"
     ],
+    "source_role": "write_target",
     "required_controls": [
-      "log_source_access",
-      "human_approval_required",
-      "capture_learning_summary"
+      "human_approval",
+      "source_owner_review",
+      "audit_required"
     ],
-    "default_usage": "write_target"
+    "metadata_complete": true,
+    "high_impact_signals": []
+  },
+  {
+    "source_id": "incomplete_operational_source",
+    "name": "Incomplete Operational Source",
+    "owner": null,
+    "classification": "internal",
+    "trust_level": "unknown",
+    "allowed_capabilities": ["retrieve_best_knowledge"],
+    "allowed_goal_categories": ["operational_troubleshooting"],
+    "source_role": "governance_debt_test",
+    "required_controls": [],
+    "metadata_complete": false,
+    "high_impact_signals": []
+  },
+  {
+    "source_id": "high_impact_incomplete_source",
+    "name": "High Impact Incomplete Source",
+    "owner": null,
+    "classification": "restricted",
+    "trust_level": "unknown",
+    "allowed_capabilities": ["retrieve_best_knowledge"],
+    "allowed_goal_categories": ["operational_troubleshooting"],
+    "source_role": "high_risk_uncertainty_test",
+    "required_controls": [],
+    "metadata_complete": false,
+    "high_impact_signals": ["business_critical_service"]
   }
 ]
