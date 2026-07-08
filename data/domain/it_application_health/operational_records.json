@@ -1,0 +1,322 @@
+﻿{
+  "repository_name": "EAIOS Synthetic ITIL Operational Records",
+  "version": "0.1.0",
+  "business_outcome": "Maintain Application Health",
+  "monitoring_events": [
+    {
+      "event_id": "EVT-GS001-001",
+      "scenario_id": "GS-001",
+      "source_system": "synthetic_observability",
+      "severity": "CRITICAL",
+      "related_ci": "CI-COMPUTE-HOST-007",
+      "summary": "CPU saturation and queue depth spike on shared compute host.",
+      "signal_type": "resource_contention"
+    },
+    {
+      "event_id": "EVT-GS001-002",
+      "scenario_id": "GS-001",
+      "source_system": "synthetic_observability",
+      "severity": "HIGH",
+      "related_ci": "CI-CHECKOUT-API-001",
+      "summary": "Checkout API latency exceeds threshold.",
+      "signal_type": "latency"
+    },
+    {
+      "event_id": "EVT-GS001-003",
+      "scenario_id": "GS-001",
+      "source_system": "synthetic_observability",
+      "severity": "HIGH",
+      "related_ci": "CI-PAYMENT-SVC-001",
+      "summary": "Payment service timeout rate elevated.",
+      "signal_type": "timeout"
+    },
+    {
+      "event_id": "EVT-GS002-001",
+      "scenario_id": "GS-002",
+      "source_system": "synthetic_observability",
+      "severity": "HIGH",
+      "related_ci": "CI-ORDER-DB-001",
+      "summary": "Database connection pool near exhaustion.",
+      "signal_type": "connection_exhaustion"
+    },
+    {
+      "event_id": "EVT-GS003-001",
+      "scenario_id": "GS-003",
+      "source_system": "synthetic_observability",
+      "severity": "HIGH",
+      "related_ci": "CI-PROFILE-API-001",
+      "summary": "Profile API error rate increased after deployment.",
+      "signal_type": "error_rate"
+    },
+    {
+      "event_id": "EVT-GS004-001",
+      "scenario_id": "GS-004",
+      "source_system": "synthetic_observability",
+      "severity": "CRITICAL",
+      "related_ci": "CI-REPORTING-BATCH-001",
+      "summary": "Internal reporting batch job missed processing window.",
+      "signal_type": "batch_failure"
+    },
+    {
+      "event_id": "EVT-GS005-001",
+      "scenario_id": "GS-005",
+      "source_system": "synthetic_observability",
+      "severity": "HIGH",
+      "related_ci": "CI-UNMAPPED-API-001",
+      "summary": "Unmapped API has elevated errors but no business-service mapping.",
+      "signal_type": "unknown_impact"
+    },
+    {
+      "event_id": "EVT-GS006-001",
+      "scenario_id": "GS-006",
+      "source_system": "synthetic_observability",
+      "severity": "HIGH",
+      "related_ci": "CI-NETWORK-EDGE-003",
+      "summary": "Network edge packet loss suggests routing issue.",
+      "signal_type": "network_packet_loss"
+    },
+    {
+      "event_id": "EVT-GS006-002",
+      "scenario_id": "GS-006",
+      "source_system": "synthetic_observability",
+      "severity": "HIGH",
+      "related_ci": "CI-CHECKOUT-API-001",
+      "summary": "Checkout API latency suggests application dependency issue.",
+      "signal_type": "latency"
+    }
+  ],
+  "incidents": [
+    {
+      "incident_id": "INC-GS001-001",
+      "scenario_id": "GS-001",
+      "priority": "P1",
+      "related_ci": "CI-CHECKOUT-API-001",
+      "business_service_id": "BS-DIGITAL-CHECKOUT",
+      "summary": "Customers report checkout timeout.",
+      "user_reported": true
+    },
+    {
+      "incident_id": "INC-GS001-002",
+      "scenario_id": "GS-001",
+      "priority": "P1",
+      "related_ci": "CI-PAYMENT-SVC-001",
+      "business_service_id": "BS-PAYMENT-AUTH",
+      "summary": "Payment authorization intermittently timing out.",
+      "user_reported": true
+    },
+    {
+      "incident_id": "INC-GS002-001",
+      "scenario_id": "GS-002",
+      "priority": "P2",
+      "related_ci": "CI-ORDER-API-001",
+      "business_service_id": "BS-ORDER-MANAGEMENT",
+      "summary": "Order submission intermittently fails during database connection exhaustion.",
+      "user_reported": true
+    },
+    {
+      "incident_id": "INC-GS003-001",
+      "scenario_id": "GS-003",
+      "priority": "P2",
+      "related_ci": "CI-PROFILE-API-001",
+      "business_service_id": "BS-CUSTOMER-PROFILE",
+      "summary": "Customer profile API returning elevated 500 responses after change CHG-2026-0007.",
+      "user_reported": false
+    },
+    {
+      "incident_id": "INC-GS004-001",
+      "scenario_id": "GS-004",
+      "priority": "P3",
+      "related_ci": "CI-REPORTING-BATCH-001",
+      "business_service_id": "BS-INTERNAL-REPORTING",
+      "summary": "Internal report generation delayed.",
+      "user_reported": false
+    },
+    {
+      "incident_id": "INC-GS005-001",
+      "scenario_id": "GS-005",
+      "priority": "IMPACT_UNKNOWN",
+      "related_ci": "CI-UNMAPPED-API-001",
+      "business_service_id": null,
+      "summary": "Unmapped API alert cannot be translated to business impact.",
+      "user_reported": false
+    },
+    {
+      "incident_id": "INC-GS006-001",
+      "scenario_id": "GS-006",
+      "priority": "P2_REVIEW_REQUIRED",
+      "related_ci": "CI-CHECKOUT-API-001",
+      "business_service_id": "BS-DIGITAL-CHECKOUT",
+      "summary": "Checkout latency observed, but evidence conflicts with network edge signals.",
+      "user_reported": true
+    }
+  ],
+  "problems": [
+    {
+      "problem_id": "PRB-GS001-001",
+      "scenario_id": "GS-001",
+      "related_ci": "CI-COMPUTE-HOST-007",
+      "known_error": false,
+      "summary": "Shared compute host contention may affect multiple checkout dependencies."
+    },
+    {
+      "problem_id": "PRB-GS002-001",
+      "scenario_id": "GS-002",
+      "related_ci": "CI-ORDER-DB-001",
+      "known_error": true,
+      "known_error_id": "KE-DB-CONNECTION-EXHAUSTION-001",
+      "summary": "Known database connection exhaustion pattern."
+    },
+    {
+      "problem_id": "PRB-GS003-001",
+      "scenario_id": "GS-003",
+      "related_ci": "CI-PROFILE-API-001",
+      "known_error": false,
+      "summary": "Recent deployment change may have introduced profile API error increase."
+    },
+    {
+      "problem_id": "PRB-GS006-001",
+      "scenario_id": "GS-006",
+      "related_ci": "CI-NETWORK-EDGE-003",
+      "known_error": false,
+      "summary": "Conflicting network and application evidence requires further investigation."
+    }
+  ],
+  "knowledge_articles": [
+    {
+      "knowledge_id": "KB-GS001-001",
+      "scenario_id": "GS-001",
+      "related_ci": "CI-COMPUTE-HOST-007",
+      "item_owner": "Platform Operations",
+      "item_last_validated": "2026-06-15",
+      "trust_level": "approved",
+      "content_safety_expected": "SAFE_WITH_CONTROLS",
+      "summary": "Validate host saturation, affected services, and business impact before recommending workload movement."
+    },
+    {
+      "knowledge_id": "KB-GS002-001",
+      "scenario_id": "GS-002",
+      "related_ci": "CI-ORDER-DB-001",
+      "item_owner": "Database Operations",
+      "item_last_validated": "2026-06-20",
+      "trust_level": "approved",
+      "content_safety_expected": "SAFE_WITH_CONTROLS",
+      "summary": "Known response pattern for database connection exhaustion requires validation before reuse."
+    },
+    {
+      "knowledge_id": "KB-GS003-001",
+      "scenario_id": "GS-003",
+      "related_ci": "CI-PROFILE-API-001",
+      "item_owner": "Customer Experience",
+      "item_last_validated": "2026-06-10",
+      "trust_level": "conditional",
+      "content_safety_expected": "SUPPORTING_ONLY",
+      "summary": "Profile API errors can correlate with recent deployment changes but require corroborating evidence."
+    },
+    {
+      "knowledge_id": "KB-GS004-001",
+      "scenario_id": "GS-004",
+      "related_ci": "CI-REPORTING-BATCH-001",
+      "item_owner": "Enterprise Reporting",
+      "item_last_validated": "2026-06-18",
+      "trust_level": "approved",
+      "content_safety_expected": "SAFE_WITH_CONTROLS",
+      "summary": "Internal reporting delay has low business impact when customer-facing services are unaffected."
+    },
+    {
+      "knowledge_id": "KB-GS005-001",
+      "scenario_id": "GS-005",
+      "related_ci": "CI-UNMAPPED-API-001",
+      "item_owner": "Unknown",
+      "item_last_validated": null,
+      "trust_level": "unknown",
+      "content_safety_expected": "NEEDS_HUMAN_REVIEW",
+      "summary": "Unmapped service requires business impact assessment and ownership clarification."
+    },
+    {
+      "knowledge_id": "KB-GS006-001",
+      "scenario_id": "GS-006",
+      "related_ci": "CI-NETWORK-EDGE-003",
+      "item_owner": "Network Operations",
+      "item_last_validated": "2026-05-30",
+      "trust_level": "conditional",
+      "content_safety_expected": "SUPPORTING_ONLY",
+      "summary": "Network edge symptoms may explain checkout latency but must be reconciled with application evidence."
+    }
+  ],
+  "change_requests": [
+    {
+      "change_id": "CHG-2026-0007",
+      "scenario_id": "GS-003",
+      "related_ci": "CI-PROFILE-API-001",
+      "change_type": "normal",
+      "status": "implemented",
+      "implemented_at": "2026-07-06T22:00:00Z",
+      "summary": "Profile API deployment completed shortly before elevated errors."
+    },
+    {
+      "change_id": "CHG-2026-0008",
+      "scenario_id": "GS-001",
+      "related_ci": "CI-COMPUTE-HOST-007",
+      "change_type": "standard",
+      "status": "implemented",
+      "implemented_at": "2026-07-06T18:00:00Z",
+      "summary": "Routine host maintenance completed before checkout degradation."
+    },
+    {
+      "change_id": "CHG-2026-0009",
+      "scenario_id": "GS-004",
+      "related_ci": "CI-REPORTING-BATCH-001",
+      "change_type": "standard",
+      "status": "scheduled",
+      "implemented_at": null,
+      "summary": "Reporting batch tuning scheduled but not yet implemented."
+    }
+  ],
+  "memory_patterns": [
+    {
+      "memory_id": "MEM-DB-CONNECTION-EXHAUSTION-001",
+      "scenario_id": "GS-002",
+      "related_ci": "CI-ORDER-DB-001",
+      "memory_type": "prior_case_pattern",
+      "validation_state": "HUMAN_VALIDATED",
+      "confidence": "MEDIUM",
+      "last_confirmed": "2026-06-20T10:00:00Z",
+      "source": "post_incident_review",
+      "summary": "Database connection exhaustion previously caused intermittent order submission failures.",
+      "outcome_history": {
+        "successful_uses": 5,
+        "failed_uses": 1
+      }
+    },
+    {
+      "memory_id": "MEM-COMPUTE-HOST-CONTENTION-001",
+      "scenario_id": "GS-001",
+      "related_ci": "CI-COMPUTE-HOST-007",
+      "memory_type": "prior_case_pattern",
+      "validation_state": "HUMAN_VALIDATED",
+      "confidence": "MEDIUM",
+      "last_confirmed": "2026-06-12T09:00:00Z",
+      "source": "post_incident_review",
+      "summary": "Shared compute contention previously caused API latency across dependent services.",
+      "outcome_history": {
+        "successful_uses": 3,
+        "failed_uses": 1
+      }
+    },
+    {
+      "memory_id": "MEM-NETWORK-EDGE-CONFLICT-001",
+      "scenario_id": "GS-006",
+      "related_ci": "CI-NETWORK-EDGE-003",
+      "memory_type": "prior_case_pattern",
+      "validation_state": "UNVALIDATED",
+      "confidence": "LOW",
+      "last_confirmed": null,
+      "source": "system_observed_pattern",
+      "summary": "Network edge packet loss may correlate with checkout latency but has not been human validated.",
+      "outcome_history": {
+        "successful_uses": 0,
+        "failed_uses": 0
+      }
+    }
+  ]
+}
