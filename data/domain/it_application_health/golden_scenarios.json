@@ -1,0 +1,194 @@
+{
+  "repository_name": "EAIOS Synthetic ITIL Application Health Golden Scenarios",
+  "version": "0.1.0",
+  "business_outcome": "Maintain Application Health",
+  "scenario_count": 6,
+  "scenarios": [
+    {
+      "scenario_id": "GS-001",
+      "name": "Tier-0 Checkout Degradation",
+      "business_outcome": "Maintain Application Health",
+      "goal_category": "operational_troubleshooting",
+      "story": "Digital Checkout is degraded because a shared compute host is affecting payment and authentication paths.",
+      "impact_tier": "HIGH",
+      "impact_confidence": "HIGH",
+      "autonomous_action_allowed": false,
+      "requires_human_approval": true,
+      "primary_entities": {
+        "business_service": "BS-DIGITAL-CHECKOUT",
+        "affected_cis": [
+          "CI-CHECKOUT-API-001",
+          "CI-PAYMENT-SVC-001",
+          "CI-AUTH-SVC-001",
+          "CI-COMPUTE-HOST-007"
+        ]
+      },
+      "expected_concepts": [
+        "business_outcome_first",
+        "cmdb_blast_radius",
+        "business_impact_analysis",
+        "knowledge_retrieval",
+        "problem_correlation",
+        "evidence_fusion",
+        "human_approval_boundary"
+      ],
+      "expected_result": {
+        "case_priority": "P1",
+        "recommendation_type": "recommendation_candidate",
+        "required_action": "HUMAN_REVIEW_REQUIRED"
+      }
+    },
+    {
+      "scenario_id": "GS-002",
+      "name": "Known Error Reuse",
+      "business_outcome": "Maintain Application Health",
+      "goal_category": "operational_troubleshooting",
+      "story": "Database connection exhaustion resembles a known error with prior successful resolution patterns.",
+      "impact_tier": "MEDIUM",
+      "impact_confidence": "MEDIUM",
+      "autonomous_action_allowed": false,
+      "requires_human_approval": true,
+      "primary_entities": {
+        "business_service": "BS-ORDER-MANAGEMENT",
+        "affected_cis": [
+          "CI-ORDER-API-001",
+          "CI-ORDER-DB-001"
+        ],
+        "memory_patterns": [
+          "MEM-DB-CONNECTION-EXHAUSTION-001"
+        ]
+      },
+      "expected_concepts": [
+        "memory_as_evidence",
+        "known_error_pattern",
+        "targeted_validation",
+        "confidence_adjustment",
+        "no_blind_reuse"
+      ],
+      "expected_result": {
+        "case_priority": "P2",
+        "recommendation_type": "recommendation_candidate",
+        "required_action": "VALIDATE_MEMORY_PATTERN_BEFORE_ACTION"
+      }
+    },
+    {
+      "scenario_id": "GS-003",
+      "name": "Recent Change Correlation",
+      "business_outcome": "Maintain Application Health",
+      "goal_category": "operational_troubleshooting",
+      "story": "A recent deployment change correlates with API errors.",
+      "impact_tier": "MEDIUM",
+      "impact_confidence": "MEDIUM",
+      "autonomous_action_allowed": false,
+      "requires_human_approval": true,
+      "primary_entities": {
+        "business_service": "BS-CUSTOMER-PROFILE",
+        "affected_cis": [
+          "CI-PROFILE-API-001",
+          "CI-PROFILE-WEB-001"
+        ],
+        "change_requests": [
+          "CHG-2026-0007"
+        ]
+      },
+      "expected_concepts": [
+        "change_correlation",
+        "weakening_evidence",
+        "causal_hypothesis",
+        "approval_boundary"
+      ],
+      "expected_result": {
+        "case_priority": "P2",
+        "recommendation_type": "recommendation_candidate",
+        "required_action": "REVIEW_RECENT_CHANGE_AND_VALIDATE_ROLLBACK_RISK"
+      }
+    },
+    {
+      "scenario_id": "GS-004",
+      "name": "High Technical Severity Low Business Impact",
+      "business_outcome": "Maintain Application Health",
+      "goal_category": "operational_troubleshooting",
+      "story": "A critical technical alert fires on a low-criticality internal service.",
+      "impact_tier": "LOW",
+      "impact_confidence": "HIGH",
+      "autonomous_action_allowed": false,
+      "requires_human_approval": true,
+      "primary_entities": {
+        "business_service": "BS-INTERNAL-REPORTING",
+        "affected_cis": [
+          "CI-REPORTING-BATCH-001"
+        ]
+      },
+      "expected_concepts": [
+        "technical_severity_vs_business_impact",
+        "bounded_response",
+        "prioritization",
+        "no_over_escalation"
+      ],
+      "expected_result": {
+        "case_priority": "P3",
+        "recommendation_type": "recommendation_candidate",
+        "required_action": "SCHEDULE_STANDARD_SUPPORT_REVIEW"
+      }
+    },
+    {
+      "scenario_id": "GS-005",
+      "name": "Unknown Business Impact",
+      "business_outcome": "Maintain Application Health",
+      "goal_category": "operational_troubleshooting",
+      "story": "A service has alerts and incidents but no business-service mapping.",
+      "impact_tier": "UNKNOWN",
+      "impact_confidence": "LOW",
+      "autonomous_action_allowed": false,
+      "requires_human_approval": true,
+      "governance_debt": "missing_business_impact_mapping",
+      "primary_entities": {
+        "business_service": null,
+        "affected_cis": [
+          "CI-UNMAPPED-API-001"
+        ]
+      },
+      "expected_concepts": [
+        "unknown_is_not_low",
+        "governance_debt",
+        "business_owner_review",
+        "no_autonomous_action"
+      ],
+      "expected_result": {
+        "case_priority": "ESCALATE_FOR_IMPACT_ASSESSMENT",
+        "recommendation_type": "recommendation_candidate",
+        "required_action": "ESCALATE_FOR_IMPACT_ASSESSMENT"
+      }
+    },
+    {
+      "scenario_id": "GS-006",
+      "name": "Conflicting Evidence",
+      "business_outcome": "Maintain Application Health",
+      "goal_category": "operational_troubleshooting",
+      "story": "Alerts point to one CI while incidents and knowledge patterns suggest another.",
+      "impact_tier": "MEDIUM",
+      "impact_confidence": "LOW",
+      "autonomous_action_allowed": false,
+      "requires_human_approval": true,
+      "primary_entities": {
+        "business_service": "BS-DIGITAL-CHECKOUT",
+        "affected_cis": [
+          "CI-CHECKOUT-API-001",
+          "CI-NETWORK-EDGE-003"
+        ]
+      },
+      "expected_concepts": [
+        "evidence_fusion",
+        "conflicting_evidence",
+        "low_confidence",
+        "adaptive_orchestration",
+        "human_review"
+      ],
+      "expected_result": {
+        "case_priority": "P2_REVIEW_REQUIRED",
+        "recommendation_type": "recommendation_candidate",
+        "required_action": "GATHER_ADDITIONAL_EVIDENCE"
+      }
+    }
+  ]
+}
