@@ -1,4 +1,4 @@
-\# ADR-006: Mandatory Governance Broker for Agent and Data Access
+﻿\# ADR-006: Mandatory Governance Broker for Agent and Data Access
 
 
 
@@ -6,7 +6,7 @@
 
 
 
-Proposed
+Accepted
 
 
 
@@ -62,23 +62,24 @@ Direct calls must be structurally impossible, not merely discouraged.
 
 Agent
 
-&#x20; ↓
+&#x20; â†“
 
 Governed Client
 
-&#x20; ↓
+&#x20; â†“
 
 Governance Broker / PEP
 
-&#x20; ↓
+&#x20; â†“
 
 Access Governance System / PDP
 
-&#x20; ↓
+&#x20; â†“
 
 Approve / Deny / Escalate
 
-&#x20; ↓
+&#x20; â†“
 
 Agent / Tool / Data Source
+
 
