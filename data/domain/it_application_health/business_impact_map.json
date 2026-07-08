@@ -1,0 +1,107 @@
+{
+  "repository_name": "EAIOS Synthetic ITIL Business Impact Map",
+  "version": "0.1.0",
+  "business_outcome": "Maintain Application Health",
+  "unknown_impact_policy": {
+    "impact_tier": "UNKNOWN",
+    "impact_confidence": "LOW",
+    "required_action": "ESCALATE_FOR_IMPACT_ASSESSMENT",
+    "autonomous_action_allowed": false,
+    "governance_debt": "missing_business_impact_mapping"
+  },
+  "business_services": [
+    {
+      "business_service_id": "BS-DIGITAL-CHECKOUT",
+      "name": "Digital Checkout",
+      "business_owner": "Digital Commerce",
+      "impact_tier": "HIGH",
+      "criticality": "TIER_0",
+      "impact_confidence": "HIGH",
+      "requires_human_approval": true,
+      "autonomous_action_allowed": false,
+      "mapped_cis": [
+        "CI-CHECKOUT-API-001",
+        "CI-PAYMENT-SVC-001",
+        "CI-AUTH-SVC-001",
+        "CI-COMPUTE-HOST-007"
+      ]
+    },
+    {
+      "business_service_id": "BS-PAYMENT-AUTH",
+      "name": "Payment Authorization",
+      "business_owner": "Payments",
+      "impact_tier": "HIGH",
+      "criticality": "TIER_0",
+      "impact_confidence": "HIGH",
+      "requires_human_approval": true,
+      "autonomous_action_allowed": false,
+      "mapped_cis": [
+        "CI-PAYMENT-SVC-001",
+        "CI-AUTH-SVC-001",
+        "CI-PAYMENT-DB-001"
+      ]
+    },
+    {
+      "business_service_id": "BS-ORDER-MANAGEMENT",
+      "name": "Order Management",
+      "business_owner": "Order Operations",
+      "impact_tier": "MEDIUM",
+      "criticality": "TIER_1",
+      "impact_confidence": "MEDIUM",
+      "requires_human_approval": true,
+      "autonomous_action_allowed": false,
+      "mapped_cis": [
+        "CI-ORDER-API-001",
+        "CI-ORDER-DB-001"
+      ]
+    },
+    {
+      "business_service_id": "BS-CUSTOMER-PROFILE",
+      "name": "Customer Profile",
+      "business_owner": "Customer Experience",
+      "impact_tier": "MEDIUM",
+      "criticality": "TIER_1",
+      "impact_confidence": "MEDIUM",
+      "requires_human_approval": true,
+      "autonomous_action_allowed": false,
+      "mapped_cis": [
+        "CI-PROFILE-API-001",
+        "CI-PROFILE-WEB-001"
+      ]
+    },
+    {
+      "business_service_id": "BS-INTERNAL-REPORTING",
+      "name": "Internal Reporting",
+      "business_owner": "Enterprise Reporting",
+      "impact_tier": "LOW",
+      "criticality": "TIER_3",
+      "impact_confidence": "HIGH",
+      "requires_human_approval": true,
+      "autonomous_action_allowed": false,
+      "mapped_cis": [
+        "CI-REPORTING-BATCH-001"
+      ]
+    },
+    {
+      "business_service_id": "BS-EMPLOYEE-PORTAL",
+      "name": "Employee Portal",
+      "business_owner": "Employee Experience",
+      "impact_tier": "LOW",
+      "criticality": "TIER_3",
+      "impact_confidence": "MEDIUM",
+      "requires_human_approval": true,
+      "autonomous_action_allowed": false,
+      "mapped_cis": [
+        "CI-EMPLOYEE-PORTAL-001"
+      ]
+    }
+  ],
+  "unmapped_cis": [
+    {
+      "ci_id": "CI-UNMAPPED-API-001",
+      "reason": "No business-service mapping exists in synthetic repository",
+      "required_action": "ESCALATE_FOR_IMPACT_ASSESSMENT",
+      "governance_debt": "missing_business_impact_mapping"
+    }
+  ]
+}
