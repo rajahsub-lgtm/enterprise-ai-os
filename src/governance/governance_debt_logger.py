@@ -10,7 +10,7 @@ class GovernanceDebtLogger:
 
     Sprint 1 scope:
     - Record unknown or incomplete governance metadata.
-    - Full ownership, SLA, aging, and remediation workflow comes later.
+    - Full ownership, SLA, aging, and recommended_follow_up workflow comes later.
     """
 
     def __init__(self, debt_path: str = "data/governance/governance_debt.json") -> None:
