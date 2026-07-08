@@ -216,3 +216,6 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Synthetic ITIL generated noise output
+data/domain/it_application_health/*.generated.json
