@@ -1,0 +1,371 @@
+{
+  "repository_name": "EAIOS Synthetic ITIL CMDB Topology",
+  "version": "0.1.0",
+  "business_outcome": "Maintain Application Health",
+  "ci_count": 24,
+  "relationship_count": 28,
+  "cis": [
+    {
+      "ci_id": "CI-CHECKOUT-API-001",
+      "name": "Checkout API",
+      "ci_type": "application_service",
+      "owner": "Digital Commerce",
+      "environment": "production",
+      "mapped_business_services": ["BS-DIGITAL-CHECKOUT"]
+    },
+    {
+      "ci_id": "CI-CHECKOUT-WEB-001",
+      "name": "Checkout Web",
+      "ci_type": "web_application",
+      "owner": "Digital Commerce",
+      "environment": "production",
+      "mapped_business_services": ["BS-DIGITAL-CHECKOUT"]
+    },
+    {
+      "ci_id": "CI-PAYMENT-SVC-001",
+      "name": "Payment Service",
+      "ci_type": "application_service",
+      "owner": "Payments",
+      "environment": "production",
+      "mapped_business_services": ["BS-DIGITAL-CHECKOUT", "BS-PAYMENT-AUTH"]
+    },
+    {
+      "ci_id": "CI-AUTH-SVC-001",
+      "name": "Authentication Service",
+      "ci_type": "application_service",
+      "owner": "Identity Services",
+      "environment": "production",
+      "mapped_business_services": ["BS-DIGITAL-CHECKOUT", "BS-PAYMENT-AUTH"]
+    },
+    {
+      "ci_id": "CI-COMPUTE-HOST-007",
+      "name": "Shared Compute Host 007",
+      "ci_type": "compute_host",
+      "owner": "Platform Operations",
+      "environment": "production",
+      "mapped_business_services": ["BS-DIGITAL-CHECKOUT", "BS-PAYMENT-AUTH"]
+    },
+    {
+      "ci_id": "CI-PAYMENT-DB-001",
+      "name": "Payment Database",
+      "ci_type": "database",
+      "owner": "Payments",
+      "environment": "production",
+      "mapped_business_services": ["BS-PAYMENT-AUTH"]
+    },
+    {
+      "ci_id": "CI-ORDER-API-001",
+      "name": "Order API",
+      "ci_type": "application_service",
+      "owner": "Order Operations",
+      "environment": "production",
+      "mapped_business_services": ["BS-ORDER-MANAGEMENT"]
+    },
+    {
+      "ci_id": "CI-ORDER-DB-001",
+      "name": "Order Database",
+      "ci_type": "database",
+      "owner": "Order Operations",
+      "environment": "production",
+      "mapped_business_services": ["BS-ORDER-MANAGEMENT"]
+    },
+    {
+      "ci_id": "CI-PROFILE-API-001",
+      "name": "Customer Profile API",
+      "ci_type": "application_service",
+      "owner": "Customer Experience",
+      "environment": "production",
+      "mapped_business_services": ["BS-CUSTOMER-PROFILE"]
+    },
+    {
+      "ci_id": "CI-PROFILE-WEB-001",
+      "name": "Customer Profile Web",
+      "ci_type": "web_application",
+      "owner": "Customer Experience",
+      "environment": "production",
+      "mapped_business_services": ["BS-CUSTOMER-PROFILE"]
+    },
+    {
+      "ci_id": "CI-PROFILE-DB-001",
+      "name": "Customer Profile Database",
+      "ci_type": "database",
+      "owner": "Customer Experience",
+      "environment": "production",
+      "mapped_business_services": ["BS-CUSTOMER-PROFILE"]
+    },
+    {
+      "ci_id": "CI-REPORTING-BATCH-001",
+      "name": "Internal Reporting Batch",
+      "ci_type": "batch_job",
+      "owner": "Enterprise Reporting",
+      "environment": "production",
+      "mapped_business_services": ["BS-INTERNAL-REPORTING"]
+    },
+    {
+      "ci_id": "CI-REPORTING-DB-001",
+      "name": "Internal Reporting Database",
+      "ci_type": "database",
+      "owner": "Enterprise Reporting",
+      "environment": "production",
+      "mapped_business_services": ["BS-INTERNAL-REPORTING"]
+    },
+    {
+      "ci_id": "CI-EMPLOYEE-PORTAL-001",
+      "name": "Employee Portal",
+      "ci_type": "web_application",
+      "owner": "Employee Experience",
+      "environment": "production",
+      "mapped_business_services": ["BS-EMPLOYEE-PORTAL"]
+    },
+    {
+      "ci_id": "CI-EMPLOYEE-API-001",
+      "name": "Employee Portal API",
+      "ci_type": "application_service",
+      "owner": "Employee Experience",
+      "environment": "production",
+      "mapped_business_services": ["BS-EMPLOYEE-PORTAL"]
+    },
+    {
+      "ci_id": "CI-EMPLOYEE-DB-001",
+      "name": "Employee Portal Database",
+      "ci_type": "database",
+      "owner": "Employee Experience",
+      "environment": "production",
+      "mapped_business_services": ["BS-EMPLOYEE-PORTAL"]
+    },
+    {
+      "ci_id": "CI-NETWORK-EDGE-003",
+      "name": "Network Edge 003",
+      "ci_type": "network",
+      "owner": "Network Operations",
+      "environment": "production",
+      "mapped_business_services": ["BS-DIGITAL-CHECKOUT", "BS-CUSTOMER-PROFILE"]
+    },
+    {
+      "ci_id": "CI-LOAD-BALANCER-001",
+      "name": "Checkout Load Balancer",
+      "ci_type": "load_balancer",
+      "owner": "Platform Operations",
+      "environment": "production",
+      "mapped_business_services": ["BS-DIGITAL-CHECKOUT"]
+    },
+    {
+      "ci_id": "CI-MESSAGE-BUS-001",
+      "name": "Enterprise Message Bus",
+      "ci_type": "messaging",
+      "owner": "Platform Operations",
+      "environment": "production",
+      "mapped_business_services": ["BS-DIGITAL-CHECKOUT", "BS-ORDER-MANAGEMENT"]
+    },
+    {
+      "ci_id": "CI-CACHE-001",
+      "name": "Shared Cache Cluster",
+      "ci_type": "cache",
+      "owner": "Platform Operations",
+      "environment": "production",
+      "mapped_business_services": ["BS-DIGITAL-CHECKOUT", "BS-CUSTOMER-PROFILE"]
+    },
+    {
+      "ci_id": "CI-OBSERVABILITY-001",
+      "name": "Observability Collector",
+      "ci_type": "observability",
+      "owner": "SRE",
+      "environment": "production",
+      "mapped_business_services": []
+    },
+    {
+      "ci_id": "CI-KNOWLEDGE-SVC-001",
+      "name": "Knowledge Service",
+      "ci_type": "knowledge_service",
+      "owner": "Enterprise Knowledge",
+      "environment": "production",
+      "mapped_business_services": []
+    },
+    {
+      "ci_id": "CI-CHANGE-SVC-001",
+      "name": "Change Service",
+      "ci_type": "change_service",
+      "owner": "IT Service Management",
+      "environment": "production",
+      "mapped_business_services": []
+    },
+    {
+      "ci_id": "CI-UNMAPPED-API-001",
+      "name": "Unmapped API",
+      "ci_type": "application_service",
+      "owner": "Unknown",
+      "environment": "production",
+      "mapped_business_services": []
+    }
+  ],
+  "relationships": [
+    {
+      "relationship_id": "REL-001",
+      "from_ci": "CI-CHECKOUT-WEB-001",
+      "to_ci": "CI-LOAD-BALANCER-001",
+      "relationship_type": "routes_through"
+    },
+    {
+      "relationship_id": "REL-002",
+      "from_ci": "CI-LOAD-BALANCER-001",
+      "to_ci": "CI-CHECKOUT-API-001",
+      "relationship_type": "routes_to"
+    },
+    {
+      "relationship_id": "REL-003",
+      "from_ci": "CI-CHECKOUT-API-001",
+      "to_ci": "CI-PAYMENT-SVC-001",
+      "relationship_type": "depends_on"
+    },
+    {
+      "relationship_id": "REL-004",
+      "from_ci": "CI-CHECKOUT-API-001",
+      "to_ci": "CI-AUTH-SVC-001",
+      "relationship_type": "depends_on"
+    },
+    {
+      "relationship_id": "REL-005",
+      "from_ci": "CI-PAYMENT-SVC-001",
+      "to_ci": "CI-PAYMENT-DB-001",
+      "relationship_type": "depends_on"
+    },
+    {
+      "relationship_id": "REL-006",
+      "from_ci": "CI-PAYMENT-SVC-001",
+      "to_ci": "CI-COMPUTE-HOST-007",
+      "relationship_type": "runs_on"
+    },
+    {
+      "relationship_id": "REL-007",
+      "from_ci": "CI-AUTH-SVC-001",
+      "to_ci": "CI-COMPUTE-HOST-007",
+      "relationship_type": "runs_on"
+    },
+    {
+      "relationship_id": "REL-008",
+      "from_ci": "CI-CHECKOUT-API-001",
+      "to_ci": "CI-COMPUTE-HOST-007",
+      "relationship_type": "runs_on"
+    },
+    {
+      "relationship_id": "REL-009",
+      "from_ci": "CI-CHECKOUT-API-001",
+      "to_ci": "CI-MESSAGE-BUS-001",
+      "relationship_type": "publishes_to"
+    },
+    {
+      "relationship_id": "REL-010",
+      "from_ci": "CI-ORDER-API-001",
+      "to_ci": "CI-MESSAGE-BUS-001",
+      "relationship_type": "subscribes_to"
+    },
+    {
+      "relationship_id": "REL-011",
+      "from_ci": "CI-ORDER-API-001",
+      "to_ci": "CI-ORDER-DB-001",
+      "relationship_type": "depends_on"
+    },
+    {
+      "relationship_id": "REL-012",
+      "from_ci": "CI-PROFILE-WEB-001",
+      "to_ci": "CI-PROFILE-API-001",
+      "relationship_type": "calls"
+    },
+    {
+      "relationship_id": "REL-013",
+      "from_ci": "CI-PROFILE-API-001",
+      "to_ci": "CI-PROFILE-DB-001",
+      "relationship_type": "depends_on"
+    },
+    {
+      "relationship_id": "REL-014",
+      "from_ci": "CI-PROFILE-API-001",
+      "to_ci": "CI-CACHE-001",
+      "relationship_type": "depends_on"
+    },
+    {
+      "relationship_id": "REL-015",
+      "from_ci": "CI-CHECKOUT-API-001",
+      "to_ci": "CI-CACHE-001",
+      "relationship_type": "depends_on"
+    },
+    {
+      "relationship_id": "REL-016",
+      "from_ci": "CI-REPORTING-BATCH-001",
+      "to_ci": "CI-REPORTING-DB-001",
+      "relationship_type": "depends_on"
+    },
+    {
+      "relationship_id": "REL-017",
+      "from_ci": "CI-EMPLOYEE-PORTAL-001",
+      "to_ci": "CI-EMPLOYEE-API-001",
+      "relationship_type": "calls"
+    },
+    {
+      "relationship_id": "REL-018",
+      "from_ci": "CI-EMPLOYEE-API-001",
+      "to_ci": "CI-EMPLOYEE-DB-001",
+      "relationship_type": "depends_on"
+    },
+    {
+      "relationship_id": "REL-019",
+      "from_ci": "CI-NETWORK-EDGE-003",
+      "to_ci": "CI-LOAD-BALANCER-001",
+      "relationship_type": "routes_to"
+    },
+    {
+      "relationship_id": "REL-020",
+      "from_ci": "CI-NETWORK-EDGE-003",
+      "to_ci": "CI-PROFILE-WEB-001",
+      "relationship_type": "routes_to"
+    },
+    {
+      "relationship_id": "REL-021",
+      "from_ci": "CI-OBSERVABILITY-001",
+      "to_ci": "CI-CHECKOUT-API-001",
+      "relationship_type": "observes"
+    },
+    {
+      "relationship_id": "REL-022",
+      "from_ci": "CI-OBSERVABILITY-001",
+      "to_ci": "CI-PAYMENT-SVC-001",
+      "relationship_type": "observes"
+    },
+    {
+      "relationship_id": "REL-023",
+      "from_ci": "CI-OBSERVABILITY-001",
+      "to_ci": "CI-AUTH-SVC-001",
+      "relationship_type": "observes"
+    },
+    {
+      "relationship_id": "REL-024",
+      "from_ci": "CI-KNOWLEDGE-SVC-001",
+      "to_ci": "CI-CHECKOUT-API-001",
+      "relationship_type": "supports"
+    },
+    {
+      "relationship_id": "REL-025",
+      "from_ci": "CI-CHANGE-SVC-001",
+      "to_ci": "CI-PROFILE-API-001",
+      "relationship_type": "tracks_changes_for"
+    },
+    {
+      "relationship_id": "REL-026",
+      "from_ci": "CI-CHANGE-SVC-001",
+      "to_ci": "CI-CHECKOUT-API-001",
+      "relationship_type": "tracks_changes_for"
+    },
+    {
+      "relationship_id": "REL-027",
+      "from_ci": "CI-UNMAPPED-API-001",
+      "to_ci": "CI-OBSERVABILITY-001",
+      "relationship_type": "observed_by"
+    },
+    {
+      "relationship_id": "REL-028",
+      "from_ci": "CI-COMPUTE-HOST-007",
+      "to_ci": "CI-OBSERVABILITY-001",
+      "relationship_type": "observed_by"
+    }
+  ]
+}
