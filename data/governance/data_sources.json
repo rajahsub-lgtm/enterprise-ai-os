@@ -1,0 +1,138 @@
+[
+  {
+    "source_id": "support_knowledge",
+    "source_name": "Support Knowledge",
+    "source_type": "knowledge_base",
+    "description": "Expert-facing knowledge used for complex troubleshooting, support operations, incident investigation, and problem resolution.",
+    "owner": "Enterprise Support Operations",
+    "classification": "internal",
+    "trust_level": "approved",
+    "contains_pii": false,
+    "self_help_facing": false,
+    "write_allowed": false,
+    "allowed_capabilities": [
+      "retrieve_best_knowledge",
+      "evaluate_knowledge_quality"
+    ],
+    "required_controls": [
+      "log_source_access",
+      "return_knowledge_quality_score",
+      "check_last_validated_date"
+    ],
+    "default_usage": "primary"
+  },
+  {
+    "source_id": "self_help_knowledge",
+    "source_name": "Self-Help Knowledge",
+    "source_type": "knowledge_base",
+    "description": "End-user-facing knowledge used by chatbots, enterprise search, service portals, and self-service experiences.",
+    "owner": "Employee Experience / Service Desk",
+    "classification": "internal",
+    "trust_level": "approved",
+    "contains_pii": false,
+    "self_help_facing": true,
+    "write_allowed": false,
+    "allowed_capabilities": [
+      "retrieve_best_knowledge",
+      "summarize_knowledge",
+      "evaluate_knowledge_quality"
+    ],
+    "required_controls": [
+      "log_source_access",
+      "return_knowledge_quality_score",
+      "audience_appropriate_summary"
+    ],
+    "default_usage": "supporting"
+  },
+  {
+    "source_id": "wiki_knowledge",
+    "source_name": "Wiki Knowledge",
+    "source_type": "wiki",
+    "description": "Enterprise wiki content containing technical documentation, process notes, team pages, architecture references, and informal runbooks.",
+    "owner": "Enterprise Collaboration Platforms",
+    "classification": "internal",
+    "trust_level": "conditional",
+    "contains_pii": "unknown",
+    "self_help_facing": true,
+    "write_allowed": false,
+    "allowed_capabilities": [
+      "retrieve_best_knowledge",
+      "evaluate_knowledge_quality",
+      "summarize_knowledge"
+    ],
+    "required_controls": [
+      "log_source_access",
+      "check_page_owner",
+      "check_last_validated_date",
+      "return_knowledge_quality_score"
+    ],
+    "default_usage": "supporting"
+  },
+  {
+    "source_id": "human_resources_knowledge",
+    "source_name": "Human Resources Knowledge",
+    "source_type": "knowledge_base",
+    "description": "HR policy and process knowledge related to benefits, leave, employee relations, compensation processes, and workforce guidance.",
+    "owner": "Human Resources",
+    "classification": "confidential",
+    "trust_level": "approved",
+    "contains_pii": false,
+    "self_help_facing": false,
+    "write_allowed": false,
+    "allowed_capabilities": [
+      "retrieve_best_knowledge",
+      "evaluate_knowledge_quality"
+    ],
+    "required_controls": [
+      "log_source_access",
+      "hr_purpose_required",
+      "role_authorization_required",
+      "return_knowledge_quality_score"
+    ],
+    "default_usage": "restricted"
+  },
+  {
+    "source_id": "employee_identification_knowledge",
+    "source_name": "Employee Identification Knowledge",
+    "source_type": "identity_directory",
+    "description": "Employee identity and directory knowledge used when employee personal information is required for an approved business purpose.",
+    "owner": "Identity and Access Management / Human Resources",
+    "classification": "restricted",
+    "trust_level": "approved",
+    "contains_pii": true,
+    "self_help_facing": false,
+    "write_allowed": false,
+    "allowed_capabilities": [
+      "retrieve_identity_context"
+    ],
+    "required_controls": [
+      "log_source_access",
+      "business_justification_required",
+      "role_authorization_required",
+      "privacy_policy_check",
+      "human_approval_if_high_risk"
+    ],
+    "default_usage": "restricted"
+  },
+  {
+    "source_id": "validated_learning_store",
+    "source_name": "Validated Learning Store",
+    "source_type": "knowledge_base",
+    "description": "Approved enterprise learning store for validated lessons, patterns, and reusable organizational knowledge.",
+    "owner": "Enterprise Knowledge Management",
+    "classification": "internal",
+    "trust_level": "approved",
+    "contains_pii": false,
+    "self_help_facing": false,
+    "write_allowed": true,
+    "allowed_capabilities": [
+      "write_validated_learning"
+    ],
+    "required_controls": [
+      "log_source_access",
+      "human_approval_required",
+      "capture_learning_summary"
+    ],
+    "default_usage": "write_target"
+  }
+]
