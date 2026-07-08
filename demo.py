@@ -1,4 +1,5 @@
 import json
+import os
 import sys
 
 
@@ -61,11 +62,23 @@ def main() -> None:
     agent_selector = AgentSelector()
     agent_selection_visualizer = AgentSelectionVisualizer()
     business_impact = BusinessImpactVisualizer()
-    enterprise_memory = EnterpriseMemory()
+    memory_path = os.environ.get(
+        "EAIOS_MEMORY_PATH",
+        "data/memory/application_health_memory.json",
+    )
+    history_path = os.environ.get(
+        "EAIOS_EXECUTION_HISTORY_PATH",
+        "data/memory/execution_history.json",
+    )
+
+    enterprise_memory = EnterpriseMemory(memory_path=memory_path)
     confidence_engine = ConfidenceEngine()
     confidence_visualizer = ConfidenceVisualizer()
-    execution_logger = ExecutionLogger()
-    learning_engine = LearningEngine()
+    execution_logger = ExecutionLogger(log_path=history_path)
+    learning_engine = LearningEngine(
+        history_path=history_path,
+        memory_path=memory_path,
+    )
     learning_summary_visualizer = LearningSummaryVisualizer()
     
 
