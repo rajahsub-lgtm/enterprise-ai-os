@@ -34,27 +34,23 @@ This is especially important for agentic AI because agents may dynamically choos
 
 
 
-All agent-to-agent calls and all data-source access must route through a mandatory Governance Broker.
+EAIOS will apply the established Zero Trust access-control pattern from NIST SP 800-207.
 
 
 
-Agents must not receive raw data-source endpoints, direct tool handles, or direct references to other agents.
+The Access Governance System acts as the Policy Decision Point. It evaluates policies, Goal Context, agent identity, source metadata, risk context, and required controls to produce an access decision.
 
 
 
-Agents receive governed clients only.
+Each Governance Broker interception acts as a Policy Enforcement Point. It prevents direct access to agents, tools, models, and data sources unless the Access Governance System authorizes the action.
 
 
 
-The governed client routes requests through the Governance Broker.
+Agents receive governed clients only. They do not receive raw endpoints, raw tool handles, direct agent handles, or direct data-source access.
 
 
 
-The Governance Broker consults the Access Governance System before allowing the call to proceed.
-
-
-
-Direct calls should be structurally impossible, not merely discouraged.
+Direct calls must be structurally impossible, not merely discouraged.
 
 
 
@@ -72,11 +68,11 @@ Governed Client
 
 &#x20; ↓
 
-Governance Broker
+Governance Broker / PEP
 
 &#x20; ↓
 
-Access Governance System
+Access Governance System / PDP
 
 &#x20; ↓
 
@@ -84,5 +80,5 @@ Approve / Deny / Escalate
 
 &#x20; ↓
 
-Data Source / Tool / Agent
+Agent / Tool / Data Source
 
