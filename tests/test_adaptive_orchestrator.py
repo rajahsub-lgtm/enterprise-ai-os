@@ -126,7 +126,11 @@ class FakeGovernedEvidenceClient:
                     access_decision="ALLOW",
                     audit_id=f"audit-allowed-{index}",
                     evidence_id=f"ev-allowed-{index}",
-                    content_safety_status="SAFE_BY_APPROVED_PROVENANCE",
+                    content_safety_status=(
+                            "SAFE"
+                            if request.evidence_class == "free_text_evidence"
+                            else "SAFE_BY_APPROVED_PROVENANCE"
+                        ),
                     allowed_for_reasoning=True,
                     payload={"summary": "Governed evidence collected."},
                 )

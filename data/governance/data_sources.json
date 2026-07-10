@@ -18,7 +18,10 @@
       "check_last_validated_date"
     ],
     "metadata_complete": true,
-    "high_impact_signals": []
+    "high_impact_signals": [],
+    "evidence_class": "free_text_evidence",
+    "reasoning_safety_semantics": "CONTENT_SAFETY_SCAN",
+    "prompt_injection_scan_required": true
   },
   {
     "source_id": "wiki_knowledge",
@@ -185,7 +188,10 @@
     "allowed_goal_categories": [
       "application_health_management"
     ],
-    "metadata_complete": true
+    "metadata_complete": true,
+    "evidence_class": "memory_state_evidence",
+    "reasoning_safety_semantics": "APPROVED_PROVENANCE",
+    "prompt_injection_scan_required": false
   },
   {
     "source_id": "itil_incidents",
@@ -204,7 +210,10 @@
     "allowed_goal_categories": [
       "application_health_management"
     ],
-    "metadata_complete": true
+    "metadata_complete": true,
+    "evidence_class": "structured_record_evidence",
+    "reasoning_safety_semantics": "APPROVED_PROVENANCE",
+    "prompt_injection_scan_required": false
   },
   {
     "source_id": "itil_changes",
@@ -223,7 +232,10 @@
     "allowed_goal_categories": [
       "application_health_management"
     ],
-    "metadata_complete": true
+    "metadata_complete": true,
+    "evidence_class": "structured_record_evidence",
+    "reasoning_safety_semantics": "APPROVED_PROVENANCE",
+    "prompt_injection_scan_required": false
   },
   {
     "source_id": "itil_cmdb_topology",
@@ -242,7 +254,10 @@
     "allowed_goal_categories": [
       "application_health_management"
     ],
-    "metadata_complete": true
+    "metadata_complete": true,
+    "evidence_class": "structured_record_evidence",
+    "reasoning_safety_semantics": "APPROVED_PROVENANCE",
+    "prompt_injection_scan_required": false
   },
   {
     "source_id": "itil_business_impact_map",
@@ -262,7 +277,10 @@
     "allowed_goal_categories": [
       "application_health_management"
     ],
-    "metadata_complete": true
+    "metadata_complete": true,
+    "evidence_class": "structured_record_evidence",
+    "reasoning_safety_semantics": "APPROVED_PROVENANCE",
+    "prompt_injection_scan_required": false
   },
   {
     "source_id": "itil_operational_records",
@@ -283,6 +301,9 @@
     "allowed_goal_categories": [
       "application_health_management"
     ],
-    "metadata_complete": true
+    "metadata_complete": true,
+    "evidence_class": "structured_record_evidence",
+    "reasoning_safety_semantics": "APPROVED_PROVENANCE",
+    "prompt_injection_scan_required": false
   }
 ]

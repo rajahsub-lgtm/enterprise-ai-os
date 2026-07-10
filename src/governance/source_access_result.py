@@ -10,6 +10,15 @@ The result may represent:
 - blocked access
 - escalation / review requirement
 - evidence that exists but is not eligible for reasoning
+
+Evidence-class safety semantics are explicit:
+
+- free_text_evidence requires content-safety semantics.
+- structured_record_evidence requires approved-provenance semantics.
+- memory_state_evidence requires approved-provenance semantics.
+
+Structured records are not run through free-text knowledge semantics.
+Free text is not treated as safe merely because it came from an approved source.
 """
 
 from __future__ import annotations
@@ -20,16 +29,26 @@ from typing import Any
 from src.governance.source_access_request import SourceAccessRequest
 
 
-SAFE_STATUSES = {
+FREE_TEXT_REASONING_STATUSES = {
     "SAFE",
+    "SAFE_WITH_CONTROLS",
+}
+
+STRUCTURED_RECORD_REASONING_STATUSES = {
     "SAFE_BY_APPROVED_PROVENANCE",
 }
 
-SUPPORTED_EVIDENCE_CLASSES = {
-    "free_text_evidence",
-    "structured_record_evidence",
-    "memory_state_evidence",
+MEMORY_STATE_REASONING_STATUSES = {
+    "SAFE_BY_APPROVED_PROVENANCE",
 }
+
+EVIDENCE_CLASS_REASONING_STATUSES = {
+    "free_text_evidence": FREE_TEXT_REASONING_STATUSES,
+    "structured_record_evidence": STRUCTURED_RECORD_REASONING_STATUSES,
+    "memory_state_evidence": MEMORY_STATE_REASONING_STATUSES,
+}
+
+SUPPORTED_EVIDENCE_CLASSES = set(EVIDENCE_CLASS_REASONING_STATUSES)
 
 
 @dataclass(frozen=True)
@@ -170,7 +189,10 @@ class SourceAccessResult:
         allowed_for_reasoning = bool(
             record.get("allowed_for_reasoning")
             if "allowed_for_reasoning" in record
-            else safety_status in SAFE_STATUSES
+            else cls._status_allowed_for_evidence_class(
+                evidence_class=request.evidence_class,
+                content_safety_status=safety_status,
+            )
         )
 
         return cls(
@@ -191,12 +213,31 @@ class SourceAccessResult:
             required_controls=required_controls,
         )
 
+    @staticmethod
+    def _status_allowed_for_evidence_class(
+        *,
+        evidence_class: str,
+        content_safety_status: str | None,
+    ) -> bool:
+        allowed_statuses = EVIDENCE_CLASS_REASONING_STATUSES.get(evidence_class, set())
+
+        return content_safety_status in allowed_statuses
+
     def to_evidence_item(self) -> dict[str, Any]:
         if self.access_decision != "ALLOW":
             raise ValueError("Only allowed access results can become evidence items.")
 
         if self.evidence_class not in SUPPORTED_EVIDENCE_CLASSES:
             raise ValueError(f"Unsupported evidence_class: {self.evidence_class}")
+
+        if self.allowed_for_reasoning and not self._status_allowed_for_evidence_class(
+            evidence_class=self.evidence_class,
+            content_safety_status=self.content_safety_status,
+        ):
+            raise ValueError(
+                f"{self.evidence_class} with status "
+                f"{self.content_safety_status} is not eligible for reasoning."
+            )
 
         return {
             "case_id": self.case_id,
