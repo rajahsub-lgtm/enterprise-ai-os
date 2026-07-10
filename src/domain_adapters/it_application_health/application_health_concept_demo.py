@@ -27,6 +27,7 @@ from src.domain_adapters.it_application_health.itil_repository_loader import (
     ItApplicationHealthRepository,
 )
 from src.governance.evidence_fusion import EvidenceFusionEngine
+from src.governance.operational_confidence import OperationalConfidenceGate
 from src.governance.reasoning_explanation import ReasoningExplanationEngine
 from src.governance.recommendation_candidate import RecommendationCandidateBuilder
 
@@ -36,12 +37,17 @@ class ApplicationHealthConceptDemo:
         self.repository = ItApplicationHealthRepository()
         self.case_adapter = ItApplicationHealthCaseAdapter(self.repository)
         self.fusion_engine = EvidenceFusionEngine()
+        self.operational_confidence_gate = OperationalConfidenceGate()
         self.reasoning_engine = ReasoningExplanationEngine()
         self.recommendation_builder = RecommendationCandidateBuilder()
 
     def run(self, scenario_id: str) -> dict[str, Any]:
         case_context = self.case_adapter.build_case(scenario_id)
         fusion = self.fusion_engine.fuse(case_context)
+        operational_confidence = self.operational_confidence_gate.evaluate(
+            case_context=case_context,
+            fusion=fusion,
+        )
         reasoning = self.reasoning_engine.explain(
             case_context=case_context,
             fusion=fusion,
@@ -59,11 +65,13 @@ class ApplicationHealthConceptDemo:
             "goal_category": case_context["goal_category"],
             "case_context": case_context,
             "evidence_fusion": fusion,
+            "operational_confidence": operational_confidence,
             "reasoning_explanation": reasoning,
             "recommendation_candidate": recommendation_candidate,
             "human_review_package": self._human_review_package(
                 case_context=case_context,
                 fusion=fusion,
+                operational_confidence=operational_confidence,
                 reasoning=reasoning,
                 recommendation_candidate=recommendation_candidate,
             ),
@@ -82,6 +90,7 @@ class ApplicationHealthConceptDemo:
         *,
         case_context: dict[str, Any],
         fusion: dict[str, Any],
+        operational_confidence: dict[str, Any],
         reasoning: dict[str, Any],
         recommendation_candidate: dict[str, Any],
     ) -> dict[str, Any]:
@@ -92,6 +101,10 @@ class ApplicationHealthConceptDemo:
             "case_summary": case_context["case_summary"],
             "impact": case_context["impact"],
             "fusion_confidence": fusion["fusion_confidence"],
+            "operational_confidence": operational_confidence["operational_confidence"],
+            "confidence_direction": operational_confidence["confidence_direction"],
+            "selected_due_diligence_level": operational_confidence["selected_due_diligence_level"],
+            "knowledge_retrieval_required": operational_confidence["knowledge_retrieval_required"],
             "reasoning_id": reasoning["reasoning_id"],
             "selected_hypothesis_id": reasoning["selected_hypothesis_id"],
             "reasoning_confidence": reasoning["reasoning_confidence"],
