@@ -13,6 +13,7 @@ from __future__ import annotations
 
 from ui.components.confidence_panel import confidence_panel_model
 from ui.components.control_header import control_header_model
+from ui.components.evidence_workbench import evidence_workbench_model
 from ui.components.governance_trace_panel import governance_passport_rows
 from ui.components.human_review_panel import human_review_boundary_model
 from ui.components.story_replay_panel import replay_story_cards, story_thesis_model
@@ -97,6 +98,55 @@ def main() -> None:
         st.markdown("### Orchestration replay canvas")
         canvas = replay_canvas_model(selected_run)
         st.graphviz_chart(canvas["dot"], use_container_width=True)
+
+        st.markdown("### Evidence workbench")
+        workbench = evidence_workbench_model(selected_run)
+
+        summary_cols = st.columns(3)
+        summary_cols[0].metric(
+            "Reasoning eligible",
+            workbench["summary"]["reasoning_eligible_count"],
+        )
+        summary_cols[1].metric(
+            "Excluded",
+            workbench["summary"]["excluded_count"],
+        )
+        summary_cols[2].metric(
+            "Evidence gaps",
+            workbench["summary"]["gap_count"],
+        )
+
+        st.caption(workbench["story"])
+
+        evidence_tabs = st.tabs(
+            [
+                "Reasoning eligible",
+                "Excluded",
+                "Evidence gaps",
+                "Evidence semantics",
+            ]
+        )
+
+        with evidence_tabs[0]:
+            st.dataframe(
+                workbench["reasoning_eligible"],
+                use_container_width=True,
+            )
+
+        with evidence_tabs[1]:
+            st.dataframe(
+                workbench["excluded"],
+                use_container_width=True,
+            )
+
+        with evidence_tabs[2]:
+            st.dataframe(
+                workbench["gaps"],
+                use_container_width=True,
+            )
+
+        with evidence_tabs[3]:
+            st.write(workbench["evidence_class_semantics"])
 
         st.markdown("### Governance passport")
         st.dataframe(governance_passport_rows(selected_run), use_container_width=True)
