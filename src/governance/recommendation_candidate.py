@@ -3,9 +3,10 @@ Recommendation candidate contract.
 
 Classification: EAIOS Core
 
-This module creates a recommendation candidate from a case context and evidence
-fusion package. It does not execute anything. It does not authorize automated
-production operation. It prepares a human-review package.
+This module creates a recommendation candidate from a case context, evidence
+fusion package, and optional reasoning explanation. It does not execute
+anything. It does not authorize automated production operation. It prepares a
+human-review package.
 
 Core rule:
 Every production-impacting recommendation candidate requires human approval.
@@ -22,12 +23,14 @@ class RecommendationCandidateBuilder:
         *,
         case_context: dict[str, Any],
         fusion: dict[str, Any],
+        reasoning: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
         risk_level = self._risk_level(case_context=case_context, fusion=fusion)
         required_controls = self._required_controls(
             case_context=case_context,
             fusion=fusion,
             risk_level=risk_level,
+            reasoning=reasoning,
         )
 
         return {
@@ -36,9 +39,23 @@ class RecommendationCandidateBuilder:
             "scenario_id": case_context["scenario_id"],
             "business_outcome": case_context["business_outcome"],
             "goal_category": case_context["goal_category"],
-            "summary": self._summary(case_context=case_context, fusion=fusion),
+            "summary": self._summary(
+                case_context=case_context,
+                fusion=fusion,
+                reasoning=reasoning,
+            ),
             "risk_level": risk_level,
             "fusion_confidence": fusion["fusion_confidence"],
+            "reasoning_id": reasoning["reasoning_id"] if reasoning else None,
+            "selected_hypothesis_id": (
+                reasoning["selected_hypothesis_id"] if reasoning else None
+            ),
+            "reasoning_confidence": (
+                reasoning["reasoning_confidence"] if reasoning else None
+            ),
+            "reasoning_summary": (
+                reasoning["reasoning_summary"] if reasoning else None
+            ),
             "supporting_evidence_ids": [
                 evidence["evidence_id"]
                 for evidence in fusion["supporting_evidence"]
@@ -78,6 +95,7 @@ class RecommendationCandidateBuilder:
         *,
         case_context: dict[str, Any],
         fusion: dict[str, Any],
+        reasoning: dict[str, Any] | None,
     ) -> str:
         if case_context["impact"]["impact_tier"] == "UNKNOWN":
             return (
@@ -95,6 +113,12 @@ class RecommendationCandidateBuilder:
             return (
                 "Required evidence is missing. Complete validation before "
                 "making a production-impacting decision."
+            )
+
+        if reasoning:
+            return (
+                "Reasoning explanation is prepared for human review: "
+                f"{reasoning['reasoning_summary']}"
             )
 
         return (
@@ -130,12 +154,16 @@ class RecommendationCandidateBuilder:
         case_context: dict[str, Any],
         fusion: dict[str, Any],
         risk_level: str,
+        reasoning: dict[str, Any] | None,
     ) -> list[str]:
         controls = {
             "human_approval_required",
             "audit_required",
             "evidence_review_required",
         }
+
+        if reasoning:
+            controls.add("reasoning_review_required")
 
         if risk_level == "HIGH":
             controls.add("senior_owner_review_required")
