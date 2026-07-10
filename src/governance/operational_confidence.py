@@ -49,11 +49,18 @@ class OperationalConfidenceGate:
             weakening_count=weakening_count,
         )
 
+        previous_confidence = (
+            previous_operational_confidence
+            or self._prior_confidence_from_memory(strongest_memory)
+        )
+
         decision["confidence_direction"] = self._confidence_direction(
-            previous=previous_operational_confidence,
+            previous=previous_confidence,
             current=decision["operational_confidence"],
             pattern_maturity=decision["pattern_maturity"],
         )
+
+        decision.update(self._adaptive_depth_controls(decision))
 
         return {
             "operational_confidence_id": f"OC-{case_context['case_id']}",
@@ -192,6 +199,85 @@ class OperationalConfidenceGate:
             ],
         }
 
+    def _adaptive_depth_controls(
+        self,
+        decision: dict[str, Any],
+    ) -> dict[str, Any]:
+        level = decision["selected_due_diligence_level"]
+        direction = decision["confidence_direction"]
+
+        required_steps_by_level = {
+            "ESCALATE_FOR_IMPACT_ASSESSMENT": [
+                "assess_impact_context",
+                "retrieve_support_knowledge",
+            ],
+            "FULL_DUE_DILIGENCE": [
+                "retrieve_memory_patterns",
+                "retrieve_support_knowledge",
+                "validate_current_context",
+                "assess_impact_context",
+                "resolve_evidence_conflicts",
+            ],
+            "EXPANDED_VALIDATION": [
+                "retrieve_memory_patterns",
+                "retrieve_support_knowledge",
+                "validate_current_context",
+                "resolve_evidence_conflicts",
+            ],
+            "TARGETED_KNOWLEDGE_RETRIEVAL": [
+                "retrieve_memory_patterns",
+                "retrieve_support_knowledge",
+            ],
+            "TARGETED_VALIDATION": [
+                "retrieve_memory_patterns",
+                "validate_current_context",
+            ],
+        }
+
+        required_agent_steps = list(required_steps_by_level.get(level, []))
+
+        if direction == "DECREASING" and level != "ESCALATE_FOR_IMPACT_ASSESSMENT":
+            required_agent_steps = sorted(
+                set(required_agent_steps)
+                | {
+                    "retrieve_support_knowledge",
+                    "validate_current_context",
+                    "resolve_evidence_conflicts",
+                }
+            )
+
+        prohibited_shortcuts = [
+            "skip_governance",
+            "skip_human_review",
+            "allow_autonomous_production_action",
+            "treat_memory_as_truth",
+        ]
+
+        if decision["operational_confidence"] == "LOW":
+            prohibited_shortcuts.extend(
+                [
+                    "skip_knowledge_retrieval",
+                    "skip_context_validation",
+                    "skip_impact_assessment",
+                ]
+            )
+
+        if level in {
+            "TARGETED_VALIDATION",
+            "TARGETED_KNOWLEDGE_RETRIEVAL",
+        }:
+            prohibited_shortcuts.extend(
+                [
+                    "bypass_validation",
+                    "bypass_audit_trace",
+                ]
+            )
+
+        return {
+            "required_agent_steps": required_agent_steps,
+            "prohibited_shortcuts": sorted(set(prohibited_shortcuts)),
+        }
+
     def _strongest_memory(
         self,
         memory_records: list[dict[str, Any]],
@@ -248,6 +334,19 @@ class OperationalConfidenceGate:
             "is_human_validated": validation_state == "HUMAN_VALIDATED",
             "is_stale": freshness == "STALE",
         }
+
+    def _prior_confidence_from_memory(
+        self,
+        strongest_memory: dict[str, Any] | None,
+    ) -> str | None:
+        if strongest_memory is None:
+            return None
+
+        value = strongest_memory.get("prior_confidence")
+        if isinstance(value, str):
+            return value
+
+        return None
 
     def _confidence_direction(
         self,
