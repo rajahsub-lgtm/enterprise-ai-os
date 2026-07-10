@@ -1,0 +1,229 @@
+{
+  "schema_version": "eaios-sprint4-governed-mcp-tool-manifest-v1",
+  "manifest_id": "it-application-health-governed-mcp-tools-v1",
+  "domain": "it_application_health",
+  "policy": {
+    "source_layer": "governed_mcp_tool_boundary",
+    "real_tool_execution_allowed": false,
+    "autonomous_action_allowed": false,
+    "human_approval_required": true,
+    "benchmark_scoring_allowed_from_tool_output": false,
+    "tool_output_can_define_benchmark_truth": false,
+    "provenance_required": true,
+    "audit_required": true,
+    "kill_switch_required": true,
+    "budget_policy_required": true,
+    "degraded_mode_required": true
+  },
+  "allowed_tools": [
+    {
+      "tool_id": "observability.telemetry.read",
+      "display_name": "Read Observability Telemetry",
+      "capability_type": "read_observability",
+      "access_mode": "read_only",
+      "allowed_operations": [
+        "read_metrics",
+        "read_logs",
+        "read_traces"
+      ],
+      "prohibited_operations": [
+        "write_metric",
+        "delete_log",
+        "modify_trace",
+        "restart_service",
+        "scale_service"
+      ],
+      "data_classes": [
+        "synthetic_metric",
+        "synthetic_log",
+        "synthetic_trace"
+      ],
+      "max_result_items": 50,
+      "requires_human_approval": true,
+      "autonomous_execution_allowed": false,
+      "benchmark_scoring_allowed": false,
+      "provenance_required": true
+    },
+    {
+      "tool_id": "cmdb.topology.read",
+      "display_name": "Read CMDB Topology",
+      "capability_type": "read_topology",
+      "access_mode": "read_only",
+      "allowed_operations": [
+        "read_services",
+        "read_dependencies",
+        "read_owners"
+      ],
+      "prohibited_operations": [
+        "modify_service",
+        "delete_dependency",
+        "change_owner"
+      ],
+      "data_classes": [
+        "synthetic_cmdb",
+        "synthetic_service_graph"
+      ],
+      "max_result_items": 100,
+      "requires_human_approval": true,
+      "autonomous_execution_allowed": false,
+      "benchmark_scoring_allowed": false,
+      "provenance_required": true
+    },
+    {
+      "tool_id": "incident.records.read",
+      "display_name": "Read Incident Records",
+      "capability_type": "read_itil_records",
+      "access_mode": "read_only",
+      "allowed_operations": [
+        "read_incidents",
+        "read_alerts",
+        "read_problem_candidates"
+      ],
+      "prohibited_operations": [
+        "update_incident",
+        "close_incident",
+        "assign_incident",
+        "create_problem"
+      ],
+      "data_classes": [
+        "synthetic_incident",
+        "synthetic_alert",
+        "synthetic_problem_candidate"
+      ],
+      "max_result_items": 100,
+      "requires_human_approval": true,
+      "autonomous_execution_allowed": false,
+      "benchmark_scoring_allowed": false,
+      "provenance_required": true
+    },
+    {
+      "tool_id": "knowledge.search.read",
+      "display_name": "Search Governed Knowledge",
+      "capability_type": "read_knowledge",
+      "access_mode": "read_only",
+      "allowed_operations": [
+        "search_articles",
+        "read_article",
+        "read_citations"
+      ],
+      "prohibited_operations": [
+        "write_article",
+        "delete_article",
+        "approve_article",
+        "mark_as_truth"
+      ],
+      "data_classes": [
+        "synthetic_governed_knowledge"
+      ],
+      "max_result_items": 20,
+      "requires_human_approval": true,
+      "autonomous_execution_allowed": false,
+      "benchmark_scoring_allowed": false,
+      "provenance_required": true
+    },
+    {
+      "tool_id": "change.context.read",
+      "display_name": "Read Change Context",
+      "capability_type": "read_change_context",
+      "access_mode": "read_only",
+      "allowed_operations": [
+        "read_change_context",
+        "read_recent_changes"
+      ],
+      "prohibited_operations": [
+        "create_change",
+        "approve_change",
+        "implement_change",
+        "backout_change"
+      ],
+      "data_classes": [
+        "synthetic_change_context"
+      ],
+      "max_result_items": 50,
+      "requires_human_approval": true,
+      "autonomous_execution_allowed": false,
+      "benchmark_scoring_allowed": false,
+      "provenance_required": true
+    },
+    {
+      "tool_id": "remediation.plan.propose",
+      "display_name": "Propose Remediation Plan",
+      "capability_type": "proposal_only",
+      "access_mode": "proposal_only",
+      "allowed_operations": [
+        "draft_plan",
+        "list_risks",
+        "prepare_human_approval_packet"
+      ],
+      "prohibited_operations": [
+        "execute_plan",
+        "restart_service",
+        "scale_service",
+        "modify_database",
+        "deploy_code",
+        "rollback_change"
+      ],
+      "data_classes": [
+        "synthetic_remediation_proposal"
+      ],
+      "max_result_items": 10,
+      "requires_human_approval": true,
+      "autonomous_execution_allowed": false,
+      "benchmark_scoring_allowed": false,
+      "provenance_required": true
+    },
+    {
+      "tool_id": "notification.draft.prepare",
+      "display_name": "Prepare Notification Draft",
+      "capability_type": "draft_only",
+      "access_mode": "draft_only",
+      "allowed_operations": [
+        "draft_status_update",
+        "draft_stakeholder_summary"
+      ],
+      "prohibited_operations": [
+        "send_email",
+        "send_chat",
+        "page_on_call",
+        "publish_status_page"
+      ],
+      "data_classes": [
+        "synthetic_notification_draft"
+      ],
+      "max_result_items": 5,
+      "requires_human_approval": true,
+      "autonomous_execution_allowed": false,
+      "benchmark_scoring_allowed": false,
+      "provenance_required": true
+    }
+  ],
+  "globally_denied_operations": [
+    "execute_remediation",
+    "restart_service",
+    "scale_service",
+    "modify_database",
+    "deploy_code",
+    "rollback_change",
+    "send_email",
+    "send_chat",
+    "page_on_call",
+    "publish_status_page",
+    "write_to_production",
+    "delete_production_data",
+    "mark_kb_as_benchmark_truth",
+    "score_benchmark_from_tool_output"
+  ],
+  "required_request_fields": [
+    "request_id",
+    "tool_id",
+    "operation",
+    "purpose",
+    "cluster_id",
+    "source_failure_case_id",
+    "requested_by_agent",
+    "human_approval_required",
+    "autonomous_execution_requested",
+    "benchmark_scoring_requested"
+  ],
+  "next_slice": "4C-2 MCP tool request envelope and execution validator"
+}
