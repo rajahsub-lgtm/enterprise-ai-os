@@ -5,9 +5,15 @@
     "owner": "application_operations",
     "status": "ACTIVE",
     "risk_tier": "medium",
-    "allowed_target_agents": ["knowledge_agent"],
-    "allowed_goal_categories": ["operational_troubleshooting"],
-    "capabilities": ["request_operational_support"]
+    "allowed_target_agents": [
+      "knowledge_agent"
+    ],
+    "allowed_goal_categories": [
+      "operational_troubleshooting"
+    ],
+    "capabilities": [
+      "request_operational_support"
+    ]
   },
   {
     "agent_id": "self_help_agent",
@@ -15,9 +21,15 @@
     "owner": "employee_experience",
     "status": "ACTIVE",
     "risk_tier": "low",
-    "allowed_target_agents": ["knowledge_agent"],
-    "allowed_goal_categories": ["self_help"],
-    "capabilities": ["request_self_help_support"]
+    "allowed_target_agents": [
+      "knowledge_agent"
+    ],
+    "allowed_goal_categories": [
+      "self_help"
+    ],
+    "capabilities": [
+      "request_self_help_support"
+    ]
   },
   {
     "agent_id": "hr_support_agent",
@@ -25,9 +37,15 @@
     "owner": "human_resources",
     "status": "ACTIVE",
     "risk_tier": "high",
-    "allowed_target_agents": ["knowledge_agent"],
-    "allowed_goal_categories": ["hr_support"],
-    "capabilities": ["request_hr_support"]
+    "allowed_target_agents": [
+      "knowledge_agent"
+    ],
+    "allowed_goal_categories": [
+      "hr_support"
+    ],
+    "capabilities": [
+      "request_hr_support"
+    ]
   },
   {
     "agent_id": "knowledge_agent",
@@ -46,5 +64,99 @@
       "retrieve_identity_context",
       "write_validated_learning"
     ]
+  },
+  {
+    "agent_id": "adaptive_orchestrator_agent",
+    "capabilities": [
+      "coordinate_adaptive_orchestration",
+      "select_due_diligence_depth",
+      "maintain_orchestration_trace"
+    ],
+    "allowed_target_agents": [
+      "memory_pattern_agent",
+      "incident_correlation_agent",
+      "cmdb_impact_agent",
+      "business_impact_agent",
+      "change_analysis_agent",
+      "knowledge_retrieval_agent"
+    ],
+    "allowed_goal_categories": [
+      "application_health_management"
+    ],
+    "metadata_complete": true
+  },
+  {
+    "agent_id": "memory_pattern_agent",
+    "capabilities": [
+      "retrieve_memory_patterns",
+      "evaluate_memory_maturity"
+    ],
+    "allowed_target_agents": [],
+    "allowed_goal_categories": [
+      "application_health_management"
+    ],
+    "metadata_complete": true
+  },
+  {
+    "agent_id": "incident_correlation_agent",
+    "capabilities": [
+      "retrieve_incident_context",
+      "correlate_operational_signals"
+    ],
+    "allowed_target_agents": [],
+    "allowed_goal_categories": [
+      "application_health_management"
+    ],
+    "metadata_complete": true
+  },
+  {
+    "agent_id": "cmdb_impact_agent",
+    "capabilities": [
+      "retrieve_topology_context",
+      "assess_dependency_context"
+    ],
+    "allowed_target_agents": [],
+    "allowed_goal_categories": [
+      "application_health_management"
+    ],
+    "metadata_complete": true
+  },
+  {
+    "agent_id": "business_impact_agent",
+    "capabilities": [
+      "retrieve_business_impact_context",
+      "assess_impact_context"
+    ],
+    "allowed_target_agents": [],
+    "allowed_goal_categories": [
+      "application_health_management"
+    ],
+    "metadata_complete": true
+  },
+  {
+    "agent_id": "change_analysis_agent",
+    "capabilities": [
+      "retrieve_change_context",
+      "assess_lifecycle_context"
+    ],
+    "allowed_target_agents": [],
+    "allowed_goal_categories": [
+      "application_health_management"
+    ],
+    "metadata_complete": true
+  },
+  {
+    "agent_id": "knowledge_retrieval_agent",
+    "capabilities": [
+      "retrieve_support_knowledge",
+      "create_governed_knowledge_evidence"
+    ],
+    "allowed_target_agents": [
+      "knowledge_agent"
+    ],
+    "allowed_goal_categories": [
+      "application_health_management"
+    ],
+    "metadata_complete": true
   }
 ]

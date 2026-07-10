@@ -5,8 +5,12 @@
     "owner": "it_support",
     "classification": "internal",
     "trust_level": "approved",
-    "allowed_capabilities": ["retrieve_best_knowledge"],
-    "allowed_goal_categories": ["operational_troubleshooting"],
+    "allowed_capabilities": [
+      "retrieve_best_knowledge"
+    ],
+    "allowed_goal_categories": [
+      "operational_troubleshooting"
+    ],
     "source_role": "primary",
     "required_controls": [
       "log_source_access",
@@ -22,8 +26,13 @@
     "owner": "engineering_enablement",
     "classification": "internal",
     "trust_level": "conditional",
-    "allowed_capabilities": ["retrieve_best_knowledge"],
-    "allowed_goal_categories": ["operational_troubleshooting", "self_help"],
+    "allowed_capabilities": [
+      "retrieve_best_knowledge"
+    ],
+    "allowed_goal_categories": [
+      "operational_troubleshooting",
+      "self_help"
+    ],
     "source_role": "supporting",
     "required_controls": [
       "log_source_access",
@@ -38,8 +47,12 @@
     "owner": "employee_experience",
     "classification": "internal",
     "trust_level": "approved",
-    "allowed_capabilities": ["retrieve_best_knowledge"],
-    "allowed_goal_categories": ["self_help"],
+    "allowed_capabilities": [
+      "retrieve_best_knowledge"
+    ],
+    "allowed_goal_categories": [
+      "self_help"
+    ],
     "source_role": "primary",
     "required_controls": [
       "log_source_access",
@@ -54,8 +67,12 @@
     "owner": "human_resources",
     "classification": "confidential",
     "trust_level": "approved",
-    "allowed_capabilities": ["retrieve_best_knowledge"],
-    "allowed_goal_categories": ["hr_support"],
+    "allowed_capabilities": [
+      "retrieve_best_knowledge"
+    ],
+    "allowed_goal_categories": [
+      "hr_support"
+    ],
     "source_role": "restricted",
     "required_controls": [
       "log_source_access",
@@ -63,7 +80,9 @@
       "least_privilege"
     ],
     "metadata_complete": true,
-    "high_impact_signals": ["employment_context"]
+    "high_impact_signals": [
+      "employment_context"
+    ]
   },
   {
     "source_id": "employee_identification_knowledge",
@@ -71,8 +90,12 @@
     "owner": "identity_and_access_management",
     "classification": "restricted",
     "trust_level": "approved",
-    "allowed_capabilities": ["retrieve_identity_context"],
-    "allowed_goal_categories": ["hr_support"],
+    "allowed_capabilities": [
+      "retrieve_identity_context"
+    ],
+    "allowed_goal_categories": [
+      "hr_support"
+    ],
     "source_role": "restricted",
     "required_controls": [
       "business_justification_required",
@@ -81,7 +104,9 @@
       "audit_required"
     ],
     "metadata_complete": true,
-    "high_impact_signals": ["identity_data"]
+    "high_impact_signals": [
+      "identity_data"
+    ]
   },
   {
     "source_id": "validated_learning_store",
@@ -89,7 +114,9 @@
     "owner": "enterprise_learning",
     "classification": "internal",
     "trust_level": "approved",
-    "allowed_capabilities": ["write_validated_learning"],
+    "allowed_capabilities": [
+      "write_validated_learning"
+    ],
     "allowed_goal_categories": [
       "operational_troubleshooting",
       "self_help",
@@ -110,8 +137,12 @@
     "owner": null,
     "classification": "internal",
     "trust_level": "unknown",
-    "allowed_capabilities": ["retrieve_best_knowledge"],
-    "allowed_goal_categories": ["operational_troubleshooting"],
+    "allowed_capabilities": [
+      "retrieve_best_knowledge"
+    ],
+    "allowed_goal_categories": [
+      "operational_troubleshooting"
+    ],
     "source_role": "governance_debt_test",
     "required_controls": [],
     "metadata_complete": false,
@@ -123,11 +154,135 @@
     "owner": null,
     "classification": "restricted",
     "trust_level": "unknown",
-    "allowed_capabilities": ["retrieve_best_knowledge"],
-    "allowed_goal_categories": ["operational_troubleshooting"],
+    "allowed_capabilities": [
+      "retrieve_best_knowledge"
+    ],
+    "allowed_goal_categories": [
+      "operational_troubleshooting"
+    ],
     "source_role": "high_risk_uncertainty_test",
     "required_controls": [],
     "metadata_complete": false,
-    "high_impact_signals": ["business_critical_service"]
+    "high_impact_signals": [
+      "business_critical_service"
+    ]
+  },
+  {
+    "source_id": "enterprise_memory",
+    "allowed_capabilities": [
+      "retrieve_memory_patterns",
+      "evaluate_memory_maturity"
+    ],
+    "trust_level": "CONDITIONAL",
+    "classification": "INTERNAL",
+    "owner": "enterprise_ai_governance",
+    "high_impact_signals": true,
+    "required_controls": [
+      "governed_access_required",
+      "memory_as_evidence_not_truth",
+      "human_review_required"
+    ],
+    "allowed_goal_categories": [
+      "application_health_management"
+    ],
+    "metadata_complete": true
+  },
+  {
+    "source_id": "itil_incidents",
+    "allowed_capabilities": [
+      "retrieve_incident_context",
+      "correlate_operational_signals"
+    ],
+    "trust_level": "APPROVED_MEDIUM_HIGH",
+    "classification": "INTERNAL",
+    "owner": "it_service_management",
+    "high_impact_signals": true,
+    "required_controls": [
+      "governed_access_required",
+      "audit_required"
+    ],
+    "allowed_goal_categories": [
+      "application_health_management"
+    ],
+    "metadata_complete": true
+  },
+  {
+    "source_id": "itil_changes",
+    "allowed_capabilities": [
+      "retrieve_change_context",
+      "assess_lifecycle_context"
+    ],
+    "trust_level": "APPROVED_MEDIUM_HIGH",
+    "classification": "INTERNAL",
+    "owner": "it_service_management",
+    "high_impact_signals": true,
+    "required_controls": [
+      "governed_access_required",
+      "audit_required"
+    ],
+    "allowed_goal_categories": [
+      "application_health_management"
+    ],
+    "metadata_complete": true
+  },
+  {
+    "source_id": "itil_cmdb_topology",
+    "allowed_capabilities": [
+      "retrieve_topology_context",
+      "assess_dependency_context"
+    ],
+    "trust_level": "APPROVED_HIGH",
+    "classification": "INTERNAL",
+    "owner": "configuration_management",
+    "high_impact_signals": true,
+    "required_controls": [
+      "governed_access_required",
+      "audit_required"
+    ],
+    "allowed_goal_categories": [
+      "application_health_management"
+    ],
+    "metadata_complete": true
+  },
+  {
+    "source_id": "itil_business_impact_map",
+    "allowed_capabilities": [
+      "retrieve_business_impact_context",
+      "assess_impact_context"
+    ],
+    "trust_level": "APPROVED_HIGH",
+    "classification": "INTERNAL",
+    "owner": "business_service_management",
+    "high_impact_signals": true,
+    "required_controls": [
+      "governed_access_required",
+      "audit_required",
+      "human_review_required"
+    ],
+    "allowed_goal_categories": [
+      "application_health_management"
+    ],
+    "metadata_complete": true
+  },
+  {
+    "source_id": "itil_operational_records",
+    "allowed_capabilities": [
+      "retrieve_incident_context",
+      "retrieve_change_context",
+      "retrieve_topology_context",
+      "retrieve_business_impact_context"
+    ],
+    "trust_level": "APPROVED_MEDIUM_HIGH",
+    "classification": "INTERNAL",
+    "owner": "it_service_management",
+    "high_impact_signals": true,
+    "required_controls": [
+      "governed_access_required",
+      "audit_required"
+    ],
+    "allowed_goal_categories": [
+      "application_health_management"
+    ],
+    "metadata_complete": true
   }
 ]

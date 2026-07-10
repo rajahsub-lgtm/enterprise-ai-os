@@ -55,7 +55,9 @@
     },
     "condition": {
       "requested_source": "human_resources_knowledge",
-      "allowed_goal_categories": ["hr_support"]
+      "allowed_goal_categories": [
+        "hr_support"
+      ]
     },
     "controls": [
       "human_review",
@@ -74,7 +76,9 @@
     },
     "condition": {
       "goal_category": "hr_support",
-      "allowed_sources": ["human_resources_knowledge"]
+      "allowed_sources": [
+        "human_resources_knowledge"
+      ]
     },
     "controls": [
       "human_review",
@@ -135,6 +139,192 @@
     "risk_tier": "high",
     "effect": {
       "missing_required_control_with_high_impact_signal": "DENY"
+    }
+  },
+  {
+    "policy_id": "sprint3_allow_memory_pattern_agent_to_enterprise_memory",
+    "effect": "ALLOW",
+    "decision": "ALLOW",
+    "agent_id": "memory_pattern_agent",
+    "subject_agent_id": "memory_pattern_agent",
+    "target_agent_id": "memory_pattern_agent",
+    "source_id": "enterprise_memory",
+    "resource_id": "enterprise_memory",
+    "capability": "retrieve_memory_patterns",
+    "allowed_capabilities": [
+      "retrieve_memory_patterns"
+    ],
+    "allowed_goal_categories": [
+      "application_health_management"
+    ],
+    "required_controls": [
+      "governed_access_required",
+      "audit_required"
+    ],
+    "condition": {
+      "goal_category": "application_health_management",
+      "capability": "retrieve_memory_patterns"
+    },
+    "subject": {
+      "agent_id": "memory_pattern_agent"
+    },
+    "resource": {
+      "source_id": "enterprise_memory"
+    }
+  },
+  {
+    "policy_id": "sprint3_allow_incident_correlation_agent_to_itil_incidents",
+    "effect": "ALLOW",
+    "decision": "ALLOW",
+    "agent_id": "incident_correlation_agent",
+    "subject_agent_id": "incident_correlation_agent",
+    "target_agent_id": "incident_correlation_agent",
+    "source_id": "itil_incidents",
+    "resource_id": "itil_incidents",
+    "capability": "retrieve_incident_context",
+    "allowed_capabilities": [
+      "retrieve_incident_context"
+    ],
+    "allowed_goal_categories": [
+      "application_health_management"
+    ],
+    "required_controls": [
+      "governed_access_required",
+      "audit_required"
+    ],
+    "condition": {
+      "goal_category": "application_health_management",
+      "capability": "retrieve_incident_context"
+    },
+    "subject": {
+      "agent_id": "incident_correlation_agent"
+    },
+    "resource": {
+      "source_id": "itil_incidents"
+    }
+  },
+  {
+    "policy_id": "sprint3_allow_cmdb_impact_agent_to_itil_cmdb_topology",
+    "effect": "ALLOW",
+    "decision": "ALLOW",
+    "agent_id": "cmdb_impact_agent",
+    "subject_agent_id": "cmdb_impact_agent",
+    "target_agent_id": "cmdb_impact_agent",
+    "source_id": "itil_cmdb_topology",
+    "resource_id": "itil_cmdb_topology",
+    "capability": "retrieve_topology_context",
+    "allowed_capabilities": [
+      "retrieve_topology_context"
+    ],
+    "allowed_goal_categories": [
+      "application_health_management"
+    ],
+    "required_controls": [
+      "governed_access_required",
+      "audit_required"
+    ],
+    "condition": {
+      "goal_category": "application_health_management",
+      "capability": "retrieve_topology_context"
+    },
+    "subject": {
+      "agent_id": "cmdb_impact_agent"
+    },
+    "resource": {
+      "source_id": "itil_cmdb_topology"
+    }
+  },
+  {
+    "policy_id": "sprint3_allow_business_impact_agent_to_itil_business_impact_map",
+    "effect": "ALLOW",
+    "decision": "ALLOW",
+    "agent_id": "business_impact_agent",
+    "subject_agent_id": "business_impact_agent",
+    "target_agent_id": "business_impact_agent",
+    "source_id": "itil_business_impact_map",
+    "resource_id": "itil_business_impact_map",
+    "capability": "retrieve_business_impact_context",
+    "allowed_capabilities": [
+      "retrieve_business_impact_context"
+    ],
+    "allowed_goal_categories": [
+      "application_health_management"
+    ],
+    "required_controls": [
+      "governed_access_required",
+      "audit_required"
+    ],
+    "condition": {
+      "goal_category": "application_health_management",
+      "capability": "retrieve_business_impact_context"
+    },
+    "subject": {
+      "agent_id": "business_impact_agent"
+    },
+    "resource": {
+      "source_id": "itil_business_impact_map"
+    }
+  },
+  {
+    "policy_id": "sprint3_allow_change_analysis_agent_to_itil_changes",
+    "effect": "ALLOW",
+    "decision": "ALLOW",
+    "agent_id": "change_analysis_agent",
+    "subject_agent_id": "change_analysis_agent",
+    "target_agent_id": "change_analysis_agent",
+    "source_id": "itil_changes",
+    "resource_id": "itil_changes",
+    "capability": "retrieve_change_context",
+    "allowed_capabilities": [
+      "retrieve_change_context"
+    ],
+    "allowed_goal_categories": [
+      "application_health_management"
+    ],
+    "required_controls": [
+      "governed_access_required",
+      "audit_required"
+    ],
+    "condition": {
+      "goal_category": "application_health_management",
+      "capability": "retrieve_change_context"
+    },
+    "subject": {
+      "agent_id": "change_analysis_agent"
+    },
+    "resource": {
+      "source_id": "itil_changes"
+    }
+  },
+  {
+    "policy_id": "sprint3_allow_knowledge_retrieval_agent_to_support_knowledge",
+    "effect": "ALLOW",
+    "decision": "ALLOW",
+    "agent_id": "knowledge_retrieval_agent",
+    "subject_agent_id": "knowledge_retrieval_agent",
+    "target_agent_id": "knowledge_retrieval_agent",
+    "source_id": "support_knowledge",
+    "resource_id": "support_knowledge",
+    "capability": "retrieve_support_knowledge",
+    "allowed_capabilities": [
+      "retrieve_support_knowledge"
+    ],
+    "allowed_goal_categories": [
+      "application_health_management"
+    ],
+    "required_controls": [
+      "governed_access_required",
+      "audit_required"
+    ],
+    "condition": {
+      "goal_category": "application_health_management",
+      "capability": "retrieve_support_knowledge"
+    },
+    "subject": {
+      "agent_id": "knowledge_retrieval_agent"
+    },
+    "resource": {
+      "source_id": "support_knowledge"
     }
   }
 ]
