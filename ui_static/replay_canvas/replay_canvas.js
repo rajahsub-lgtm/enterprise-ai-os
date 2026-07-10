@@ -1,4 +1,4 @@
-﻿const REPLAY_JSON_PATH = "../../ui_replay_exports/eaios_sprint3_replay.json";
+const REPLAY_JSON_PATH = "../../ui_replay_exports/eaios_sprint3_replay.json";
 
 const PRESENTER_ACTS = [
   {
@@ -47,6 +47,32 @@ const PRESENTER_ACTS = [
     closing_line: "EAIOS is valuable because it knows when not to over-trust its own memory."
   }
 ];
+
+
+const PATH_STORY_BY_SCENARIO = {
+  "First-time / no memory": {
+    path_class: "path-full-diligence",
+    title: "Full due diligence",
+    explanation: "No reliable memory exists, so EAIOS must gather broader evidence before recommending anything.",
+    end_title: "Full diligence complete",
+    end_summary: "EAIOS completed the seven-step replay, preserved evidence exclusions and gaps, and routed the package to human review."
+  },
+  "Trusted memory / validated pattern": {
+    path_class: "path-targeted-validation",
+    title: "Targeted validation",
+    explanation: "Trusted memory raises confidence, so EAIOS validates the known pattern instead of repeating full due diligence.",
+    end_title: "Targeted validation complete",
+    end_summary: "EAIOS stopped after three focused events because memory supported confidence, while human approval remained required."
+  },
+  "Drift or conflict": {
+    path_class: "path-expanded-validation",
+    title: "Expanded validation",
+    explanation: "Memory exists but may be drifting or conflicting, so EAIOS expands validation before relying on prior knowledge.",
+    end_title: "Expanded validation complete",
+    end_summary: "EAIOS exposed drift, evidence gaps, and uncertainty before routing the review package to the human reviewer."
+  }
+};
+
 
 const VISUAL_PATHS_BY_SCENARIO = {
   "First-time / no memory": [
@@ -251,6 +277,7 @@ function resetReplay() {
   renderCurrentEvent(null);
   renderLog([]);
   renderTraceabilityFooter();
+  renderDemoReadinessPolish();
 }
 
 function visualEventsForCurrentRun() {
@@ -290,6 +317,7 @@ function nextEvent() {
   renderCurrentEvent(event);
   renderLog(visualEvents.slice(0, currentEventIndex + 1));
   renderTraceabilityFooter();
+  renderDemoReadinessPolish();
 
   return true;
 }
@@ -451,6 +479,65 @@ function renderLog(events) {
     log.appendChild(item);
   });
 }
+
+
+function renderDemoReadinessPolish() {
+  if (!currentRun) return;
+
+  const story = pathStoryForCurrentRun();
+  const alert = currentRun.current_alert || {};
+  const current = Math.max(currentEventIndex + 1, 0);
+  const total = visualEvents.length;
+  const percent = total === 0 ? 0 : Math.round((current / total) * 100);
+  const isComplete = total > 0 && current >= total;
+
+  document.body.classList.remove(
+    "path-full-diligence",
+    "path-targeted-validation",
+    "path-expanded-validation"
+  );
+  document.body.classList.add(story.path_class);
+
+  setText("same-alert-title", alert.application || "Digital Checkout");
+  setText(
+    "same-alert-symptom",
+    alert.symptom || "Payment authorization latency and elevated error rate"
+  );
+
+  setText("act-progress-label", `${current} / ${total}`);
+  const progressBar = document.getElementById("act-progress-bar");
+  if (progressBar) progressBar.style.width = `${percent}%`;
+
+  setText("why-path-title", story.title);
+  setText("why-path-explanation", story.explanation);
+
+  if (isComplete) {
+    setText("end-summary-title", story.end_title);
+    setText("end-of-act-summary", story.end_summary);
+  } else {
+    setText("end-summary-title", "Replay in progress");
+    setText(
+      "end-of-act-summary",
+      "Advance the replay to reveal the next governed visual event."
+    );
+  }
+}
+
+function pathStoryForCurrentRun() {
+  return PATH_STORY_BY_SCENARIO[currentRun.scenario_label] || {
+    path_class: "path-expanded-validation",
+    title: "Governed validation",
+    explanation: "EAIOS selected a governed validation path for this scenario.",
+    end_title: "Validation complete",
+    end_summary: "The replay reached human review with governance intact."
+  };
+}
+
+function setText(id, value) {
+  const element = document.getElementById(id);
+  if (element) element.textContent = value;
+}
+
 
 function renderTraceabilityFooter() {
   if (!payload || !currentRun) return;

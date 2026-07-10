@@ -260,3 +260,62 @@ def test_standalone_replay_canvas_styles_hidden_and_visible_replay_nodes():
     assert ".visual-event-node" in text
     assert "opacity: 0.16" in text
 
+
+def test_standalone_replay_canvas_has_same_alert_banner_and_progress_bar():
+    text = HTML.read_text(encoding="utf-8")
+
+    assert "Same alert across all acts" in text
+    assert 'id="same-alert-title"' in text
+    assert 'id="same-alert-symptom"' in text
+    assert 'id="act-progress-label"' in text
+    assert 'id="act-progress-bar"' in text
+
+
+def test_standalone_replay_canvas_has_why_path_and_end_summary_cards():
+    text = HTML.read_text(encoding="utf-8")
+
+    assert "Why this path?" in text
+    assert "End-of-act summary" in text
+    assert 'id="why-path-title"' in text
+    assert 'id="why-path-explanation"' in text
+    assert 'id="end-summary-title"' in text
+    assert 'id="end-of-act-summary"' in text
+
+
+def test_standalone_replay_canvas_defines_demo_readiness_path_story():
+    text = JS.read_text(encoding="utf-8")
+
+    assert "const PATH_STORY_BY_SCENARIO" in text
+    assert "Full due diligence" in text
+    assert "Targeted validation" in text
+    assert "Expanded validation" in text
+    assert "No reliable memory exists" in text
+    assert "Trusted memory raises confidence" in text
+    assert "Memory exists but may be drifting or conflicting" in text
+
+
+def test_standalone_replay_canvas_updates_demo_readiness_polish_on_replay_progress():
+    text = JS.read_text(encoding="utf-8")
+
+    assert "function renderDemoReadinessPolish()" in text
+    assert "pathStoryForCurrentRun()" in text
+    assert "currentEventIndex + 1" in text
+    assert "visualEvents.length" in text
+    assert "progressBar.style.width" in text
+    assert "setText(\"act-progress-label\"" in text
+    assert "setText(\"why-path-title\"" in text
+    assert "setText(\"end-summary-title\"" in text
+
+
+def test_standalone_replay_canvas_styles_three_path_types():
+    text = CSS.read_text(encoding="utf-8")
+
+    assert ".same-alert-banner" in text
+    assert ".act-progress-panel" in text
+    assert ".progress-track" in text
+    assert ".progress-bar" in text
+    assert ".path-explanation-grid" in text
+    assert "body.path-full-diligence" in text
+    assert "body.path-targeted-validation" in text
+    assert "body.path-expanded-validation" in text
+
