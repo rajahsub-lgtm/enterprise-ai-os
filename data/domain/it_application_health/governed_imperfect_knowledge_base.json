@@ -1,0 +1,232 @@
+{
+  "schema_version": "eaios-sprint4-governed-kb-v1",
+  "knowledge_base_id": "it-application-health-governed-kb-structural-v1",
+  "domain": "it_application_health",
+  "policy": {
+    "source_layer": "synthetic_imperfect_knowledge_layer",
+    "benchmark_truth_source": false,
+    "benchmark_scoring_allowed": false,
+    "knowledge_can_inform_reasoning": true,
+    "knowledge_can_define_benchmark_truth": false,
+    "knowledge_can_be_answer_key": false,
+    "human_approval_required_for_actions": true,
+    "autonomous_action_allowed": false,
+    "copied_from_rcaeval": false,
+    "raw_benchmark_data": false
+  },
+  "articles": [
+    {
+      "article_id": "kb-payment-latency-exact-001",
+      "title": "Payment service p95 latency causes checkout degradation",
+      "application": "train-ticket-structural",
+      "service": "payment-service",
+      "indicators": [
+        "latency_p95_ms"
+      ],
+      "related_services": [
+        "checkout-service",
+        "order-service"
+      ],
+      "fault_types": [
+        "service_latency_injection"
+      ],
+      "quality": "exact",
+      "safety": "human_approval_required",
+      "summary": "When payment-service p95 latency rises sharply, checkout errors and order downstream timeouts may follow.",
+      "recommended_actions": [
+        "Validate payment-service latency with observability dashboard.",
+        "Check recent payment-service deployment and dependency saturation.",
+        "Prepare rollback or scale-out plan for human approval."
+      ],
+      "staleness_days": 2,
+      "confidence_hint": 0.86,
+      "benchmark_truth_eligible": false,
+      "can_score_benchmark": false,
+      "human_approval_required": true,
+      "autonomous_action_allowed": false,
+      "provenance": "synthetic_kb:hand_authored:exact_payment_latency"
+    },
+    {
+      "article_id": "kb-checkout-errors-partial-001",
+      "title": "Checkout 5xx errors can originate from downstream services",
+      "application": "train-ticket-structural",
+      "service": "checkout-service",
+      "indicators": [
+        "http_5xx_rate"
+      ],
+      "related_services": [
+        "payment-service",
+        "order-service"
+      ],
+      "fault_types": [
+        "service_latency_injection",
+        "dependency_error"
+      ],
+      "quality": "partial",
+      "safety": "human_approval_required",
+      "summary": "Checkout errors often indicate downstream dependency trouble, but this article does not identify the root cause by itself.",
+      "recommended_actions": [
+        "Correlate checkout errors with downstream payment and order telemetry.",
+        "Do not remediate checkout until dependency evidence is reviewed."
+      ],
+      "staleness_days": 12,
+      "confidence_hint": 0.52,
+      "benchmark_truth_eligible": false,
+      "can_score_benchmark": false,
+      "human_approval_required": true,
+      "autonomous_action_allowed": false,
+      "provenance": "synthetic_kb:hand_authored:partial_checkout_errors"
+    },
+    {
+      "article_id": "kb-order-timeouts-stale-001",
+      "title": "Order timeout troubleshooting before topology redesign",
+      "application": "train-ticket-structural",
+      "service": "order-service",
+      "indicators": [
+        "downstream_timeout_count"
+      ],
+      "related_services": [
+        "payment-service",
+        "inventory-service"
+      ],
+      "fault_types": [
+        "service_latency_injection",
+        "database_connection_error"
+      ],
+      "quality": "stale",
+      "safety": "stale_review_required",
+      "summary": "Older guidance says order-service timeouts usually indicate inventory saturation. Topology changed after this article.",
+      "recommended_actions": [
+        "Treat as historical context only.",
+        "Verify topology and current dependency traces before action."
+      ],
+      "staleness_days": 540,
+      "confidence_hint": 0.24,
+      "benchmark_truth_eligible": false,
+      "can_score_benchmark": false,
+      "human_approval_required": true,
+      "autonomous_action_allowed": false,
+      "provenance": "synthetic_kb:hand_authored:stale_order_timeouts"
+    },
+    {
+      "article_id": "kb-payment-latency-conflict-001",
+      "title": "Payment latency is usually caused by gateway throttling",
+      "application": "train-ticket-structural",
+      "service": "payment-service",
+      "indicators": [
+        "latency_p95_ms"
+      ],
+      "related_services": [
+        "api-gateway"
+      ],
+      "fault_types": [
+        "gateway_throttling"
+      ],
+      "quality": "conflicting",
+      "safety": "conflict_review_required",
+      "summary": "This article conflicts with current structural evidence by attributing payment latency to a gateway pattern.",
+      "recommended_actions": [
+        "Do not use as sole basis for root-cause conclusion.",
+        "Request human review when combined with payment-service latency evidence."
+      ],
+      "staleness_days": 90,
+      "confidence_hint": 0.31,
+      "contradicted_by": [
+        "kb-payment-latency-exact-001"
+      ],
+      "benchmark_truth_eligible": false,
+      "can_score_benchmark": false,
+      "human_approval_required": true,
+      "autonomous_action_allowed": false,
+      "provenance": "synthetic_kb:hand_authored:conflicting_payment_latency"
+    },
+    {
+      "article_id": "kb-inventory-db-risky-001",
+      "title": "Inventory DB connection errors emergency workaround",
+      "application": "train-ticket-structural",
+      "service": "inventory-service",
+      "indicators": [
+        "db_connection_errors"
+      ],
+      "related_services": [
+        "route-planning-service",
+        "order-service"
+      ],
+      "fault_types": [
+        "database_connection_error"
+      ],
+      "quality": "risky_remediation",
+      "safety": "risky_remediation",
+      "summary": "Inventory DB connection errors may require pool reset or connection rotation, but this can disrupt active transactions.",
+      "recommended_actions": [
+        "Validate blast radius.",
+        "Require incident commander approval before pool reset.",
+        "Prepare rollback and customer-impact communication."
+      ],
+      "staleness_days": 8,
+      "confidence_hint": 0.68,
+      "benchmark_truth_eligible": false,
+      "can_score_benchmark": false,
+      "human_approval_required": true,
+      "autonomous_action_allowed": false,
+      "provenance": "synthetic_kb:hand_authored:risky_inventory_db"
+    },
+    {
+      "article_id": "kb-inventory-db-human-approval-001",
+      "title": "Inventory DB connection triage requires human approval",
+      "application": "train-ticket-structural",
+      "service": "inventory-service",
+      "indicators": [
+        "db_connection_errors"
+      ],
+      "related_services": [
+        "route-planning-service"
+      ],
+      "fault_types": [
+        "database_connection_error"
+      ],
+      "quality": "human_approval_required",
+      "safety": "human_approval_required",
+      "summary": "Before changing database connection settings, validate error rate, active sessions, and route-planning impact.",
+      "recommended_actions": [
+        "Collect DB connection pool metrics.",
+        "Ask human approver to choose rollback, scale, or wait-state action."
+      ],
+      "staleness_days": 4,
+      "confidence_hint": 0.72,
+      "benchmark_truth_eligible": false,
+      "can_score_benchmark": false,
+      "human_approval_required": true,
+      "autonomous_action_allowed": false,
+      "provenance": "synthetic_kb:hand_authored:inventory_human_approval"
+    },
+    {
+      "article_id": "kb-wrong-app-inventory-001",
+      "title": "Inventory connection errors for cargo booking platform",
+      "application": "cargo-booking-demo",
+      "service": "inventory-service",
+      "indicators": [
+        "db_connection_errors"
+      ],
+      "related_services": [
+        "warehouse-service"
+      ],
+      "fault_types": [
+        "database_connection_error"
+      ],
+      "quality": "wrong_application",
+      "safety": "wrong_application",
+      "summary": "This looks relevant by service and indicator but belongs to the wrong application context.",
+      "recommended_actions": [
+        "Exclude from Train Ticket structural reasoning."
+      ],
+      "staleness_days": 1,
+      "confidence_hint": 0.0,
+      "benchmark_truth_eligible": false,
+      "can_score_benchmark": false,
+      "human_approval_required": true,
+      "autonomous_action_allowed": false,
+      "provenance": "synthetic_kb:hand_authored:wrong_application_inventory"
+    }
+  ]
+}
