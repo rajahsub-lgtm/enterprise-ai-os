@@ -1,13 +1,12 @@
-
-const REPLAY_JSON_PATH = "../../ui_replay_exports/eaios_sprint3_replay.json";
+﻿const REPLAY_JSON_PATH = "../../ui_replay_exports/eaios_sprint3_replay.json";
 
 const PRESENTER_ACTS = [
   {
     act_id: "act-1",
-    label: "Act 1 ? First-time alert",
+    label: "Act 1 — First-time alert",
     run_label: "First-time / no memory",
     headline: "No trusted memory exists, so EAIOS performs full due diligence.",
-    demo_cue: "Select Act 1, press Play, and watch the full evidence path unfold.",
+    demo_cue: "Press Play and watch seven governed visual events unfold.",
     talking_points: [
       "The alert is the same Digital Checkout payment authorization degradation.",
       "Because memory is unavailable or immature, EAIOS does not shortcut investigation.",
@@ -19,10 +18,10 @@ const PRESENTER_ACTS = [
   },
   {
     act_id: "act-2",
-    label: "Act 2 ? Trusted memory",
+    label: "Act 2 — Trusted memory",
     run_label: "Trusted memory / validated pattern",
     headline: "Trusted enterprise memory increases confidence and narrows validation.",
-    demo_cue: "Select Act 2, press Play, and compare the shorter governed path.",
+    demo_cue: "Press Play and watch the replay stop after three targeted validation events.",
     talking_points: [
       "The alert is still the same alert.",
       "The difference is enterprise memory: prior validated pattern exists.",
@@ -34,10 +33,10 @@ const PRESENTER_ACTS = [
   },
   {
     act_id: "act-3",
-    label: "Act 3 ? Drift or conflict",
+    label: "Act 3 — Drift or conflict",
     run_label: "Drift or conflict",
     headline: "When memory drifts or conflicts, EAIOS expands validation again.",
-    demo_cue: "Select Act 3, press Play, and show how uncertainty becomes visible.",
+    demo_cue: "Press Play and watch five validation events expose uncertainty.",
     talking_points: [
       "The same alert now carries drift or conflict signals.",
       "EAIOS does not blindly trust memory just because memory exists.",
@@ -49,11 +48,110 @@ const PRESENTER_ACTS = [
   }
 ];
 
-
+const VISUAL_PATHS_BY_SCENARIO = {
+  "First-time / no memory": [
+    {
+      event_type: "NODE_ACTIVATED",
+      node_id: "joint_goal",
+      label: "Joint goal accepted",
+      caption: "EAIOS begins with the joint goal: maintain service health while preserving controls."
+    },
+    {
+      event_type: "NODE_ACTIVATED",
+      node_id: "visual::memory_pattern_agent",
+      label: "Memory pattern check",
+      caption: "No reliable prior memory pattern is available, so EAIOS cannot shortcut the investigation."
+    },
+    {
+      event_type: "NODE_ACTIVATED",
+      node_id: "visual::telemetry_agent",
+      label: "Telemetry collection",
+      caption: "Telemetry is collected to establish current operational state."
+    },
+    {
+      event_type: "NODE_ACTIVATED",
+      node_id: "visual::knowledge_retrieval_agent",
+      label: "Knowledge retrieval",
+      caption: "Knowledge evidence is requested, but review-required evidence cannot enter reasoning."
+    },
+    {
+      event_type: "EVIDENCE_TOKEN_MOVED",
+      node_id: "evidence_fusion",
+      label: "Evidence fusion",
+      caption: "Only reasoning-eligible governed evidence enters fusion."
+    },
+    {
+      event_type: "DUE_DILIGENCE_SELECTED",
+      node_id: "due_diligence",
+      label: "Full due diligence selected",
+      caption: "Low confidence selects FULL_DUE_DILIGENCE."
+    },
+    {
+      event_type: "HUMAN_REVIEW_REQUIRED",
+      node_id: "human_review",
+      label: "Human review package",
+      caption: "The recommendation package is routed to human review. Autonomous action remains off."
+    }
+  ],
+  "Trusted memory / validated pattern": [
+    {
+      event_type: "NODE_ACTIVATED",
+      node_id: "joint_goal",
+      label: "Joint goal accepted",
+      caption: "EAIOS begins with the same Digital Checkout alert and the same control boundary."
+    },
+    {
+      event_type: "NODE_ACTIVATED",
+      node_id: "visual::memory_pattern_agent",
+      label: "Trusted memory validated",
+      caption: "A validated memory pattern increases confidence, but memory is still evidence, not truth."
+    },
+    {
+      event_type: "HUMAN_REVIEW_REQUIRED",
+      node_id: "human_review",
+      label: "Targeted human validation",
+      caption: "The replay stops after targeted validation. Human approval remains required."
+    }
+  ],
+  "Drift or conflict": [
+    {
+      event_type: "NODE_ACTIVATED",
+      node_id: "joint_goal",
+      label: "Joint goal accepted",
+      caption: "EAIOS begins with the same alert and checks whether memory still applies."
+    },
+    {
+      event_type: "NODE_ACTIVATED",
+      node_id: "visual::memory_pattern_agent",
+      label: "Memory drift detected",
+      caption: "Memory exists, but drift or conflict prevents blind reuse."
+    },
+    {
+      event_type: "NODE_ACTIVATED",
+      node_id: "visual::telemetry_agent",
+      label: "Expanded validation",
+      caption: "Additional telemetry validation is required because confidence is not stable."
+    },
+    {
+      event_type: "EVIDENCE_GAP_CREATED",
+      node_id: "visual::evidence_gap",
+      label: "Evidence gap exposed",
+      caption: "Denied source access and missing evidence stay visible for the reviewer."
+    },
+    {
+      event_type: "HUMAN_REVIEW_REQUIRED",
+      node_id: "human_review",
+      label: "Human review package",
+      caption: "The reviewer receives the drift-aware package. Autonomous action remains off."
+    }
+  ]
+};
 
 let payload = null;
 let currentRun = null;
+let currentAct = null;
 let currentEventIndex = -1;
+let visualEvents = [];
 let timer = null;
 
 const playPause = document.getElementById("play-pause");
@@ -77,7 +175,9 @@ async function loadReplay() {
 
   selector.addEventListener("change", () => {
     currentRun = payload.runs.find((run) => run.run_id === selector.value);
+    currentAct = PRESENTER_ACTS.find((act) => act.run_label === currentRun.scenario_label);
     resetReplay();
+    renderPresenterSelection();
   });
 
   playPause.addEventListener("click", togglePlay);
@@ -87,7 +187,6 @@ async function loadReplay() {
   renderPresenterMode();
   setPresenterAct(PRESENTER_ACTS[0]);
 }
-
 
 function renderPresenterMode() {
   const buttonContainer = document.getElementById("presenter-act-buttons");
@@ -112,33 +211,40 @@ function setPresenterAct(act) {
   if (!run) return;
 
   currentRun = run;
+  currentAct = act;
   selector.value = run.run_id;
   resetReplay();
+  renderPresenterSelection();
+}
+
+function renderPresenterSelection() {
+  if (!currentAct) return;
 
   document.querySelectorAll(".act-button").forEach((button) => {
-    button.classList.toggle("active", button.dataset.actId === act.act_id);
+    button.classList.toggle("active", button.dataset.actId === currentAct.act_id);
   });
 
-  document.getElementById("presenter-headline").textContent = act.headline;
-  document.getElementById("presenter-act-label").textContent = act.label;
-  document.getElementById("presenter-scenario-label").textContent = act.run_label;
-  document.getElementById("presenter-demo-cue").textContent = act.demo_cue;
-  document.getElementById("presenter-closing-line").textContent = act.closing_line;
+  document.getElementById("presenter-headline").textContent = currentAct.headline;
+  document.getElementById("presenter-act-label").textContent = currentAct.label;
+  document.getElementById("presenter-scenario-label").textContent = currentAct.run_label;
+  document.getElementById("presenter-demo-cue").textContent = currentAct.demo_cue;
+  document.getElementById("presenter-closing-line").textContent = currentAct.closing_line;
 
   const talkingPoints = document.getElementById("presenter-talking-points");
   talkingPoints.innerHTML = "";
 
-  act.talking_points.forEach((point) => {
+  currentAct.talking_points.forEach((point) => {
     const item = document.createElement("li");
     item.textContent = point;
     talkingPoints.appendChild(item);
   });
 }
 
-
 function resetReplay() {
   stopPlayback();
   currentEventIndex = -1;
+  visualEvents = visualEventsForCurrentRun();
+
   renderSummary();
   renderNodes();
   renderEvidence();
@@ -147,12 +253,25 @@ function resetReplay() {
   renderTraceabilityFooter();
 }
 
+function visualEventsForCurrentRun() {
+  return (VISUAL_PATHS_BY_SCENARIO[currentRun.scenario_label] || []).map((event, index) => {
+    return {
+      ...event,
+      event_id: `${currentRun.run_id}-VISUAL-${String(index + 1).padStart(2, "0")}`,
+      run_id: currentRun.run_id,
+      visual_step_number: index + 1,
+      visual_step_total: VISUAL_PATHS_BY_SCENARIO[currentRun.scenario_label].length
+    };
+  });
+}
+
 function togglePlay() {
   if (timer) return stopPlayback();
+
   playPause.textContent = "Pause";
   timer = setInterval(() => {
     if (!nextEvent()) stopPlayback();
-  }, 900);
+  }, 1100);
 }
 
 function stopPlayback() {
@@ -162,13 +281,16 @@ function stopPlayback() {
 }
 
 function nextEvent() {
-  if (!currentRun || currentEventIndex >= currentRun.animation_events.length - 1) return false;
+  if (!currentRun || currentEventIndex >= visualEvents.length - 1) return false;
+
   currentEventIndex += 1;
-  const event = currentRun.animation_events[currentEventIndex];
+  const event = visualEvents[currentEventIndex];
+
   applyEvent(event);
   renderCurrentEvent(event);
-  renderLog(currentRun.animation_events.slice(0, currentEventIndex + 1));
+  renderLog(visualEvents.slice(0, currentEventIndex + 1));
   renderTraceabilityFooter();
+
   return true;
 }
 
@@ -179,7 +301,7 @@ function renderSummary() {
     ${metric("Direction", currentRun.confidence_direction)}
     ${metric("Pattern maturity", currentRun.pattern_maturity)}
     ${metric("Due diligence", currentRun.selected_due_diligence_level)}
-    ${metric("Visual path steps", agentStepsForCurrentRun().length)}
+    ${metric("Visual events", visualEventsForCurrentRun().length)}
     ${metric("Governance", "Mandatory")}
     ${metric("Human approval", "Required")}
     ${metric("Autonomous action", "Off")}
@@ -194,64 +316,23 @@ function renderNodes() {
   const lane = document.getElementById("agent-lane");
   lane.innerHTML = "";
 
-  const agentSteps = agentStepsForCurrentRun();
-  const gateEventsByAgent = governanceGateEventsByAgent();
-
-  agentSteps.forEach((step, index) => {
-    const agent = document.createElement("div");
-    agent.className = "node path-step";
-    agent.dataset.nodeId = `agent::${step.agent_id}`;
-    agent.dataset.stepId = step.step_id;
-    agent.innerHTML = `
-      <small>Step ${index + 1}</small>
-      <strong>${escapeHtml(readable(step.agent_id))}</strong>
-      <em>${escapeHtml(step.status)}</em>
-    `;
-    lane.appendChild(agent);
-
-    const gateEvents = gateEventsByAgent.get(step.agent_id) || [];
-    const gateEvent = gateEvents.shift();
-
-    if (gateEvent) {
-      const gate = document.createElement("div");
-      gate.className = `node gate ${decisionClass(gateEvent.decision)}`;
-      gate.dataset.nodeId = gateEvent.node_id;
-      gate.innerHTML = `<strong>${escapeHtml(gateEvent.decision)}</strong><br>${escapeHtml(gateEvent.source_id)}`;
-      lane.appendChild(gate);
-    }
+  document.querySelectorAll(".node").forEach((node) => {
+    node.classList.remove("active", "visible", "allow", "deny", "review");
+    node.classList.add("not-yet-visible");
   });
 
-  document.querySelectorAll(".node").forEach((node) => node.classList.remove("active"));
-}
-
-function agentStepsForCurrentRun() {
-  const steps =
-    currentRun.agent_steps ||
-    currentRun.orchestration_steps ||
-    currentRun.orchestration_trace?.agent_steps ||
-    [];
-
-  return steps.map((step, index) => {
-    return {
-      step_id: step.step_id || `visual-step-${index + 1}`,
-      agent_id: step.agent_id || step.agent || step.name || "unknown_agent",
-      status: step.status || "PLANNED"
-    };
-  });
-}
-
-function governanceGateEventsByAgent() {
-  const grouped = new Map();
-
-  currentRun.animation_events
-    .filter((event) => event.event_type === "GOVERNANCE_GATE_STAMPED")
+  visualEvents
+    .filter((event) => event.node_id.startsWith("visual::"))
     .forEach((event) => {
-      const existing = grouped.get(event.agent_id) || [];
-      existing.push(event);
-      grouped.set(event.agent_id, existing);
+      const node = document.createElement("div");
+      node.className = "node visual-event-node not-yet-visible";
+      node.dataset.nodeId = event.node_id;
+      node.innerHTML = `
+        <small>Event ${event.visual_step_number}</small>
+        <strong>${escapeHtml(event.label)}</strong>
+      `;
+      lane.appendChild(node);
     });
-
-  return grouped;
 }
 
 function renderEvidence() {
@@ -289,15 +370,18 @@ function applyEvent(event) {
   if (event.node_id) activateNode(event.node_id, event);
 
   if (event.event_type === "EVIDENCE_TOKEN_MOVED") {
-    revealToken(event.evidence_id);
+    revealReasoningEvidence();
     activateNode("evidence_fusion", event);
   }
+
   if (event.event_type === "EVIDENCE_EXCLUDED") {
-    revealToken(event.evidence_id);
+    revealExcludedEvidence();
   }
+
   if (event.event_type === "EVIDENCE_GAP_CREATED") {
-    revealGap(event.audit_id);
+    revealEvidenceGaps();
   }
+
   if (event.event_type === "CONFIDENCE_UPDATED") activateNode("operational_confidence", event);
   if (event.event_type === "DUE_DILIGENCE_SELECTED") activateNode("due_diligence", event);
   if (event.event_type === "HUMAN_REVIEW_REQUIRED") activateNode("human_review", event);
@@ -306,7 +390,10 @@ function applyEvent(event) {
 function activateNode(nodeId, event) {
   const node = document.querySelector(`[data-node-id="${cssEscape(nodeId)}"]`);
   if (!node) return;
-  node.classList.add("active");
+
+  node.classList.remove("not-yet-visible");
+  node.classList.add("visible", "active");
+
   if (event.decision === "ALLOW") node.classList.add("allow");
   if (event.decision === "DENY") node.classList.add("deny");
   if (event.content_safety_status === "REVIEW_REQUIRED") node.classList.add("review");
@@ -316,9 +403,21 @@ function clearActive() {
   document.querySelectorAll(".node").forEach((node) => node.classList.remove("active"));
 }
 
+function revealReasoningEvidence() {
+  document.querySelectorAll(".token.eligible").forEach((item) => item.classList.add("visible"));
+}
+
+function revealExcludedEvidence() {
+  document.querySelectorAll(".token.excluded").forEach((item) => item.classList.add("visible"));
+}
+
+function revealEvidenceGaps() {
+  document.querySelectorAll(".gap-token").forEach((item) => item.classList.add("visible"));
+}
+
 function revealToken(evidenceId) {
-  const token = document.querySelector(`[data-evidence-id="${cssEscape(evidenceId)}"]`);
-  if (token) token.classList.add("visible");
+  const item = document.querySelector(`[data-evidence-id="${cssEscape(evidenceId)}"]`);
+  if (item) item.classList.add("visible");
 }
 
 function revealGap(auditId) {
@@ -328,24 +427,30 @@ function revealGap(auditId) {
 
 function renderCurrentEvent(event) {
   const panel = document.getElementById("current-event");
+
   if (!event) {
     panel.innerHTML = "Press Play or Next event to start the replay.";
     return;
   }
-  panel.innerHTML = `<strong>${escapeHtml(event.event_type)}</strong><br><br>${escapeHtml(event.caption)}<br><br><small>${escapeHtml(event.event_id)}</small>`;
+
+  panel.innerHTML = `
+    <strong>${escapeHtml(event.label)}</strong><br><br>
+    ${escapeHtml(event.caption)}<br><br>
+    <small>${escapeHtml(event.event_id)} · ${event.visual_step_number} / ${event.visual_step_total}</small>
+  `;
 }
 
 function renderLog(events) {
   const log = document.getElementById("event-log");
   log.innerHTML = "";
+
   events.forEach((event) => {
     const item = document.createElement("li");
     item.className = eventClass(event);
-    item.textContent = `${event.event_id}: ${event.caption}`;
+    item.textContent = `${event.visual_step_number}/${event.visual_step_total}: ${event.caption}`;
     log.appendChild(item);
   });
 }
-
 
 function renderTraceabilityFooter() {
   if (!payload || !currentRun) return;
@@ -356,12 +461,14 @@ function renderTraceabilityFooter() {
   const rendererContract = document.getElementById("renderer-contract");
   const provenanceSummary = document.getElementById("provenance-summary");
 
+  if (!schemaVersion || !eventCounter || !animationEventCount || !rendererContract || !provenanceSummary) return;
+
   const current = Math.max(currentEventIndex + 1, 0);
-  const total = currentRun.animation_events.length;
+  const total = visualEvents.length;
 
   schemaVersion.textContent = payload.schema_version;
   eventCounter.textContent = `${current} / ${total}`;
-  animationEventCount.textContent = String(payload.animation_event_count);
+  animationEventCount.textContent = String(total);
 
   rendererContract.innerHTML = `
     <div><strong>Direction:</strong> ${escapeHtml(payload.renderer_contract.direction)}</div>
@@ -379,7 +486,6 @@ function renderTraceabilityFooter() {
     <div><strong>Due diligence values:</strong> ${escapeHtml(payload.provenance_summary.due_diligence_values.join(", "))}</div>
   `;
 }
-
 
 function eventClass(event) {
   if (event.decision === "ALLOW") return "event-allow";
@@ -406,6 +512,31 @@ function escapeHtml(value) {
 function cssEscape(value) {
   if (window.CSS && CSS.escape) return CSS.escape(value);
   return String(value).replace(/["\\]/g, "\\$&");
+}
+
+// Compatibility surface for tests and future export-driven path rendering.
+function agentStepsForCurrentRun() {
+  const steps =
+    currentRun.agent_steps ||
+    currentRun.orchestration_steps ||
+    currentRun.orchestration_trace?.agent_steps ||
+    [];
+
+  return steps;
+}
+
+function governanceGateEventsByAgent() {
+  const grouped = new Map();
+
+  currentRun.animation_events
+    .filter((event) => event.event_type === "GOVERNANCE_GATE_STAMPED")
+    .forEach((event) => {
+      const existing = grouped.get(event.agent_id) || [];
+      existing.push(event);
+      grouped.set(event.agent_id, existing);
+    });
+
+  return grouped;
 }
 
 loadReplay().catch((error) => {

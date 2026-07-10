@@ -93,12 +93,14 @@ def test_standalone_replay_canvas_has_traceability_footer():
     assert 'id="provenance-summary"' in text
 
 
+
 def test_standalone_replay_canvas_updates_traceability_footer_from_export_payload():
     text = JS.read_text(encoding="utf-8")
 
     assert "function renderTraceabilityFooter()" in text
     assert "payload.schema_version" in text
-    assert "payload.animation_event_count" in text
+    assert "const total = visualEvents.length" in text
+    assert "animationEventCount.textContent = String(total)" in text
     assert "payload.renderer_contract.direction" in text
     assert "payload.renderer_contract.python_owns_decisions" in text
     assert "payload.renderer_contract.renderer_owns_playhead" in text
@@ -113,9 +115,8 @@ def test_standalone_replay_canvas_event_counter_advances_with_playhead():
     text = JS.read_text(encoding="utf-8")
 
     assert "currentEventIndex + 1" in text
-    assert "currentRun.animation_events.length" in text
+    assert "visualEvents.length" in text
     assert "renderTraceabilityFooter();" in text
-
 
 def test_standalone_replay_canvas_has_presenter_mode_panel():
     text = HTML.read_text(encoding="utf-8")
@@ -131,17 +132,20 @@ def test_standalone_replay_canvas_has_presenter_mode_panel():
     assert 'id="presenter-closing-line"' in text
 
 
+
 def test_standalone_replay_canvas_presenter_mode_defines_three_acts():
     text = JS.read_text(encoding="utf-8")
 
     assert "const PRESENTER_ACTS" in text
-    assert "Act 1 ? First-time alert" in text
-    assert "Act 2 ? Trusted memory" in text
-    assert "Act 3 ? Drift or conflict" in text
+    assert "Act 1" in text
+    assert "First-time alert" in text
+    assert "Act 2" in text
+    assert "Trusted memory" in text
+    assert "Act 3" in text
+    assert "Drift or conflict" in text
     assert "First-time / no memory" in text
     assert "Trusted memory / validated pattern" in text
-    assert "Drift or conflict" in text
-
+    assert '"Drift or conflict"' in text
 
 def test_standalone_replay_canvas_presenter_mode_selects_run_and_resets_replay():
     text = JS.read_text(encoding="utf-8")
@@ -178,25 +182,27 @@ def test_standalone_replay_canvas_styles_presenter_mode():
     assert ".closing-line" in text
 
 
-def test_standalone_replay_canvas_renders_run_specific_agent_step_lane():
+
+def test_standalone_replay_canvas_renders_run_specific_progressive_visual_path():
     text = JS.read_text(encoding="utf-8")
 
-    assert "function agentStepsForCurrentRun()" in text
-    assert "currentRun.agent_steps" in text
-    assert "currentRun.orchestration_steps" in text
-    assert "currentRun.orchestration_trace?.agent_steps" in text
-    assert "agentSteps.forEach" in text
-    assert "Visual path steps" in text
+    assert "const VISUAL_PATHS_BY_SCENARIO" in text
+    assert "function visualEventsForCurrentRun()" in text
+    assert "visualEvents = visualEventsForCurrentRun();" in text
+    assert "Visual events" in text
+    assert "visualEventsForCurrentRun().length" in text
+    assert "currentEventIndex = -1" in text
+    assert "currentEventIndex += 1" in text
 
 
-def test_standalone_replay_canvas_groups_governance_gates_under_agent_steps():
+def test_standalone_replay_canvas_no_longer_pre_renders_all_governance_gates_as_the_flow():
     text = JS.read_text(encoding="utf-8")
 
     assert "function governanceGateEventsByAgent()" in text
     assert "GOVERNANCE_GATE_STAMPED" in text
-    assert "gateEventsByAgent.get(step.agent_id)" in text
-    assert "gateEvents.shift()" in text
-
+    assert "gateEventsByAgent.get(step.agent_id)" not in text
+    assert "gateEvents.shift()" not in text
+    assert "visualEventsForCurrentRun()" in text
 
 def test_standalone_replay_canvas_styles_path_step_nodes():
     text = CSS.read_text(encoding="utf-8")
@@ -205,4 +211,52 @@ def test_standalone_replay_canvas_styles_path_step_nodes():
     assert ".path-step small" in text
     assert ".path-step strong" in text
     assert ".path-step em" in text
+
+
+def test_standalone_replay_canvas_uses_exact_visual_event_counts_by_scenario():
+    text = JS.read_text(encoding="utf-8")
+
+    assert "const VISUAL_PATHS_BY_SCENARIO" in text
+    assert '"First-time / no memory": [' in text
+    assert '"Trusted memory / validated pattern": [' in text
+    assert '"Drift or conflict": [' in text
+    assert "visualEventsForCurrentRun()" in text
+    assert "Visual events" in text
+
+
+def test_standalone_replay_canvas_progressively_reveals_visual_events():
+    text = JS.read_text(encoding="utf-8")
+
+    assert "currentEventIndex = -1" in text
+    assert "currentEventIndex += 1" in text
+    assert "visualEvents.length - 1" in text
+    assert "visualEvents.slice(0, currentEventIndex + 1)" in text
+    assert "not-yet-visible" in text
+    assert "node.classList.remove(\"not-yet-visible\")" in text
+    assert "node.classList.add(\"visible\", \"active\")" in text
+
+
+def test_standalone_replay_canvas_no_longer_uses_raw_animation_events_as_playhead():
+    text = JS.read_text(encoding="utf-8")
+
+    assert "currentRun.animation_events.length - 1" not in text
+    assert "currentRun.animation_events.slice(0, currentEventIndex + 1)" not in text
+    assert "const total = visualEvents.length" in text
+
+
+def test_standalone_replay_canvas_act_copy_declares_expected_event_counts():
+    text = JS.read_text(encoding="utf-8")
+
+    assert "seven governed visual events" in text
+    assert "three targeted validation events" in text
+    assert "five validation events" in text
+
+
+def test_standalone_replay_canvas_styles_hidden_and_visible_replay_nodes():
+    text = CSS.read_text(encoding="utf-8")
+
+    assert ".node.not-yet-visible" in text
+    assert ".node.visible" in text
+    assert ".visual-event-node" in text
+    assert "opacity: 0.16" in text
 

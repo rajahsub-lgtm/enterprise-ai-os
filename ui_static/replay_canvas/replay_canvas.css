@@ -233,3 +233,29 @@ label { color:var(--muted); display:flex; gap:8px; align-items:center; }
   font-style: normal;
 }
 
+.node.not-yet-visible {
+  opacity: 0.16;
+  filter: grayscale(1);
+  transform: none;
+}
+
+.node.visible {
+  opacity: 1;
+  filter: none;
+}
+
+.visual-event-node {
+  flex-direction: column;
+  gap: 6px;
+}
+
+.visual-event-node small {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.visual-event-node strong {
+  color: var(--text);
+  font-size: 13px;
+}
+
