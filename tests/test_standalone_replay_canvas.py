@@ -116,3 +116,64 @@ def test_standalone_replay_canvas_event_counter_advances_with_playhead():
     assert "currentRun.animation_events.length" in text
     assert "renderTraceabilityFooter();" in text
 
+
+def test_standalone_replay_canvas_has_presenter_mode_panel():
+    text = HTML.read_text(encoding="utf-8")
+
+    assert "Presenter mode" in text
+    assert "Guided narrative: same alert, adaptive due diligence" in text
+    assert 'id="presenter-headline"' in text
+    assert 'id="presenter-act-buttons"' in text
+    assert 'id="presenter-act-label"' in text
+    assert 'id="presenter-scenario-label"' in text
+    assert 'id="presenter-demo-cue"' in text
+    assert 'id="presenter-talking-points"' in text
+    assert 'id="presenter-closing-line"' in text
+
+
+def test_standalone_replay_canvas_presenter_mode_defines_three_acts():
+    text = JS.read_text(encoding="utf-8")
+
+    assert "const PRESENTER_ACTS" in text
+    assert "Act 1 ? First-time alert" in text
+    assert "Act 2 ? Trusted memory" in text
+    assert "Act 3 ? Drift or conflict" in text
+    assert "First-time / no memory" in text
+    assert "Trusted memory / validated pattern" in text
+    assert "Drift or conflict" in text
+
+
+def test_standalone_replay_canvas_presenter_mode_selects_run_and_resets_replay():
+    text = JS.read_text(encoding="utf-8")
+
+    assert "function renderPresenterMode()" in text
+    assert "function setPresenterAct(act)" in text
+    assert "payload.runs.find" in text
+    assert "candidate.scenario_label === act.run_label" in text
+    assert "currentRun = run" in text
+    assert "selector.value = run.run_id" in text
+    assert "resetReplay()" in text
+
+
+def test_standalone_replay_canvas_presenter_mode_tells_governance_story():
+    text = JS.read_text(encoding="utf-8")
+
+    assert "Same alert" in text or "same alert" in text
+    assert "Memory influences confidence, but memory is still evidence, not truth." in text
+    assert "Governance gates still stamp source access before evidence can move." in text
+    assert "Review-required evidence is excluded from reasoning." in text
+    assert "human review, not autonomous remediation" in text
+    assert "does not lower governance" in text
+
+
+def test_standalone_replay_canvas_styles_presenter_mode():
+    text = CSS.read_text(encoding="utf-8")
+
+    assert ".presenter-mode" in text
+    assert ".presenter-header" in text
+    assert ".act-buttons" in text
+    assert ".act-button.active" in text
+    assert ".presenter-grid" in text
+    assert ".presenter-script" in text
+    assert ".closing-line" in text
+

@@ -1,6 +1,56 @@
 
 const REPLAY_JSON_PATH = "../../ui_replay_exports/eaios_sprint3_replay.json";
 
+const PRESENTER_ACTS = [
+  {
+    act_id: "act-1",
+    label: "Act 1 ? First-time alert",
+    run_label: "First-time / no memory",
+    headline: "No trusted memory exists, so EAIOS performs full due diligence.",
+    demo_cue: "Select Act 1, press Play, and watch the full evidence path unfold.",
+    talking_points: [
+      "The alert is the same Digital Checkout payment authorization degradation.",
+      "Because memory is unavailable or immature, EAIOS does not shortcut investigation.",
+      "Governance gates still stamp source access before evidence can move.",
+      "Review-required evidence is excluded from reasoning.",
+      "The act ends with human review, not autonomous remediation."
+    ],
+    closing_line: "When confidence is low, EAIOS expands diligence. It does not lower governance."
+  },
+  {
+    act_id: "act-2",
+    label: "Act 2 ? Trusted memory",
+    run_label: "Trusted memory / validated pattern",
+    headline: "Trusted enterprise memory increases confidence and narrows validation.",
+    demo_cue: "Select Act 2, press Play, and compare the shorter governed path.",
+    talking_points: [
+      "The alert is still the same alert.",
+      "The difference is enterprise memory: prior validated pattern exists.",
+      "EAIOS can move from full due diligence to targeted validation.",
+      "Memory influences confidence, but memory is still evidence, not truth.",
+      "Human approval remains required before action."
+    ],
+    closing_line: "The system adapts behavior, but governance boundaries remain constant."
+  },
+  {
+    act_id: "act-3",
+    label: "Act 3 ? Drift or conflict",
+    run_label: "Drift or conflict",
+    headline: "When memory drifts or conflicts, EAIOS expands validation again.",
+    demo_cue: "Select Act 3, press Play, and show how uncertainty becomes visible.",
+    talking_points: [
+      "The same alert now carries drift or conflict signals.",
+      "EAIOS does not blindly trust memory just because memory exists.",
+      "Evidence gaps and excluded evidence are shown, not hidden.",
+      "Validation expands because confidence is not stable.",
+      "The human reviewer gets a richer explanation of uncertainty."
+    ],
+    closing_line: "EAIOS is valuable because it knows when not to over-trust its own memory."
+  }
+];
+
+
+
 let payload = null;
 let currentRun = null;
 let currentEventIndex = -1;
@@ -34,8 +84,57 @@ async function loadReplay() {
   nextButton.addEventListener("click", nextEvent);
   resetButton.addEventListener("click", resetReplay);
 
-  resetReplay();
+  renderPresenterMode();
+  setPresenterAct(PRESENTER_ACTS[0]);
 }
+
+
+function renderPresenterMode() {
+  const buttonContainer = document.getElementById("presenter-act-buttons");
+  if (!buttonContainer || !payload) return;
+
+  buttonContainer.innerHTML = "";
+
+  PRESENTER_ACTS.forEach((act) => {
+    const button = document.createElement("button");
+    button.className = "act-button";
+    button.dataset.actId = act.act_id;
+    button.textContent = act.label;
+    button.addEventListener("click", () => setPresenterAct(act));
+    buttonContainer.appendChild(button);
+  });
+}
+
+function setPresenterAct(act) {
+  if (!payload || !act) return;
+
+  const run = payload.runs.find((candidate) => candidate.scenario_label === act.run_label);
+  if (!run) return;
+
+  currentRun = run;
+  selector.value = run.run_id;
+  resetReplay();
+
+  document.querySelectorAll(".act-button").forEach((button) => {
+    button.classList.toggle("active", button.dataset.actId === act.act_id);
+  });
+
+  document.getElementById("presenter-headline").textContent = act.headline;
+  document.getElementById("presenter-act-label").textContent = act.label;
+  document.getElementById("presenter-scenario-label").textContent = act.run_label;
+  document.getElementById("presenter-demo-cue").textContent = act.demo_cue;
+  document.getElementById("presenter-closing-line").textContent = act.closing_line;
+
+  const talkingPoints = document.getElementById("presenter-talking-points");
+  talkingPoints.innerHTML = "";
+
+  act.talking_points.forEach((point) => {
+    const item = document.createElement("li");
+    item.textContent = point;
+    talkingPoints.appendChild(item);
+  });
+}
+
 
 function resetReplay() {
   stopPlayback();
