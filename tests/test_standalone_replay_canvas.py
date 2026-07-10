@@ -186,14 +186,14 @@ def test_standalone_replay_canvas_styles_presenter_mode():
 def test_standalone_replay_canvas_renders_run_specific_progressive_visual_path():
     text = JS.read_text(encoding="utf-8")
 
-    assert "const VISUAL_PATHS_BY_SCENARIO" in text
+    assert "payload.visual_paths_by_run[currentRun.run_id]" in text
     assert "function visualEventsForCurrentRun()" in text
     assert "visualEvents = visualEventsForCurrentRun();" in text
     assert "Visual events" in text
     assert "visualEventsForCurrentRun().length" in text
     assert "currentEventIndex = -1" in text
     assert "currentEventIndex += 1" in text
-
+    assert "const VISUAL_PATHS_BY_SCENARIO" not in text
 
 def test_standalone_replay_canvas_no_longer_pre_renders_all_governance_gates_as_the_flow():
     text = JS.read_text(encoding="utf-8")
@@ -213,16 +213,14 @@ def test_standalone_replay_canvas_styles_path_step_nodes():
     assert ".path-step em" in text
 
 
-def test_standalone_replay_canvas_uses_exact_visual_event_counts_by_scenario():
+
+def test_standalone_replay_canvas_uses_exported_visual_paths_by_run():
     text = JS.read_text(encoding="utf-8")
 
-    assert "const VISUAL_PATHS_BY_SCENARIO" in text
-    assert '"First-time / no memory": [' in text
-    assert '"Trusted memory / validated pattern": [' in text
-    assert '"Drift or conflict": [' in text
+    assert "payload.visual_paths_by_run[currentRun.run_id]" in text
+    assert "const VISUAL_PATHS_BY_SCENARIO" not in text
     assert "visualEventsForCurrentRun()" in text
     assert "Visual events" in text
-
 
 def test_standalone_replay_canvas_progressively_reveals_visual_events():
     text = JS.read_text(encoding="utf-8")
@@ -282,17 +280,14 @@ def test_standalone_replay_canvas_has_why_path_and_end_summary_cards():
     assert 'id="end-of-act-summary"' in text
 
 
-def test_standalone_replay_canvas_defines_demo_readiness_path_story():
+
+def test_standalone_replay_canvas_uses_exported_demo_story_contract():
     text = JS.read_text(encoding="utf-8")
 
-    assert "const PATH_STORY_BY_SCENARIO" in text
-    assert "Full due diligence" in text
-    assert "Targeted validation" in text
-    assert "Expanded validation" in text
-    assert "No reliable memory exists" in text
-    assert "Trusted memory raises confidence" in text
-    assert "Memory exists but may be drifting or conflicting" in text
-
+    assert "payload.demo_story.path_story_by_scenario" in text
+    assert "payload.demo_story.same_alert" in text
+    assert "const PATH_STORY_BY_SCENARIO" not in text
+    assert "pathStoryForCurrentRun()" in text
 
 def test_standalone_replay_canvas_updates_demo_readiness_polish_on_replay_progress():
     text = JS.read_text(encoding="utf-8")

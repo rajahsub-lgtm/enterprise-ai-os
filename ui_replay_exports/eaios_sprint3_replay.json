@@ -1232,6 +1232,35 @@
       }
     ]
   },
+  "demo_story": {
+    "path_story_by_scenario": {
+      "Drift or conflict": {
+        "end_summary": "EAIOS exposed drift, evidence gaps, and uncertainty before routing the review package to the human reviewer.",
+        "end_title": "Expanded validation complete",
+        "explanation": "Memory exists but may be drifting or conflicting, so EAIOS expands validation before relying on prior knowledge.",
+        "path_class": "path-expanded-validation",
+        "title": "Expanded validation"
+      },
+      "First-time / no memory": {
+        "end_summary": "EAIOS completed the seven-step replay, preserved evidence exclusions and gaps, and routed the package to human review.",
+        "end_title": "Full diligence complete",
+        "explanation": "No reliable memory exists, so EAIOS must gather broader evidence before recommending anything.",
+        "path_class": "path-full-diligence",
+        "title": "Full due diligence"
+      },
+      "Trusted memory / validated pattern": {
+        "end_summary": "EAIOS stopped after three focused events because memory supported confidence, while human approval remained required.",
+        "end_title": "Targeted validation complete",
+        "explanation": "Trusted memory raises confidence, so EAIOS validates the known pattern instead of repeating full due diligence.",
+        "path_class": "path-targeted-validation",
+        "title": "Targeted validation"
+      }
+    },
+    "same_alert": {
+      "application": "Digital Checkout",
+      "symptom": "Payment authorization latency and elevated error rate"
+    }
+  },
   "export_purpose": "standalone_replay_renderer",
   "provenance_summary": {
     "approval_states": [
@@ -2474,5 +2503,164 @@
     ]
   },
   "schema_version": "eaios-ui-replay-v1",
-  "source_of_truth": "Sprint 3 tested headless view-model outputs"
+  "source_of_truth": "Sprint 3 tested headless view-model outputs",
+  "visual_event_count": 15,
+  "visual_paths_by_run": {
+    "run-drift-conflict": [
+      {
+        "caption": "EAIOS begins with the same alert and checks whether memory still applies.",
+        "event_id": "run-drift-conflict-VISUAL-01",
+        "event_type": "NODE_ACTIVATED",
+        "label": "Joint goal accepted",
+        "node_id": "joint_goal",
+        "run_id": "run-drift-conflict",
+        "visual_step_number": 1,
+        "visual_step_total": 5
+      },
+      {
+        "caption": "Memory exists, but drift or conflict prevents blind reuse.",
+        "event_id": "run-drift-conflict-VISUAL-02",
+        "event_type": "NODE_ACTIVATED",
+        "label": "Memory drift detected",
+        "node_id": "visual::memory_pattern_agent",
+        "run_id": "run-drift-conflict",
+        "visual_step_number": 2,
+        "visual_step_total": 5
+      },
+      {
+        "caption": "Additional telemetry validation is required because confidence is not stable.",
+        "event_id": "run-drift-conflict-VISUAL-03",
+        "event_type": "NODE_ACTIVATED",
+        "label": "Expanded validation",
+        "node_id": "visual::telemetry_agent",
+        "run_id": "run-drift-conflict",
+        "visual_step_number": 3,
+        "visual_step_total": 5
+      },
+      {
+        "caption": "Denied source access and missing evidence stay visible for the reviewer.",
+        "event_id": "run-drift-conflict-VISUAL-04",
+        "event_type": "EVIDENCE_GAP_CREATED",
+        "label": "Evidence gap exposed",
+        "node_id": "visual::evidence_gap",
+        "run_id": "run-drift-conflict",
+        "visual_step_number": 4,
+        "visual_step_total": 5
+      },
+      {
+        "caption": "The reviewer receives the drift-aware package. Autonomous action remains off.",
+        "event_id": "run-drift-conflict-VISUAL-05",
+        "event_type": "HUMAN_REVIEW_REQUIRED",
+        "label": "Human review package",
+        "node_id": "human_review",
+        "run_id": "run-drift-conflict",
+        "visual_step_number": 5,
+        "visual_step_total": 5
+      }
+    ],
+    "run-no-memory": [
+      {
+        "caption": "EAIOS begins with the joint goal: maintain service health while preserving controls.",
+        "event_id": "run-no-memory-VISUAL-01",
+        "event_type": "NODE_ACTIVATED",
+        "label": "Joint goal accepted",
+        "node_id": "joint_goal",
+        "run_id": "run-no-memory",
+        "visual_step_number": 1,
+        "visual_step_total": 7
+      },
+      {
+        "caption": "No reliable prior memory pattern is available, so EAIOS cannot shortcut the investigation.",
+        "event_id": "run-no-memory-VISUAL-02",
+        "event_type": "NODE_ACTIVATED",
+        "label": "Memory pattern check",
+        "node_id": "visual::memory_pattern_agent",
+        "run_id": "run-no-memory",
+        "visual_step_number": 2,
+        "visual_step_total": 7
+      },
+      {
+        "caption": "Telemetry is collected to establish current operational state.",
+        "event_id": "run-no-memory-VISUAL-03",
+        "event_type": "NODE_ACTIVATED",
+        "label": "Telemetry collection",
+        "node_id": "visual::telemetry_agent",
+        "run_id": "run-no-memory",
+        "visual_step_number": 3,
+        "visual_step_total": 7
+      },
+      {
+        "caption": "Knowledge evidence is requested, but review-required evidence cannot enter reasoning.",
+        "event_id": "run-no-memory-VISUAL-04",
+        "event_type": "NODE_ACTIVATED",
+        "label": "Knowledge retrieval",
+        "node_id": "visual::knowledge_retrieval_agent",
+        "run_id": "run-no-memory",
+        "visual_step_number": 4,
+        "visual_step_total": 7
+      },
+      {
+        "caption": "Only reasoning-eligible governed evidence enters fusion.",
+        "event_id": "run-no-memory-VISUAL-05",
+        "event_type": "EVIDENCE_TOKEN_MOVED",
+        "label": "Evidence fusion",
+        "node_id": "evidence_fusion",
+        "run_id": "run-no-memory",
+        "visual_step_number": 5,
+        "visual_step_total": 7
+      },
+      {
+        "caption": "Low confidence selects FULL_DUE_DILIGENCE.",
+        "event_id": "run-no-memory-VISUAL-06",
+        "event_type": "DUE_DILIGENCE_SELECTED",
+        "label": "Full due diligence selected",
+        "node_id": "due_diligence",
+        "run_id": "run-no-memory",
+        "visual_step_number": 6,
+        "visual_step_total": 7
+      },
+      {
+        "caption": "The recommendation package is routed to human review. Autonomous action remains off.",
+        "event_id": "run-no-memory-VISUAL-07",
+        "event_type": "HUMAN_REVIEW_REQUIRED",
+        "label": "Human review package",
+        "node_id": "human_review",
+        "run_id": "run-no-memory",
+        "visual_step_number": 7,
+        "visual_step_total": 7
+      }
+    ],
+    "run-trusted-memory": [
+      {
+        "caption": "EAIOS begins with the same Digital Checkout alert and the same control boundary.",
+        "event_id": "run-trusted-memory-VISUAL-01",
+        "event_type": "NODE_ACTIVATED",
+        "label": "Joint goal accepted",
+        "node_id": "joint_goal",
+        "run_id": "run-trusted-memory",
+        "visual_step_number": 1,
+        "visual_step_total": 3
+      },
+      {
+        "caption": "A validated memory pattern increases confidence, but memory is still evidence, not truth.",
+        "event_id": "run-trusted-memory-VISUAL-02",
+        "event_type": "NODE_ACTIVATED",
+        "label": "Trusted memory validated",
+        "node_id": "visual::memory_pattern_agent",
+        "run_id": "run-trusted-memory",
+        "visual_step_number": 2,
+        "visual_step_total": 3
+      },
+      {
+        "caption": "The replay stops after targeted validation. Human approval remains required.",
+        "event_id": "run-trusted-memory-VISUAL-03",
+        "event_type": "HUMAN_REVIEW_REQUIRED",
+        "label": "Targeted human validation",
+        "node_id": "human_review",
+        "run_id": "run-trusted-memory",
+        "visual_step_number": 3,
+        "visual_step_total": 3
+      }
+    ]
+  }
 }

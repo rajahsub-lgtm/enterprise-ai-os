@@ -1,4 +1,4 @@
-﻿"""
+"""
 Sprint 3-UI one-way replay JSON export.
 
 Classification: EAIOS Presentation Layer
@@ -19,6 +19,10 @@ from pathlib import Path
 from typing import Any
 
 from ui.demo_fixtures import build_demo_comparison_view_model
+from ui.visual_replay_paths import (
+    build_demo_story_contract,
+    build_visual_paths_by_run,
+)
 
 
 EXPORT_SCHEMA_VERSION = "eaios-ui-replay-v1"
@@ -41,6 +45,12 @@ def build_replay_export_payload(
         },
         "comparison": comparison,
         "runs": comparison["runs"],
+        "demo_story": build_demo_story_contract(),
+        "visual_paths_by_run": build_visual_paths_by_run(comparison),
+        "visual_event_count": sum(
+            len(events)
+            for events in build_visual_paths_by_run(comparison).values()
+        ),
         "animation_event_count": sum(
             len(run.get("animation_events", []))
             for run in comparison["runs"]
