@@ -219,3 +219,5 @@ __marimo__/
 
 # Synthetic ITIL generated noise output
 data/domain/it_application_health/*.generated.json
+.agents/
+.claude/
