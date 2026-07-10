@@ -1,4 +1,4 @@
-﻿"""
+"""
 Presentation demo fixtures for Sprint 3-UI shell.
 
 Classification: EAIOS Presentation Layer
@@ -120,6 +120,14 @@ def _build_run(
             "rows": _governance_rows(run_id=run_id),
         },
         governed_evidence_package=_evidence_package(run_id=run_id),
+        reasoning_explanation=_reasoning_explanation(
+            scenario_label=scenario_label,
+            due_diligence=due_diligence,
+        ),
+        recommendation_candidate=_recommendation_candidate(
+            scenario_label=scenario_label,
+            due_diligence=due_diligence,
+        ),
         animation_events=[],
     )
 
@@ -219,3 +227,110 @@ def _evidence_package(*, run_id: str) -> dict[str, Any]:
             }
         ],
     }
+
+def _reasoning_explanation(
+    *,
+    scenario_label: str,
+    due_diligence: str,
+) -> dict[str, Any]:
+    return {
+        "situation": "Digital Checkout shows payment authorization latency and elevated error rate.",
+        "is": [
+            "Digital Checkout is affected.",
+            "Payment authorization path is affected.",
+            "Latency and error symptoms are present.",
+        ],
+        "is_not": [
+            "Product Catalog is not identified as affected.",
+            "Autonomous production action is not approved.",
+            "Review-required evidence is not allowed into reasoning.",
+        ],
+        "distinctions": [
+            "The same alert receives different due-diligence depth depending on memory and confidence.",
+            "Governance gates remain constant across memory states.",
+        ],
+        "candidate_hypotheses": _candidate_hypotheses(scenario_label),
+        "selected_hypothesis": _selected_hypothesis(scenario_label),
+        "why_chain": [
+            f"EAIOS selected {due_diligence} from operational-confidence output.",
+            "Only reasoning-eligible governed evidence is used.",
+            "Evidence gaps and excluded evidence remain visible for human review.",
+        ],
+        "limits": [
+            "This is a Sprint 3-UI replay fixture.",
+            "No production action is executed.",
+            "Human approval remains required.",
+        ],
+    }
+
+
+def _candidate_hypotheses(scenario_label: str) -> list[str]:
+    if scenario_label == "First-time / no memory":
+        return [
+            "New operational degradation requiring full due diligence.",
+            "Known payment authorization issue not yet validated as memory.",
+        ]
+
+    if scenario_label == "Trusted memory / validated pattern":
+        return [
+            "Previously validated payment authorization pattern has recurred.",
+            "A new unrelated degradation is possible but less likely.",
+        ]
+
+    return [
+        "Known memory pattern may be drifting.",
+        "Current evidence may conflict with prior validated memory.",
+    ]
+
+
+def _selected_hypothesis(scenario_label: str) -> str:
+    if scenario_label == "First-time / no memory":
+        return "Treat as a new operational degradation until evidence matures."
+
+    if scenario_label == "Trusted memory / validated pattern":
+        return "Validated payment authorization pattern likely recurred, pending targeted human validation."
+
+    return "Treat as drift or conflict and expand validation before relying on memory."
+
+
+def _recommendation_candidate(
+    *,
+    scenario_label: str,
+    due_diligence: str,
+) -> dict[str, Any]:
+    return {
+        "title": "Human-reviewed operational recommendation",
+        "summary": _recommendation_summary(scenario_label),
+        "risk_level": _risk_level(scenario_label),
+        "selected_due_diligence_level": due_diligence,
+        "required_controls": [
+            "Human approval",
+            "Audit logging",
+            "No autonomous production action",
+        ],
+        "prohibited_actions": [
+            "Do not execute remediation automatically.",
+            "Do not use review-required evidence for reasoning.",
+            "Do not treat memory as truth.",
+        ],
+        "approval_state": "PENDING_HUMAN_REVIEW",
+        "autonomous_action_allowed": False,
+    }
+
+
+def _recommendation_summary(scenario_label: str) -> str:
+    if scenario_label == "First-time / no memory":
+        return "Collect full due-diligence evidence and route recommendation package to human review."
+
+    if scenario_label == "Trusted memory / validated pattern":
+        return "Perform targeted validation against the trusted memory pattern before human approval."
+
+    return "Expand validation because memory drift or evidence conflict is present."
+
+
+def _risk_level(scenario_label: str) -> str:
+    if scenario_label == "Trusted memory / validated pattern":
+        return "Medium"
+
+    return "High"
+

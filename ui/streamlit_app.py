@@ -17,6 +17,7 @@ from ui.components.evidence_workbench import evidence_workbench_model
 from ui.components.governance_trace_panel import governance_passport_rows
 from ui.components.human_review_panel import human_review_boundary_model
 from ui.components.story_replay_panel import replay_story_cards, story_thesis_model
+from ui.components.reasoning_board import reasoning_board_model, recommendation_review_model
 from ui.components.replay_canvas import replay_canvas_model
 from ui.components.scenario_selector import scenario_selector_options
 from ui.components.side_by_side_replay import side_by_side_columns
@@ -157,6 +158,43 @@ def main() -> None:
     with right:
         st.markdown("### Confidence and due diligence")
         st.write(confidence_panel_model(selected_run))
+
+        st.markdown("### Reasoning detective board")
+        reasoning = reasoning_board_model(selected_run)
+        st.caption(reasoning["story"])
+        st.write(
+            {
+                "situation": reasoning["situation"],
+                "selected_hypothesis": reasoning["selected_hypothesis"],
+            }
+        )
+
+        with st.expander("Is / Is not"):
+            st.markdown("**Is**")
+            for item in reasoning["is"]:
+                st.write(f"- {item}")
+
+            st.markdown("**Is not**")
+            for item in reasoning["is_not"]:
+                st.write(f"- {item}")
+
+        with st.expander("Hypotheses and why-chain"):
+            st.markdown("**Candidate hypotheses**")
+            for item in reasoning["candidate_hypotheses"]:
+                st.write(f"- {item}")
+
+            st.markdown("**Why-chain**")
+            for item in reasoning["why_chain"]:
+                st.write(f"- {item}")
+
+            st.markdown("**Limits**")
+            for item in reasoning["limits"]:
+                st.write(f"- {item}")
+
+        st.markdown("### Recommendation review")
+        recommendation = recommendation_review_model(selected_run)
+        st.caption(recommendation["story"])
+        st.write(recommendation)
 
         st.markdown("### Human review boundary")
         st.write(human_review_boundary_model(selected_run))
