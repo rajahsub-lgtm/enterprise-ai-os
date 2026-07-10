@@ -1,4 +1,4 @@
-﻿# Enterprise AI Operating System — EAIOS 2
+# Enterprise AI Operating System — EAIOS 2
 
 EAIOS is an enterprise AI operating model and executable architecture for governed, observable, evidence-based, human-bounded multi-agent orchestration.
 
@@ -93,4 +93,51 @@ Core Sprint 3 message:
 ```text
 Operational confidence determines the level of due diligence.
 Governance is never optional.
+```
+
+## EAIOS 2 Sprint 3 Demo
+
+Sprint 3 demonstrates governed orchestration replay for enterprise-safe agentic AI.
+
+Core story:
+
+```text
+Same alert.
+Different enterprise memory.
+Different due-diligence depth.
+Same governance.
+Same human approval boundary.
+No autonomous production action.
+```
+
+Run the replay export:
+
+```powershell
+python scripts\export_sprint3_ui_replay_json.py
+```
+
+Launch the standalone replay:
+
+```powershell
+python -m http.server 8765
+```
+
+Open:
+
+```text
+http://localhost:8765/ui_static/replay_canvas/index.html
+```
+
+Demo package:
+
+- `docs/EAIOS_2_SPRINT_3_CLOSEOUT.md`
+- `docs/EAIOS_2_SPRINT_3_UI_DEMO_WALKTHROUGH.md`
+- `docs/EAIOS_2_SPRINT_3_UI_ARCHITECTURE_CHECKPOINT.md`
+
+Architecture rule:
+
+```text
+Python owns decisions.
+Renderer owns play-head.
+Renderer must not invent replay paths.
 ```
