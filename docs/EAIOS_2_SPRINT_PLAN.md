@@ -1,3 +1,16 @@
+﻿# Historical Note
+
+This document is retained as an earlier EAIOS 2 sprint planning artifact.
+
+Current Sprint 2.5 status is captured in:
+
+- `README.md`
+- `docs/EAIOS_2_SPRINT_2_5_COMPLETION_SUMMARY.md`
+- `docs/EAIOS_2_REPOSITORY_HOUSEKEEPING_STATUS.md`
+
+The current executable demo is `python app.py`.
+
+---
 \# EAIOS 2 Sprint Plan
 
 
@@ -66,7 +79,7 @@ This prevents overclaiming and keeps the build testable.
 
 
 
-\# Sprint 0 — Hygiene and Build Readiness
+\# Sprint 0 â€” Hygiene and Build Readiness
 
 
 
@@ -124,7 +137,7 @@ Sprint 1 should not proceed until the baseline test command runs successfully.
 
 
 
-\# Sprint 1 — Zero Trust Knowledge Access Governance
+\# Sprint 1 â€” Zero Trust Knowledge Access Governance
 
 
 
@@ -156,37 +169,37 @@ Can EAIOS prevent, deny, escalate, or fail closed on unsafe knowledge access bef
 
 Application Health Agent
 
-↓
+â†“
 
 requests Knowledge Agent support
 
-↓
+â†“
 
 ActionRequest created with Goal Context
 
-↓
+â†“
 
 Knowledge Agent uses GovernedKnowledgeClient
 
-↓
+â†“
 
 GovernanceBroker intercepts the request
 
-↓
+â†“
 
 AccessGovernanceSystem evaluates policy
 
-↓
+â†“
 
 Decision returned:
 
 APPROVED\_WITH\_CONTROLS / DENIED / ESCALATE / FAIL\_CLOSED
 
-↓
+â†“
 
 Broker enforces decision
 
-↓
+â†“
 
 Audit record written or access blocked fail-closed
 
@@ -886,7 +899,7 @@ All scenarios must be implemented as automated assertions in `tests/test\_scenar
 
 
 
-\## Scenario 1 — Approved Operational Troubleshooting
+\## Scenario 1 â€” Approved Operational Troubleshooting
 
 
 
@@ -946,7 +959,7 @@ Proves normal governed knowledge access works.
 
 
 
-\## Scenario 2 — Approved Self-Help
+\## Scenario 2 â€” Approved Self-Help
 
 
 
@@ -1004,7 +1017,7 @@ Proves the same Knowledge Agent can be reused under a different Goal Context.
 
 
 
-\## Scenario 3 — Denied HR Source From Non-HR Context
+\## Scenario 3 â€” Denied HR Source From Non-HR Context
 
 
 
@@ -1060,7 +1073,7 @@ Proves source access is purpose-aware, not just agent-aware.
 
 
 
-\## Scenario 4 — Denied Identity Source Through Generic Retrieval
+\## Scenario 4 â€” Denied Identity Source Through Generic Retrieval
 
 
 
@@ -1116,7 +1129,7 @@ Proves sensitive identity sources cannot be reached through generic knowledge re
 
 
 
-\## Scenario 5 — Escalated Identity Access With Justification
+\## Scenario 5 â€” Escalated Identity Access With Justification
 
 
 
@@ -1178,7 +1191,7 @@ Proves high-sensitivity access requires review even when the request appears leg
 
 
 
-\## Scenario 6 — Escalated Knowledge Write
+\## Scenario 6 â€” Escalated Knowledge Write
 
 
 
@@ -1228,7 +1241,7 @@ Proves enterprise memory updates require human governance.
 
 
 
-\## Scenario 7 — Governance Debt
+\## Scenario 7 â€” Governance Debt
 
 
 
@@ -1272,7 +1285,7 @@ Proves missing metadata is treated as governance debt, not implicit approval.
 
 
 
-\## Scenario 8 — Missing Goal Context
+\## Scenario 8 â€” Missing Goal Context
 
 
 
@@ -1316,7 +1329,7 @@ Proves Goal Context is mandatory for governed action.
 
 
 
-\## Scenario 9 — High-Risk Uncertainty
+\## Scenario 9 â€” High-Risk Uncertainty
 
 
 
@@ -1366,7 +1379,7 @@ Proves uncertainty attached to high-impact action or sensitive data is denied by
 
 
 
-\## Scenario 10 — Unregistered Caller Agent
+\## Scenario 10 â€” Unregistered Caller Agent
 
 
 
@@ -1416,7 +1429,7 @@ Proves the broker validates caller identity against the Agent Registry before so
 
 
 
-\## Scenario 11 — Audit Failure on Governed Action
+\## Scenario 11 â€” Audit Failure on Governed Action
 
 
 
@@ -1447,7 +1460,7 @@ Proves the broker does not allow governed access when mandatory auditability can
 \---
 
 
-## Scenario 12 — Goal-Category Spoofing
+## Scenario 12 â€” Goal-Category Spoofing
 
 ```text
 Caller:
@@ -1543,7 +1556,7 @@ Sprint 1 explicitly does not include:
 
 
 
-\# Sprint 2 Preview — Governed Evidence and Content Safety
+\# Sprint 2 Preview â€” Governed Evidence and Content Safety
 
 
 
@@ -1555,13 +1568,13 @@ Sprint 1 explicitly does not include:
 
 Evidence Provenance:
 
-Architectural Foundation → Operational Capability
+Architectural Foundation â†’ Operational Capability
 
 
 
 Content Safety Gateway:
 
-Architectural Foundation → Operational Capability
+Architectural Foundation â†’ Operational Capability
 
 ```
 
@@ -1589,7 +1602,7 @@ SAFE / SAFE\_WITH\_CONTROLS / SUPPORTING\_ONLY / NEEDS\_HUMAN\_REVIEW / UNSAFE
 
 
 
-\# Sprint 3 Preview — Derived Operational Confidence
+\# Sprint 3 Preview â€” Derived Operational Confidence
 
 
 
@@ -1601,7 +1614,7 @@ SAFE / SAFE\_WITH\_CONTROLS / SUPPORTING\_ONLY / NEEDS\_HUMAN\_REVIEW / UNSAFE
 
 Operational Confidence Calibration:
 
-Defined Interface → Architectural Foundation / partial Operational Capability
+Defined Interface â†’ Architectural Foundation / partial Operational Capability
 
 ```
 
@@ -1631,7 +1644,7 @@ confidence explanation
 
 
 
-\# Sprint 4 Preview — Outcome-Calibrated Learning
+\# Sprint 4 Preview â€” Outcome-Calibrated Learning
 
 
 
@@ -1643,7 +1656,7 @@ confidence explanation
 
 Operational Confidence Calibration:
 
-Architectural Foundation → Operational Capability
+Architectural Foundation â†’ Operational Capability
 
 ```
 
@@ -1673,7 +1686,7 @@ threshold adjustment recommendation
 
 
 
-\# Sprint 5 Preview — Red-Team Governance Regression
+\# Sprint 5 Preview â€” Red-Team Governance Regression
 
 
 
@@ -1685,7 +1698,7 @@ threshold adjustment recommendation
 
 Red-Team Scenario Format:
 
-Defined Interface → Operational Capability
+Defined Interface â†’ Operational Capability
 
 ```
 
@@ -1728,6 +1741,7 @@ It operationalizes Agent Registry, Data Source Registry, Policy Registry, Goal C
 
 
 It introduces human approval, evidence provenance, content safety, AgentOps metrics, reasoning interfaces, operational confidence calibration, and red-team testing as architectural foundations or defined interfaces, without claiming they are fully implemented yet.
+
 
 
 

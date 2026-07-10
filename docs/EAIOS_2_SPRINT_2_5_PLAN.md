@@ -1,3 +1,18 @@
+﻿# Final Status Note
+
+Sprint 2.5 is complete.
+
+Current Sprint 2.5 status is captured in:
+
+- `README.md`
+- `docs/EAIOS_2_SPRINT_2_5_COMPLETION_SUMMARY.md`
+- `docs/EAIOS_2_REPOSITORY_HOUSEKEEPING_STATUS.md`
+
+The current executable demo is `python app.py`.
+
+Final verified test baseline: `143 passed`.
+
+---
 \# EAIOS 2 Sprint 2.5 Plan
 
 
@@ -158,7 +173,7 @@ Therefore, Sprint 2.5 begins with:
 
 ```text
 
-Phase 0.5 — Governed Retrieval to Evidence Seam
+Phase 0.5 â€” Governed Retrieval to Evidence Seam
 
 ```
 
@@ -178,11 +193,11 @@ Sprint 2.5 is split into three independently green-able increments.
 
 ```text
 
-2.5a — Governed retrieval seam, registry alignment, and enforced contracts
+2.5a â€” Governed retrieval seam, registry alignment, and enforced contracts
 
-2.5b — Synthetic ITIL repository, generator, and golden scenarios
+2.5b â€” Synthetic ITIL repository, generator, and golden scenarios
 
-2.5c — Domain adapter, evidence fusion, memory, and end-to-end orchestration
+2.5c â€” Domain adapter, evidence fusion, memory, and end-to-end orchestration
 
 ```
 
@@ -352,7 +367,7 @@ For Sprint 2.5a, the runtime path uses the `EvidenceFactory` dictionary contract
 
 
 
-\# 7. Phase 0.5 — Governed Retrieval to Evidence Seam
+\# 7. Phase 0.5 â€” Governed Retrieval to Evidence Seam
 
 
 
@@ -368,25 +383,25 @@ Wire the real governed retrieval path:
 
 ActionRequest
 
-→ GovernanceBroker / PEP
+â†’ GovernanceBroker / PEP
 
-→ AccessGovernanceSystem / PDP
+â†’ AccessGovernanceSystem / PDP
 
-→ Audit access decision
+â†’ Audit access decision
 
-→ GovernedKnowledgeClient retrieves approved mock knowledge items
+â†’ GovernedKnowledgeClient retrieves approved mock knowledge items
 
-→ EvidenceFactory creates evidence
+â†’ EvidenceFactory creates evidence
 
-→ ContentSafetyGateway classifies content
+â†’ ContentSafetyGateway classifies content
 
-→ EvidenceQualityScorer scores evidence
+â†’ EvidenceQualityScorer scores evidence
 
-→ EvidenceStore persists evidence
+â†’ EvidenceStore persists evidence
 
-→ Audit evidence-created event
+â†’ Audit evidence-created event
 
-→ evidence\_for\_reasoning excludes unsafe/review-required content
+â†’ evidence\_for\_reasoning excludes unsafe/review-required content
 
 ```
 
@@ -396,7 +411,7 @@ ActionRequest
 
 
 
-Sprint 2.5’s later rules say:
+Sprint 2.5â€™s later rules say:
 
 
 
@@ -504,7 +519,7 @@ The test must prove:
 
 1\. Approved governed access produces evidence.
 
-2\. Evidence uses the broker’s real access audit ID.
+2\. Evidence uses the brokerâ€™s real access audit ID.
 
 3\. Access audit record is not mutated.
 
@@ -552,7 +567,7 @@ New seam test passes.
 
 
 
-\# 8. Sprint 2.5a — Seam, Registry Alignment, and Enforced Core Contracts
+\# 8. Sprint 2.5a â€” Seam, Registry Alignment, and Enforced Core Contracts
 
 
 
@@ -1074,7 +1089,7 @@ Running python -m pytest leaves git status clean.
 
 
 
-\# 9. Sprint 2.5b — Synthetic ITIL Repository and Golden Scenarios
+\# 9. Sprint 2.5b â€” Synthetic ITIL Repository and Golden Scenarios
 
 
 
@@ -1116,11 +1131,11 @@ Target logical scale:
 
 2,400 incidents
 
-16–24 problems
+16â€“24 problems
 
-20–40 knowledge articles
+20â€“40 knowledge articles
 
-16–24 change requests
+16â€“24 change requests
 
 6 deterministic golden scenarios
 
@@ -1240,7 +1255,7 @@ Sprint 2.5b includes six deterministic scenarios.
 
 
 
-\### Scenario 1 — Tier-0 Checkout Degradation
+\### Scenario 1 â€” Tier-0 Checkout Degradation
 
 
 
@@ -1282,7 +1297,7 @@ human approval boundary
 
 
 
-\### Scenario 2 — Known Error Reuse
+\### Scenario 2 â€” Known Error Reuse
 
 
 
@@ -1318,7 +1333,7 @@ no blind reuse
 
 
 
-\### Scenario 3 — Recent Change Correlation
+\### Scenario 3 â€” Recent Change Correlation
 
 
 
@@ -1352,7 +1367,7 @@ approval boundary
 
 
 
-\### Scenario 4 — High Technical Severity, Low Business Impact
+\### Scenario 4 â€” High Technical Severity, Low Business Impact
 
 
 
@@ -1384,7 +1399,7 @@ bounded response
 
 
 
-\### Scenario 5 — Unknown Business Impact
+\### Scenario 5 â€” Unknown Business Impact
 
 
 
@@ -1418,7 +1433,7 @@ no autonomous action
 
 
 
-\### Scenario 6 — Conflicting Evidence
+\### Scenario 6 â€” Conflicting Evidence
 
 
 
@@ -1542,7 +1557,7 @@ Unknown business impact is not low business impact.
 
 
 
-\# 10. Sprint 2.5c — Domain Adapter, Evidence Fusion, Memory, and End-to-End Concept Demo
+\# 10. Sprint 2.5c â€” Domain Adapter, Evidence Fusion, Memory, and End-to-End Concept Demo
 
 
 
@@ -2409,6 +2424,7 @@ and preserve governance, audit, and domain boundaries.
 
 
 This is the production-ready concept transfer.
+
 
 
 
