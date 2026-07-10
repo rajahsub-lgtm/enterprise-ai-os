@@ -221,3 +221,5 @@ __marimo__/
 data/domain/it_application_health/*.generated.json
 .agents/
 .claude/
+.pytest_tmp/
+ui_static/replay_canvas/.cache/

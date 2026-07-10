@@ -1,0 +1,76 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EAIOS 2 Replay Canvas</title>
+  <link rel="stylesheet" href="./replay_canvas.css" />
+</head>
+<body>
+  <header class="header">
+    <div>
+      <h1>EAIOS 2 Control Room</h1>
+      <p>Governed adaptive orchestration replay</p>
+    </div>
+    <div class="badges">
+      <span>Governance: Mandatory</span>
+      <span>Human approval: Required</span>
+      <span>Autonomous action: Off</span>
+      <span>Memory: Evidence, not truth</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="story">
+      <h2 id="comparison-title">Same alert. Different due diligence. Same governance.</h2>
+      <p>Behavior adapts. Governance does not relax.</p>
+      <div class="controls">
+        <button id="play-pause">Play</button>
+        <button id="next-event">Next event</button>
+        <button id="reset">Reset</button>
+        <label>Scenario <select id="run-selector"></select></label>
+      </div>
+    </section>
+
+    <section class="layout">
+      <aside id="run-summary" class="panel"></aside>
+
+      <section class="panel canvas">
+        <div class="flow">
+          <div class="node" data-node-id="joint_goal">Joint Goal</div>
+          <div id="agent-lane" class="lane"></div>
+          <div class="node" data-node-id="evidence_fusion">Evidence Fusion</div>
+          <div class="node" data-node-id="operational_confidence">Operational Confidence</div>
+          <div class="node" data-node-id="due_diligence">Due Diligence</div>
+          <div class="node final" data-node-id="human_review">Human Review Required</div>
+        </div>
+
+        <div class="evidence-grid">
+          <div>
+            <h3>Reasoning evidence</h3>
+            <div id="eligible-evidence"></div>
+          </div>
+          <div>
+            <h3>Excluded evidence</h3>
+            <div id="excluded-evidence"></div>
+          </div>
+          <div>
+            <h3>Evidence gaps</h3>
+            <div id="evidence-gaps"></div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="panel">
+        <h3>Current event</h3>
+        <div id="current-event" class="event-card">Press Play or Next event.</div>
+        <h3>Append-only event log</h3>
+        <ol id="event-log"></ol>
+      </aside>
+    </section>
+  </main>
+
+  <script src="./replay_canvas.js"></script>
+</body>
+</html>
