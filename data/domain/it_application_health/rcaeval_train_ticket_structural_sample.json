@@ -1,0 +1,158 @@
+{
+  "schema_version": "eaios-sprint4-structural-sample-v1",
+  "sample_policy": {
+    "sample_type": "hand_authored_structural_sample",
+    "copied_from_rcaeval": false,
+    "raw_benchmark_data": false,
+    "license_status": "NO_COPIED_RECORDS_LICENSE_SAFE_STRUCTURAL_SAMPLE",
+    "purpose": "Mimic the shape expected from RCAEval / Train Ticket without copying benchmark records."
+  },
+  "composition_scenario_id": "composition-structural-001",
+  "fault_scenarios": [
+    {
+      "failure_case_id": "structural-failure-payment-latency-001",
+      "root_cause_service": "payment-service",
+      "root_cause_indicator": "latency_p95_ms",
+      "fault_type": "service_latency_injection",
+      "time_window": {
+        "start": "2026-07-10T10:00:00Z",
+        "end": "2026-07-10T10:15:00Z"
+      },
+      "affected_services": [
+        "checkout-service",
+        "payment-service",
+        "order-service"
+      ],
+      "telemetry_symptoms": [
+        {
+          "symptom_id": "symptom-payment-p95-latency",
+          "service": "payment-service",
+          "signal_type": "metric",
+          "indicator": "latency_p95_ms",
+          "observed_value": 2400,
+          "baseline_value": 300,
+          "severity": "HIGH"
+        },
+        {
+          "symptom_id": "symptom-checkout-errors",
+          "service": "checkout-service",
+          "signal_type": "metric",
+          "indicator": "http_5xx_rate",
+          "observed_value": 7.2,
+          "baseline_value": 0.3,
+          "severity": "HIGH"
+        },
+        {
+          "symptom_id": "symptom-order-timeouts",
+          "service": "order-service",
+          "signal_type": "trace",
+          "indicator": "downstream_timeout_count",
+          "observed_value": 42,
+          "baseline_value": 2,
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "failure_case_id": "structural-failure-inventory-errors-001",
+      "root_cause_service": "inventory-service",
+      "root_cause_indicator": "db_connection_errors",
+      "fault_type": "database_connection_error",
+      "time_window": {
+        "start": "2026-07-10T10:05:00Z",
+        "end": "2026-07-10T10:20:00Z"
+      },
+      "affected_services": [
+        "inventory-service",
+        "route-planning-service"
+      ],
+      "telemetry_symptoms": [
+        {
+          "symptom_id": "symptom-inventory-db-errors",
+          "service": "inventory-service",
+          "signal_type": "log",
+          "indicator": "db_connection_errors",
+          "observed_value": 86,
+          "baseline_value": 1,
+          "severity": "HIGH"
+        },
+        {
+          "symptom_id": "symptom-route-planning-degraded",
+          "service": "route-planning-service",
+          "signal_type": "metric",
+          "indicator": "dependency_error_rate",
+          "observed_value": 5.1,
+          "baseline_value": 0.2,
+          "severity": "MEDIUM"
+        }
+      ]
+    }
+  ],
+  "noise_symptoms": [
+    {
+      "symptom_id": "symptom-notification-background-retry",
+      "service": "notification-service",
+      "signal_type": "log",
+      "indicator": "background_retry_count",
+      "observed_value": 9,
+      "baseline_value": 5,
+      "severity": "LOW",
+      "noise_record": true
+    }
+  ],
+  "service_topology": {
+    "services": [
+      {
+        "service_id": "checkout-service",
+        "tier": "edge"
+      },
+      {
+        "service_id": "payment-service",
+        "tier": "domain"
+      },
+      {
+        "service_id": "order-service",
+        "tier": "domain"
+      },
+      {
+        "service_id": "inventory-service",
+        "tier": "domain"
+      },
+      {
+        "service_id": "route-planning-service",
+        "tier": "domain"
+      },
+      {
+        "service_id": "notification-service",
+        "tier": "support"
+      }
+    ],
+    "dependencies": [
+      {
+        "source_service": "checkout-service",
+        "target_service": "payment-service",
+        "dependency_type": "sync_http"
+      },
+      {
+        "source_service": "checkout-service",
+        "target_service": "order-service",
+        "dependency_type": "sync_http"
+      },
+      {
+        "source_service": "order-service",
+        "target_service": "inventory-service",
+        "dependency_type": "sync_http"
+      },
+      {
+        "source_service": "route-planning-service",
+        "target_service": "inventory-service",
+        "dependency_type": "sync_http"
+      },
+      {
+        "source_service": "order-service",
+        "target_service": "notification-service",
+        "dependency_type": "async_event"
+      }
+    ]
+  }
+}
