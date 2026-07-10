@@ -1,0 +1,554 @@
+[
+  {
+    "scenario_id": "S3-SAME-ALERT-NO-MEMORY",
+    "scenario_type": "same_alert_no_memory",
+    "case_id": "CASE-S3-SAME-ALERT-NO-MEMORY",
+    "model_label": "sprint3_headless_scenario",
+    "initial_signal": {
+      "alert_signature": "digital_checkout_latency_and_error_spike",
+      "summary": "Digital Checkout shows elevated latency and error rate.",
+      "signal_type": "service_health_degradation",
+      "severity": "HIGH"
+    },
+    "memory_state_id": "no_memory",
+    "impact": {
+      "impact_tier": "HIGH",
+      "impact_confidence": "HIGH"
+    },
+    "fusion_state": "CLEAR",
+    "expected_operational_confidence": "LOW",
+    "expected_confidence_direction": "NEW",
+    "expected_due_diligence_level": "FULL_DUE_DILIGENCE",
+    "expected_knowledge_retrieval_required": true,
+    "expected_governance_required": true,
+    "expected_human_approval_required": true,
+    "expected_autonomous_action_allowed": false,
+    "affected_entities": [
+      "digital_checkout",
+      "payment_authorization"
+    ],
+    "unaffected_entities": [
+      "product_catalog",
+      "order_history"
+    ],
+    "present_symptoms": [
+      "latency_spike",
+      "error_rate_increase",
+      "checkout_completion_drop"
+    ],
+    "absent_symptoms": [
+      "database_storage_saturation",
+      "network_edge_outage"
+    ],
+    "changed_conditions": [
+      "shared_compute_host_recently_reported_resource_pressure",
+      "payment_authorization_path_recently_degraded"
+    ],
+    "unchanged_conditions": [
+      "catalog_browse_path_stable",
+      "order_history_path_stable"
+    ],
+    "candidate_hypotheses": [
+      {
+        "hypothesis_id": "HYP-COMPUTE-CONTENTION",
+        "summary": "Shared compute pressure is affecting the checkout path.",
+        "expected_supporting_signals": [
+          "latency_spike",
+          "payment_authorization_path_recently_degraded"
+        ]
+      },
+      {
+        "hypothesis_id": "HYP-KNOWLEDGE-KNOWN-ERROR",
+        "summary": "A known error pattern may explain the current condition.",
+        "expected_supporting_signals": [
+          "error_rate_increase",
+          "checkout_completion_drop"
+        ]
+      }
+    ],
+    "expected_is_statements": [
+      "The condition is affecting Digital Checkout.",
+      "The condition is present on the payment authorization path.",
+      "The condition includes latency and error symptoms."
+    ],
+    "expected_is_not_statements": [
+      "The condition is not currently affecting Product Catalog.",
+      "The condition is not explained by database storage saturation.",
+      "The condition is not approved for autonomous production action."
+    ]
+  },
+  {
+    "scenario_id": "S3-SAME-ALERT-EMERGING-MEMORY",
+    "scenario_type": "same_alert_emerging_memory",
+    "case_id": "CASE-S3-SAME-ALERT-EMERGING-MEMORY",
+    "model_label": "sprint3_headless_scenario",
+    "initial_signal": {
+      "alert_signature": "digital_checkout_latency_and_error_spike",
+      "summary": "Digital Checkout shows elevated latency and error rate.",
+      "signal_type": "service_health_degradation",
+      "severity": "HIGH"
+    },
+    "memory_state_id": "emerging_memory",
+    "impact": {
+      "impact_tier": "HIGH",
+      "impact_confidence": "HIGH"
+    },
+    "fusion_state": "CLEAR",
+    "expected_operational_confidence": "MEDIUM",
+    "expected_confidence_direction": "INCREASING",
+    "expected_due_diligence_level": "TARGETED_KNOWLEDGE_RETRIEVAL",
+    "expected_knowledge_retrieval_required": true,
+    "expected_governance_required": true,
+    "expected_human_approval_required": true,
+    "expected_autonomous_action_allowed": false,
+    "affected_entities": [
+      "digital_checkout",
+      "payment_authorization"
+    ],
+    "unaffected_entities": [
+      "product_catalog",
+      "order_history"
+    ],
+    "present_symptoms": [
+      "latency_spike",
+      "error_rate_increase",
+      "checkout_completion_drop"
+    ],
+    "absent_symptoms": [
+      "database_storage_saturation",
+      "network_edge_outage"
+    ],
+    "changed_conditions": [
+      "shared_compute_host_recently_reported_resource_pressure",
+      "payment_authorization_path_recently_degraded"
+    ],
+    "unchanged_conditions": [
+      "catalog_browse_path_stable",
+      "order_history_path_stable"
+    ],
+    "candidate_hypotheses": [
+      {
+        "hypothesis_id": "HYP-COMPUTE-CONTENTION",
+        "summary": "Shared compute pressure is affecting the checkout path.",
+        "expected_supporting_signals": [
+          "latency_spike",
+          "payment_authorization_path_recently_degraded"
+        ]
+      },
+      {
+        "hypothesis_id": "HYP-KNOWLEDGE-KNOWN-ERROR",
+        "summary": "A known error pattern may explain the current condition.",
+        "expected_supporting_signals": [
+          "error_rate_increase",
+          "checkout_completion_drop"
+        ]
+      }
+    ],
+    "expected_is_statements": [
+      "The condition is affecting Digital Checkout.",
+      "The condition is present on the payment authorization path.",
+      "The condition includes latency and error symptoms."
+    ],
+    "expected_is_not_statements": [
+      "The condition is not currently affecting Product Catalog.",
+      "The condition is not explained by database storage saturation.",
+      "The condition is not approved for autonomous production action."
+    ]
+  },
+  {
+    "scenario_id": "S3-SAME-ALERT-TRUSTED-MEMORY",
+    "scenario_type": "same_alert_trusted_memory",
+    "case_id": "CASE-S3-SAME-ALERT-TRUSTED-MEMORY",
+    "model_label": "sprint3_headless_scenario",
+    "initial_signal": {
+      "alert_signature": "digital_checkout_latency_and_error_spike",
+      "summary": "Digital Checkout shows elevated latency and error rate.",
+      "signal_type": "service_health_degradation",
+      "severity": "HIGH"
+    },
+    "memory_state_id": "trusted_memory",
+    "impact": {
+      "impact_tier": "HIGH",
+      "impact_confidence": "HIGH"
+    },
+    "fusion_state": "CLEAR",
+    "expected_operational_confidence": "HIGH",
+    "expected_confidence_direction": "STABLE",
+    "expected_due_diligence_level": "TARGETED_VALIDATION",
+    "expected_knowledge_retrieval_required": false,
+    "expected_governance_required": true,
+    "expected_human_approval_required": true,
+    "expected_autonomous_action_allowed": false,
+    "affected_entities": [
+      "digital_checkout",
+      "payment_authorization"
+    ],
+    "unaffected_entities": [
+      "product_catalog",
+      "order_history"
+    ],
+    "present_symptoms": [
+      "latency_spike",
+      "error_rate_increase",
+      "checkout_completion_drop"
+    ],
+    "absent_symptoms": [
+      "database_storage_saturation",
+      "network_edge_outage"
+    ],
+    "changed_conditions": [
+      "shared_compute_host_recently_reported_resource_pressure",
+      "payment_authorization_path_recently_degraded"
+    ],
+    "unchanged_conditions": [
+      "catalog_browse_path_stable",
+      "order_history_path_stable"
+    ],
+    "candidate_hypotheses": [
+      {
+        "hypothesis_id": "HYP-COMPUTE-CONTENTION",
+        "summary": "Shared compute pressure is affecting the checkout path.",
+        "expected_supporting_signals": [
+          "latency_spike",
+          "payment_authorization_path_recently_degraded"
+        ]
+      },
+      {
+        "hypothesis_id": "HYP-KNOWLEDGE-KNOWN-ERROR",
+        "summary": "A known error pattern may explain the current condition.",
+        "expected_supporting_signals": [
+          "error_rate_increase",
+          "checkout_completion_drop"
+        ]
+      }
+    ],
+    "expected_is_statements": [
+      "The condition is affecting Digital Checkout.",
+      "The condition is present on the payment authorization path.",
+      "The condition includes latency and error symptoms."
+    ],
+    "expected_is_not_statements": [
+      "The condition is not currently affecting Product Catalog.",
+      "The condition is not explained by database storage saturation.",
+      "The condition is not approved for autonomous production action."
+    ]
+  },
+  {
+    "scenario_id": "S3-SAME-ALERT-TRUSTED-BUT-DRIFTING",
+    "scenario_type": "same_alert_trusted_but_drifting_memory",
+    "case_id": "CASE-S3-SAME-ALERT-TRUSTED-BUT-DRIFTING",
+    "model_label": "sprint3_headless_scenario",
+    "initial_signal": {
+      "alert_signature": "digital_checkout_latency_and_error_spike",
+      "summary": "Digital Checkout shows elevated latency and error rate.",
+      "signal_type": "service_health_degradation",
+      "severity": "HIGH"
+    },
+    "memory_state_id": "trusted_but_drifting_memory",
+    "impact": {
+      "impact_tier": "HIGH",
+      "impact_confidence": "HIGH"
+    },
+    "fusion_state": "CLEAR",
+    "expected_operational_confidence": "LOW",
+    "expected_confidence_direction": "DECREASING",
+    "expected_due_diligence_level": "EXPANDED_VALIDATION",
+    "expected_knowledge_retrieval_required": true,
+    "expected_governance_required": true,
+    "expected_human_approval_required": true,
+    "expected_autonomous_action_allowed": false,
+    "affected_entities": [
+      "digital_checkout",
+      "payment_authorization"
+    ],
+    "unaffected_entities": [
+      "product_catalog",
+      "order_history"
+    ],
+    "present_symptoms": [
+      "latency_spike",
+      "error_rate_increase",
+      "checkout_completion_drop"
+    ],
+    "absent_symptoms": [
+      "database_storage_saturation",
+      "network_edge_outage"
+    ],
+    "changed_conditions": [
+      "shared_compute_host_recently_reported_resource_pressure",
+      "payment_authorization_path_recently_degraded"
+    ],
+    "unchanged_conditions": [
+      "catalog_browse_path_stable",
+      "order_history_path_stable"
+    ],
+    "candidate_hypotheses": [
+      {
+        "hypothesis_id": "HYP-COMPUTE-CONTENTION",
+        "summary": "Shared compute pressure is affecting the checkout path.",
+        "expected_supporting_signals": [
+          "latency_spike",
+          "payment_authorization_path_recently_degraded"
+        ]
+      },
+      {
+        "hypothesis_id": "HYP-KNOWLEDGE-KNOWN-ERROR",
+        "summary": "A known error pattern may explain the current condition.",
+        "expected_supporting_signals": [
+          "error_rate_increase",
+          "checkout_completion_drop"
+        ]
+      }
+    ],
+    "expected_is_statements": [
+      "The condition is affecting Digital Checkout.",
+      "The condition is present on the payment authorization path.",
+      "The condition includes latency and error symptoms."
+    ],
+    "expected_is_not_statements": [
+      "The condition is not currently affecting Product Catalog.",
+      "The condition is not explained by database storage saturation.",
+      "The condition is not approved for autonomous production action."
+    ]
+  },
+  {
+    "scenario_id": "S3-SAME-ALERT-CONFLICTING-EVIDENCE",
+    "scenario_type": "same_alert_conflicting_evidence",
+    "case_id": "CASE-S3-SAME-ALERT-CONFLICTING-EVIDENCE",
+    "model_label": "sprint3_headless_scenario",
+    "initial_signal": {
+      "alert_signature": "digital_checkout_latency_and_error_spike",
+      "summary": "Digital Checkout shows elevated latency and error rate.",
+      "signal_type": "service_health_degradation",
+      "severity": "HIGH"
+    },
+    "memory_state_id": "trusted_memory",
+    "impact": {
+      "impact_tier": "HIGH",
+      "impact_confidence": "HIGH"
+    },
+    "fusion_state": "CONFLICTING",
+    "expected_operational_confidence": "LOW",
+    "expected_confidence_direction": "DECREASING",
+    "expected_due_diligence_level": "EXPANDED_VALIDATION",
+    "expected_knowledge_retrieval_required": true,
+    "expected_governance_required": true,
+    "expected_human_approval_required": true,
+    "expected_autonomous_action_allowed": false,
+    "affected_entities": [
+      "digital_checkout",
+      "payment_authorization"
+    ],
+    "unaffected_entities": [
+      "product_catalog",
+      "order_history"
+    ],
+    "present_symptoms": [
+      "latency_spike",
+      "error_rate_increase",
+      "checkout_completion_drop"
+    ],
+    "absent_symptoms": [
+      "database_storage_saturation",
+      "network_edge_outage"
+    ],
+    "changed_conditions": [
+      "shared_compute_host_recently_reported_resource_pressure",
+      "payment_authorization_path_recently_degraded"
+    ],
+    "unchanged_conditions": [
+      "catalog_browse_path_stable",
+      "order_history_path_stable"
+    ],
+    "candidate_hypotheses": [
+      {
+        "hypothesis_id": "HYP-COMPUTE-CONTENTION",
+        "summary": "Shared compute pressure is affecting the checkout path.",
+        "expected_supporting_signals": [
+          "latency_spike",
+          "payment_authorization_path_recently_degraded"
+        ]
+      },
+      {
+        "hypothesis_id": "HYP-KNOWLEDGE-KNOWN-ERROR",
+        "summary": "A known error pattern may explain the current condition.",
+        "expected_supporting_signals": [
+          "error_rate_increase",
+          "checkout_completion_drop"
+        ]
+      }
+    ],
+    "expected_is_statements": [
+      "The condition is affecting Digital Checkout.",
+      "The condition is present on the payment authorization path.",
+      "The condition includes latency and error symptoms."
+    ],
+    "expected_is_not_statements": [
+      "The condition is not currently affecting Product Catalog.",
+      "The condition is not explained by database storage saturation.",
+      "The condition is not approved for autonomous production action."
+    ]
+  },
+  {
+    "scenario_id": "S3-SAME-ALERT-UNKNOWN-IMPACT",
+    "scenario_type": "same_alert_unknown_impact",
+    "case_id": "CASE-S3-SAME-ALERT-UNKNOWN-IMPACT",
+    "model_label": "sprint3_headless_scenario",
+    "initial_signal": {
+      "alert_signature": "digital_checkout_latency_and_error_spike",
+      "summary": "Digital Checkout shows elevated latency and error rate.",
+      "signal_type": "service_health_degradation",
+      "severity": "HIGH"
+    },
+    "memory_state_id": "trusted_memory",
+    "impact": {
+      "impact_tier": "UNKNOWN",
+      "impact_confidence": "LOW"
+    },
+    "fusion_state": "UNKNOWN_IMPACT",
+    "expected_operational_confidence": "LOW",
+    "expected_confidence_direction": "DECREASING",
+    "expected_due_diligence_level": "ESCALATE_FOR_IMPACT_ASSESSMENT",
+    "expected_knowledge_retrieval_required": true,
+    "expected_governance_required": true,
+    "expected_human_approval_required": true,
+    "expected_autonomous_action_allowed": false,
+    "affected_entities": [
+      "digital_checkout",
+      "payment_authorization"
+    ],
+    "unaffected_entities": [
+      "product_catalog",
+      "order_history"
+    ],
+    "present_symptoms": [
+      "latency_spike",
+      "error_rate_increase",
+      "checkout_completion_drop"
+    ],
+    "absent_symptoms": [
+      "database_storage_saturation",
+      "network_edge_outage"
+    ],
+    "changed_conditions": [
+      "shared_compute_host_recently_reported_resource_pressure",
+      "payment_authorization_path_recently_degraded"
+    ],
+    "unchanged_conditions": [
+      "catalog_browse_path_stable",
+      "order_history_path_stable"
+    ],
+    "candidate_hypotheses": [
+      {
+        "hypothesis_id": "HYP-COMPUTE-CONTENTION",
+        "summary": "Shared compute pressure is affecting the checkout path.",
+        "expected_supporting_signals": [
+          "latency_spike",
+          "payment_authorization_path_recently_degraded"
+        ]
+      },
+      {
+        "hypothesis_id": "HYP-KNOWLEDGE-KNOWN-ERROR",
+        "summary": "A known error pattern may explain the current condition.",
+        "expected_supporting_signals": [
+          "error_rate_increase",
+          "checkout_completion_drop"
+        ]
+      }
+    ],
+    "expected_is_statements": [
+      "The condition is affecting Digital Checkout.",
+      "The condition is present on the payment authorization path.",
+      "The condition includes latency and error symptoms."
+    ],
+    "expected_is_not_statements": [
+      "The condition is not currently affecting Product Catalog.",
+      "The condition is not explained by database storage saturation.",
+      "The condition is not approved for autonomous production action."
+    ]
+  },
+  {
+    "scenario_id": "S3-SAME-ALERT-SIMULATED-OUTCOME-FEEDBACK",
+    "scenario_type": "same_alert_simulated_outcome_feedback",
+    "case_id": "CASE-S3-SAME-ALERT-SIMULATED-OUTCOME-FEEDBACK",
+    "model_label": "sprint3_headless_scenario",
+    "initial_signal": {
+      "alert_signature": "digital_checkout_latency_and_error_spike",
+      "summary": "Digital Checkout shows elevated latency and error rate.",
+      "signal_type": "service_health_degradation",
+      "severity": "HIGH"
+    },
+    "memory_state_id": "emerging_memory",
+    "impact": {
+      "impact_tier": "HIGH",
+      "impact_confidence": "HIGH"
+    },
+    "fusion_state": "CLEAR",
+    "expected_operational_confidence": "MEDIUM",
+    "expected_confidence_direction": "INCREASING",
+    "expected_due_diligence_level": "TARGETED_KNOWLEDGE_RETRIEVAL",
+    "expected_knowledge_retrieval_required": true,
+    "expected_governance_required": true,
+    "expected_human_approval_required": true,
+    "expected_autonomous_action_allowed": false,
+    "affected_entities": [
+      "digital_checkout",
+      "payment_authorization"
+    ],
+    "unaffected_entities": [
+      "product_catalog",
+      "order_history"
+    ],
+    "present_symptoms": [
+      "latency_spike",
+      "error_rate_increase",
+      "checkout_completion_drop"
+    ],
+    "absent_symptoms": [
+      "database_storage_saturation",
+      "network_edge_outage"
+    ],
+    "changed_conditions": [
+      "shared_compute_host_recently_reported_resource_pressure",
+      "payment_authorization_path_recently_degraded"
+    ],
+    "unchanged_conditions": [
+      "catalog_browse_path_stable",
+      "order_history_path_stable"
+    ],
+    "candidate_hypotheses": [
+      {
+        "hypothesis_id": "HYP-COMPUTE-CONTENTION",
+        "summary": "Shared compute pressure is affecting the checkout path.",
+        "expected_supporting_signals": [
+          "latency_spike",
+          "payment_authorization_path_recently_degraded"
+        ]
+      },
+      {
+        "hypothesis_id": "HYP-KNOWLEDGE-KNOWN-ERROR",
+        "summary": "A known error pattern may explain the current condition.",
+        "expected_supporting_signals": [
+          "error_rate_increase",
+          "checkout_completion_drop"
+        ]
+      }
+    ],
+    "expected_is_statements": [
+      "The condition is affecting Digital Checkout.",
+      "The condition is present on the payment authorization path.",
+      "The condition includes latency and error symptoms."
+    ],
+    "expected_is_not_statements": [
+      "The condition is not currently affecting Product Catalog.",
+      "The condition is not explained by database storage saturation.",
+      "The condition is not approved for autonomous production action."
+    ],
+    "simulated_outcome_feedback": {
+      "feedback_type": "simulated_demo_feedback",
+      "result": "human_review_confirmed_pattern",
+      "memory_update_persistence": "deferred",
+      "production_memory_written": false
+    }
+  }
+]

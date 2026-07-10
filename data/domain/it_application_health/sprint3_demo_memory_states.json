@@ -10,45 +10,69 @@
     "freshness": "CURRENT",
     "validation_state": "UNVALIDATED",
     "expected_confidence_direction": "NEW",
-    "expected_due_diligence_level": "FULL_DUE_DILIGENCE"
+    "expected_due_diligence_level": "FULL_DUE_DILIGENCE",
+    "model_label": "simulated_demo_memory_state",
+    "production_persistence": false,
+    "memory_update_persistence": "deferred_to_sprint_3_1_or_v1_2",
+    "memory_as_evidence_not_truth": true
   },
   {
     "memory_state_id": "emerging_memory",
     "pattern_maturity": "EMERGING",
     "prior_confidence": "LOW",
-    "outcome_history": ["human_review_success"],
+    "outcome_history": [
+      "human_review_success"
+    ],
     "successful_uses": 8,
     "failed_uses": 1,
     "similarity": 0.72,
     "freshness": "CURRENT",
     "validation_state": "HUMAN_VALIDATED",
     "expected_confidence_direction": "INCREASING",
-    "expected_due_diligence_level": "TARGETED_KNOWLEDGE_RETRIEVAL"
+    "expected_due_diligence_level": "TARGETED_KNOWLEDGE_RETRIEVAL",
+    "model_label": "simulated_demo_memory_state",
+    "production_persistence": false,
+    "memory_update_persistence": "deferred_to_sprint_3_1_or_v1_2",
+    "memory_as_evidence_not_truth": true
   },
   {
     "memory_state_id": "trusted_memory",
     "pattern_maturity": "TRUSTED",
     "prior_confidence": "HIGH",
-    "outcome_history": ["human_review_success", "human_review_success"],
+    "outcome_history": [
+      "human_review_success",
+      "human_review_success"
+    ],
     "successful_uses": 64,
     "failed_uses": 0,
     "similarity": 0.91,
     "freshness": "CURRENT",
     "validation_state": "HUMAN_VALIDATED",
     "expected_confidence_direction": "STABLE",
-    "expected_due_diligence_level": "TARGETED_VALIDATION"
+    "expected_due_diligence_level": "TARGETED_VALIDATION",
+    "model_label": "simulated_demo_memory_state",
+    "production_persistence": false,
+    "memory_update_persistence": "deferred_to_sprint_3_1_or_v1_2",
+    "memory_as_evidence_not_truth": true
   },
   {
     "memory_state_id": "trusted_but_drifting_memory",
     "pattern_maturity": "TRUSTED_BUT_DRIFTING",
     "prior_confidence": "HIGH",
-    "outcome_history": ["human_review_success", "human_review_rework_required"],
+    "outcome_history": [
+      "human_review_success",
+      "human_review_rework_required"
+    ],
     "successful_uses": 64,
     "failed_uses": 3,
     "similarity": 0.52,
     "freshness": "STALE",
     "validation_state": "HUMAN_VALIDATED",
     "expected_confidence_direction": "DECREASING",
-    "expected_due_diligence_level": "EXPANDED_VALIDATION"
+    "expected_due_diligence_level": "EXPANDED_VALIDATION",
+    "model_label": "simulated_demo_memory_state",
+    "production_persistence": false,
+    "memory_update_persistence": "deferred_to_sprint_3_1_or_v1_2",
+    "memory_as_evidence_not_truth": true
   }
 ]
