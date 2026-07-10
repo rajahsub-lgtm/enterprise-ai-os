@@ -1,0 +1,2478 @@
+{
+  "animation_event_count": 42,
+  "comparison": {
+    "comparison_id": "comparison-same-alert-memory-states",
+    "comparison_label": "Same alert, different memory states",
+    "runs": [
+      {
+        "animation_events": [
+          {
+            "caption": "EAIOS begins with the joint goal.",
+            "event_id": "run-no-memory-EVT-001",
+            "event_type": "NODE_ACTIVATED",
+            "node_id": "joint_goal",
+            "run_id": "run-no-memory",
+            "timestamp_offset_ms": 0
+          },
+          {
+            "agent_id": "memory_pattern_agent",
+            "caption": "memory_pattern_agent requests governed access to enterprise_memory.",
+            "event_id": "run-no-memory-EVT-002",
+            "event_type": "NODE_ACTIVATED",
+            "node_id": "agent::memory_pattern_agent",
+            "run_id": "run-no-memory",
+            "source_id": "enterprise_memory",
+            "timestamp_offset_ms": 900
+          },
+          {
+            "agent_id": "memory_pattern_agent",
+            "audit_id": "run-no-memory-AUDIT-001",
+            "caption": "Governance stamps ALLOW for memory_pattern_agent \u2192 enterprise_memory.",
+            "decision": "ALLOW",
+            "event_id": "run-no-memory-EVT-003",
+            "event_type": "GOVERNANCE_GATE_STAMPED",
+            "evidence_id": "run-no-memory-EVIDENCE-001",
+            "node_id": "gate::memory_pattern_agent::enterprise_memory",
+            "run_id": "run-no-memory",
+            "source_id": "enterprise_memory",
+            "timestamp_offset_ms": 1800
+          },
+          {
+            "agent_id": "knowledge_retrieval_agent",
+            "caption": "knowledge_retrieval_agent requests governed access to support_knowledge.",
+            "event_id": "run-no-memory-EVT-004",
+            "event_type": "NODE_ACTIVATED",
+            "node_id": "agent::knowledge_retrieval_agent",
+            "run_id": "run-no-memory",
+            "source_id": "support_knowledge",
+            "timestamp_offset_ms": 2700
+          },
+          {
+            "agent_id": "knowledge_retrieval_agent",
+            "audit_id": "run-no-memory-AUDIT-002",
+            "caption": "Governance stamps ALLOW for knowledge_retrieval_agent \u2192 support_knowledge.",
+            "decision": "ALLOW",
+            "event_id": "run-no-memory-EVT-005",
+            "event_type": "GOVERNANCE_GATE_STAMPED",
+            "evidence_id": "run-no-memory-EVIDENCE-EXCLUDED-001",
+            "node_id": "gate::knowledge_retrieval_agent::support_knowledge",
+            "run_id": "run-no-memory",
+            "source_id": "support_knowledge",
+            "timestamp_offset_ms": 3600
+          },
+          {
+            "agent_id": "business_impact_agent",
+            "caption": "business_impact_agent requests governed access to itil_business_impact_map.",
+            "event_id": "run-no-memory-EVT-006",
+            "event_type": "NODE_ACTIVATED",
+            "node_id": "agent::business_impact_agent",
+            "run_id": "run-no-memory",
+            "source_id": "itil_business_impact_map",
+            "timestamp_offset_ms": 4500
+          },
+          {
+            "agent_id": "business_impact_agent",
+            "audit_id": "run-no-memory-AUDIT-003",
+            "caption": "Governance stamps DENY for business_impact_agent \u2192 itil_business_impact_map.",
+            "decision": "DENY",
+            "event_id": "run-no-memory-EVT-007",
+            "event_type": "GOVERNANCE_GATE_STAMPED",
+            "node_id": "gate::business_impact_agent::itil_business_impact_map",
+            "run_id": "run-no-memory",
+            "source_id": "itil_business_impact_map",
+            "timestamp_offset_ms": 5400
+          },
+          {
+            "agent_id": "business_impact_agent",
+            "audit_id": "run-no-memory-AUDIT-003",
+            "caption": "Denied source access creates an evidence gap.",
+            "decision": "DENY",
+            "event_id": "run-no-memory-EVT-008",
+            "event_type": "EVIDENCE_GAP_CREATED",
+            "node_id": "gap::business_impact_agent::itil_business_impact_map",
+            "run_id": "run-no-memory",
+            "source_id": "itil_business_impact_map",
+            "timestamp_offset_ms": 6300
+          },
+          {
+            "allowed_for_reasoning": true,
+            "audit_id": "run-no-memory-AUDIT-001",
+            "caption": "Reasoning-eligible governed evidence flows into fusion.",
+            "content_safety_status": "SAFE_BY_APPROVED_PROVENANCE",
+            "event_id": "run-no-memory-EVT-009",
+            "event_type": "EVIDENCE_TOKEN_MOVED",
+            "evidence_id": "run-no-memory-EVIDENCE-001",
+            "from_node": "source::enterprise_memory",
+            "node_id": "evidence::run-no-memory-EVIDENCE-001",
+            "run_id": "run-no-memory",
+            "source_id": "enterprise_memory",
+            "timestamp_offset_ms": 7200,
+            "to_node": "evidence_fusion"
+          },
+          {
+            "allowed_for_reasoning": false,
+            "audit_id": "run-no-memory-AUDIT-002",
+            "caption": "Evidence is excluded and does not enter reasoning.",
+            "content_safety_status": "REVIEW_REQUIRED",
+            "event_id": "run-no-memory-EVT-010",
+            "event_type": "EVIDENCE_EXCLUDED",
+            "evidence_id": "run-no-memory-EVIDENCE-EXCLUDED-001",
+            "from_node": "source::support_knowledge",
+            "node_id": "evidence::run-no-memory-EVIDENCE-EXCLUDED-001",
+            "run_id": "run-no-memory",
+            "source_id": "support_knowledge",
+            "timestamp_offset_ms": 8100,
+            "to_node": "excluded_evidence"
+          },
+          {
+            "agent_id": "business_impact_agent",
+            "audit_id": "run-no-memory-AUDIT-003",
+            "caption": "Evidence gap is visible in the replay.",
+            "event_id": "run-no-memory-EVT-011",
+            "event_type": "EVIDENCE_GAP_CREATED",
+            "node_id": "gap::business_impact_agent::itil_business_impact_map",
+            "run_id": "run-no-memory",
+            "source_id": "itil_business_impact_map",
+            "timestamp_offset_ms": 9000
+          },
+          {
+            "caption": "Operational confidence is updated from engine output.",
+            "confidence": "LOW",
+            "confidence_direction": "NEW",
+            "event_id": "run-no-memory-EVT-012",
+            "event_type": "CONFIDENCE_UPDATED",
+            "node_id": "operational_confidence",
+            "pattern_maturity": "NONE",
+            "run_id": "run-no-memory",
+            "timestamp_offset_ms": 9900
+          },
+          {
+            "caption": "Due-diligence depth is selected from engine output.",
+            "due_diligence": "FULL_DUE_DILIGENCE",
+            "event_id": "run-no-memory-EVT-013",
+            "event_type": "DUE_DILIGENCE_SELECTED",
+            "node_id": "due_diligence",
+            "run_id": "run-no-memory",
+            "timestamp_offset_ms": 10800
+          },
+          {
+            "autonomous_action_allowed": false,
+            "caption": "Replay stops at human review. Autonomous action remains disabled.",
+            "event_id": "run-no-memory-EVT-014",
+            "event_type": "HUMAN_REVIEW_REQUIRED",
+            "governance_required": true,
+            "human_approval_required": true,
+            "node_id": "human_review",
+            "run_id": "run-no-memory",
+            "timestamp_offset_ms": 11700
+          }
+        ],
+        "business_outcome": "Maintain Application Health",
+        "confidence_direction": "NEW",
+        "current_alert": {
+          "application": "Digital Checkout",
+          "severity": "High",
+          "symptom": "Payment authorization latency and elevated error rate"
+        },
+        "evidence_for_reasoning": [
+          {
+            "allowed_for_reasoning": true,
+            "audit_id": "run-no-memory-AUDIT-001",
+            "content_safety_status": "SAFE_BY_APPROVED_PROVENANCE",
+            "evidence_class": "memory_state_evidence",
+            "evidence_id": "run-no-memory-EVIDENCE-001",
+            "payload": {
+              "pattern": "validated memory pattern"
+            },
+            "source_id": "enterprise_memory"
+          }
+        ],
+        "evidence_gaps": [
+          {
+            "agent_id": "business_impact_agent",
+            "audit_id": "run-no-memory-AUDIT-003",
+            "gap_id": "run-no-memory-GAP-001",
+            "reason": "Agent is not entitled to source.",
+            "source_id": "itil_business_impact_map"
+          }
+        ],
+        "excluded_evidence": [
+          {
+            "allowed_for_reasoning": false,
+            "audit_id": "run-no-memory-AUDIT-002",
+            "content_safety_status": "REVIEW_REQUIRED",
+            "evidence_class": "free_text_evidence",
+            "evidence_id": "run-no-memory-EVIDENCE-EXCLUDED-001",
+            "payload": {
+              "article": "Review required before reasoning."
+            },
+            "source_id": "support_knowledge"
+          }
+        ],
+        "fusion_result": null,
+        "governance_trace_view": {
+          "rows": [
+            {
+              "agent_id": "memory_pattern_agent",
+              "allowed_for_reasoning": true,
+              "approval_state": "PENDING_HUMAN_REVIEW",
+              "audit_id": "run-no-memory-AUDIT-001",
+              "autonomous_action_allowed": false,
+              "content_safety_status": "SAFE_BY_APPROVED_PROVENANCE",
+              "evidence_id": "run-no-memory-EVIDENCE-001",
+              "governance_decision": "ALLOW",
+              "reason": "Agent is entitled to source.",
+              "required_controls": [
+                "audit_logging"
+              ],
+              "source_access_purpose": "Retrieve validated memory pattern",
+              "source_id": "enterprise_memory"
+            },
+            {
+              "agent_id": "knowledge_retrieval_agent",
+              "allowed_for_reasoning": false,
+              "approval_state": "PENDING_HUMAN_REVIEW",
+              "audit_id": "run-no-memory-AUDIT-002",
+              "autonomous_action_allowed": false,
+              "content_safety_status": "REVIEW_REQUIRED",
+              "evidence_id": "run-no-memory-EVIDENCE-EXCLUDED-001",
+              "governance_decision": "ALLOW",
+              "reason": "Knowledge article requires review before reasoning.",
+              "required_controls": [
+                "human_review"
+              ],
+              "source_access_purpose": "Retrieve relevant support knowledge",
+              "source_id": "support_knowledge"
+            },
+            {
+              "agent_id": "business_impact_agent",
+              "allowed_for_reasoning": false,
+              "approval_state": "BLOCKED",
+              "audit_id": "run-no-memory-AUDIT-003",
+              "autonomous_action_allowed": false,
+              "content_safety_status": null,
+              "evidence_id": null,
+              "governance_decision": "DENY",
+              "reason": "Agent is not entitled to source.",
+              "required_controls": [
+                "access_review"
+              ],
+              "source_access_purpose": "Assess business impact",
+              "source_id": "itil_business_impact_map"
+            }
+          ]
+        },
+        "joint_goal": "Maintain service health while preserving controls",
+        "operational_confidence": "LOW",
+        "orchestration_trace": {
+          "agent_steps": [
+            {
+              "agent_id": "memory_pattern_agent",
+              "status": "COMPLETED",
+              "step_id": "run-no-memory-STEP-01"
+            },
+            {
+              "agent_id": "telemetry_agent",
+              "status": "COMPLETED",
+              "step_id": "run-no-memory-STEP-02"
+            },
+            {
+              "agent_id": "knowledge_retrieval_agent",
+              "status": "COMPLETED",
+              "step_id": "run-no-memory-STEP-03"
+            },
+            {
+              "agent_id": "business_impact_agent",
+              "status": "COMPLETED",
+              "step_id": "run-no-memory-STEP-04"
+            },
+            {
+              "agent_id": "incident_correlation_agent",
+              "status": "COMPLETED",
+              "step_id": "run-no-memory-STEP-05"
+            },
+            {
+              "agent_id": "evidence_fusion_agent",
+              "status": "COMPLETED",
+              "step_id": "run-no-memory-STEP-06"
+            },
+            {
+              "agent_id": "recommendation_agent",
+              "status": "COMPLETED",
+              "step_id": "run-no-memory-STEP-07"
+            }
+          ],
+          "case_id": "run-no-memory"
+        },
+        "pattern_maturity": "NONE",
+        "provenance": {
+          "allowed_for_reasoning_values": [
+            false,
+            true
+          ],
+          "approval_states": [
+            "BLOCKED",
+            "PENDING_HUMAN_REVIEW"
+          ],
+          "audit_ids": [
+            "run-no-memory-AUDIT-001",
+            "run-no-memory-AUDIT-002",
+            "run-no-memory-AUDIT-003"
+          ],
+          "confidence_values": {
+            "confidence_direction": "NEW",
+            "operational_confidence": "LOW",
+            "pattern_maturity": "NONE",
+            "selected_due_diligence_level": "FULL_DUE_DILIGENCE"
+          },
+          "content_safety_statuses": [
+            "REVIEW_REQUIRED",
+            "SAFE_BY_APPROVED_PROVENANCE"
+          ],
+          "evidence_ids": [
+            "run-no-memory-EVIDENCE-001",
+            "run-no-memory-EVIDENCE-EXCLUDED-001"
+          ],
+          "governance_decisions": [
+            "ALLOW",
+            "DENY"
+          ],
+          "safety_boundaries": {
+            "autonomous_action_allowed": false,
+            "governance_required": true,
+            "human_approval_required": true
+          }
+        },
+        "reasoning_explanation": {
+          "candidate_hypotheses": [
+            "New operational degradation requiring full due diligence.",
+            "Known payment authorization issue not yet validated as memory."
+          ],
+          "distinctions": [
+            "The same alert receives different due-diligence depth depending on memory and confidence.",
+            "Governance gates remain constant across memory states."
+          ],
+          "is": [
+            "Digital Checkout is affected.",
+            "Payment authorization path is affected.",
+            "Latency and error symptoms are present."
+          ],
+          "is_not": [
+            "Product Catalog is not identified as affected.",
+            "Autonomous production action is not approved.",
+            "Review-required evidence is not allowed into reasoning."
+          ],
+          "limits": [
+            "This is a Sprint 3-UI replay fixture.",
+            "No production action is executed.",
+            "Human approval remains required."
+          ],
+          "selected_hypothesis": "Treat as a new operational degradation until evidence matures.",
+          "situation": "Digital Checkout shows payment authorization latency and elevated error rate.",
+          "why_chain": [
+            "EAIOS selected FULL_DUE_DILIGENCE from operational-confidence output.",
+            "Only reasoning-eligible governed evidence is used.",
+            "Evidence gaps and excluded evidence remain visible for human review."
+          ]
+        },
+        "recommendation_candidate": {
+          "approval_state": "PENDING_HUMAN_REVIEW",
+          "autonomous_action_allowed": false,
+          "prohibited_actions": [
+            "Do not execute remediation automatically.",
+            "Do not use review-required evidence for reasoning.",
+            "Do not treat memory as truth."
+          ],
+          "required_controls": [
+            "Human approval",
+            "Audit logging",
+            "No autonomous production action"
+          ],
+          "risk_level": "High",
+          "selected_due_diligence_level": "FULL_DUE_DILIGENCE",
+          "summary": "Collect full due-diligence evidence and route recommendation package to human review.",
+          "title": "Human-reviewed operational recommendation"
+        },
+        "run_id": "run-no-memory",
+        "safety_boundaries": {
+          "autonomous_action_allowed": false,
+          "governance_required": true,
+          "human_approval_required": true
+        },
+        "scenario_id": "run-no-memory",
+        "scenario_label": "First-time / no memory",
+        "selected_due_diligence_level": "FULL_DUE_DILIGENCE",
+        "why": [
+          "No reliable prior memory pattern is available.",
+          "The condition must be treated as a new operational case.",
+          "Full due diligence is required before human review."
+        ]
+      },
+      {
+        "animation_events": [
+          {
+            "caption": "EAIOS begins with the joint goal.",
+            "event_id": "run-trusted-memory-EVT-001",
+            "event_type": "NODE_ACTIVATED",
+            "node_id": "joint_goal",
+            "run_id": "run-trusted-memory",
+            "timestamp_offset_ms": 0
+          },
+          {
+            "agent_id": "memory_pattern_agent",
+            "caption": "memory_pattern_agent requests governed access to enterprise_memory.",
+            "event_id": "run-trusted-memory-EVT-002",
+            "event_type": "NODE_ACTIVATED",
+            "node_id": "agent::memory_pattern_agent",
+            "run_id": "run-trusted-memory",
+            "source_id": "enterprise_memory",
+            "timestamp_offset_ms": 900
+          },
+          {
+            "agent_id": "memory_pattern_agent",
+            "audit_id": "run-trusted-memory-AUDIT-001",
+            "caption": "Governance stamps ALLOW for memory_pattern_agent \u2192 enterprise_memory.",
+            "decision": "ALLOW",
+            "event_id": "run-trusted-memory-EVT-003",
+            "event_type": "GOVERNANCE_GATE_STAMPED",
+            "evidence_id": "run-trusted-memory-EVIDENCE-001",
+            "node_id": "gate::memory_pattern_agent::enterprise_memory",
+            "run_id": "run-trusted-memory",
+            "source_id": "enterprise_memory",
+            "timestamp_offset_ms": 1800
+          },
+          {
+            "agent_id": "knowledge_retrieval_agent",
+            "caption": "knowledge_retrieval_agent requests governed access to support_knowledge.",
+            "event_id": "run-trusted-memory-EVT-004",
+            "event_type": "NODE_ACTIVATED",
+            "node_id": "agent::knowledge_retrieval_agent",
+            "run_id": "run-trusted-memory",
+            "source_id": "support_knowledge",
+            "timestamp_offset_ms": 2700
+          },
+          {
+            "agent_id": "knowledge_retrieval_agent",
+            "audit_id": "run-trusted-memory-AUDIT-002",
+            "caption": "Governance stamps ALLOW for knowledge_retrieval_agent \u2192 support_knowledge.",
+            "decision": "ALLOW",
+            "event_id": "run-trusted-memory-EVT-005",
+            "event_type": "GOVERNANCE_GATE_STAMPED",
+            "evidence_id": "run-trusted-memory-EVIDENCE-EXCLUDED-001",
+            "node_id": "gate::knowledge_retrieval_agent::support_knowledge",
+            "run_id": "run-trusted-memory",
+            "source_id": "support_knowledge",
+            "timestamp_offset_ms": 3600
+          },
+          {
+            "agent_id": "business_impact_agent",
+            "caption": "business_impact_agent requests governed access to itil_business_impact_map.",
+            "event_id": "run-trusted-memory-EVT-006",
+            "event_type": "NODE_ACTIVATED",
+            "node_id": "agent::business_impact_agent",
+            "run_id": "run-trusted-memory",
+            "source_id": "itil_business_impact_map",
+            "timestamp_offset_ms": 4500
+          },
+          {
+            "agent_id": "business_impact_agent",
+            "audit_id": "run-trusted-memory-AUDIT-003",
+            "caption": "Governance stamps DENY for business_impact_agent \u2192 itil_business_impact_map.",
+            "decision": "DENY",
+            "event_id": "run-trusted-memory-EVT-007",
+            "event_type": "GOVERNANCE_GATE_STAMPED",
+            "node_id": "gate::business_impact_agent::itil_business_impact_map",
+            "run_id": "run-trusted-memory",
+            "source_id": "itil_business_impact_map",
+            "timestamp_offset_ms": 5400
+          },
+          {
+            "agent_id": "business_impact_agent",
+            "audit_id": "run-trusted-memory-AUDIT-003",
+            "caption": "Denied source access creates an evidence gap.",
+            "decision": "DENY",
+            "event_id": "run-trusted-memory-EVT-008",
+            "event_type": "EVIDENCE_GAP_CREATED",
+            "node_id": "gap::business_impact_agent::itil_business_impact_map",
+            "run_id": "run-trusted-memory",
+            "source_id": "itil_business_impact_map",
+            "timestamp_offset_ms": 6300
+          },
+          {
+            "allowed_for_reasoning": true,
+            "audit_id": "run-trusted-memory-AUDIT-001",
+            "caption": "Reasoning-eligible governed evidence flows into fusion.",
+            "content_safety_status": "SAFE_BY_APPROVED_PROVENANCE",
+            "event_id": "run-trusted-memory-EVT-009",
+            "event_type": "EVIDENCE_TOKEN_MOVED",
+            "evidence_id": "run-trusted-memory-EVIDENCE-001",
+            "from_node": "source::enterprise_memory",
+            "node_id": "evidence::run-trusted-memory-EVIDENCE-001",
+            "run_id": "run-trusted-memory",
+            "source_id": "enterprise_memory",
+            "timestamp_offset_ms": 7200,
+            "to_node": "evidence_fusion"
+          },
+          {
+            "allowed_for_reasoning": false,
+            "audit_id": "run-trusted-memory-AUDIT-002",
+            "caption": "Evidence is excluded and does not enter reasoning.",
+            "content_safety_status": "REVIEW_REQUIRED",
+            "event_id": "run-trusted-memory-EVT-010",
+            "event_type": "EVIDENCE_EXCLUDED",
+            "evidence_id": "run-trusted-memory-EVIDENCE-EXCLUDED-001",
+            "from_node": "source::support_knowledge",
+            "node_id": "evidence::run-trusted-memory-EVIDENCE-EXCLUDED-001",
+            "run_id": "run-trusted-memory",
+            "source_id": "support_knowledge",
+            "timestamp_offset_ms": 8100,
+            "to_node": "excluded_evidence"
+          },
+          {
+            "agent_id": "business_impact_agent",
+            "audit_id": "run-trusted-memory-AUDIT-003",
+            "caption": "Evidence gap is visible in the replay.",
+            "event_id": "run-trusted-memory-EVT-011",
+            "event_type": "EVIDENCE_GAP_CREATED",
+            "node_id": "gap::business_impact_agent::itil_business_impact_map",
+            "run_id": "run-trusted-memory",
+            "source_id": "itil_business_impact_map",
+            "timestamp_offset_ms": 9000
+          },
+          {
+            "caption": "Operational confidence is updated from engine output.",
+            "confidence": "HIGH",
+            "confidence_direction": "STABLE",
+            "event_id": "run-trusted-memory-EVT-012",
+            "event_type": "CONFIDENCE_UPDATED",
+            "node_id": "operational_confidence",
+            "pattern_maturity": "TRUSTED",
+            "run_id": "run-trusted-memory",
+            "timestamp_offset_ms": 9900
+          },
+          {
+            "caption": "Due-diligence depth is selected from engine output.",
+            "due_diligence": "TARGETED_VALIDATION",
+            "event_id": "run-trusted-memory-EVT-013",
+            "event_type": "DUE_DILIGENCE_SELECTED",
+            "node_id": "due_diligence",
+            "run_id": "run-trusted-memory",
+            "timestamp_offset_ms": 10800
+          },
+          {
+            "autonomous_action_allowed": false,
+            "caption": "Replay stops at human review. Autonomous action remains disabled.",
+            "event_id": "run-trusted-memory-EVT-014",
+            "event_type": "HUMAN_REVIEW_REQUIRED",
+            "governance_required": true,
+            "human_approval_required": true,
+            "node_id": "human_review",
+            "run_id": "run-trusted-memory",
+            "timestamp_offset_ms": 11700
+          }
+        ],
+        "business_outcome": "Maintain Application Health",
+        "confidence_direction": "STABLE",
+        "current_alert": {
+          "application": "Digital Checkout",
+          "severity": "High",
+          "symptom": "Payment authorization latency and elevated error rate"
+        },
+        "evidence_for_reasoning": [
+          {
+            "allowed_for_reasoning": true,
+            "audit_id": "run-trusted-memory-AUDIT-001",
+            "content_safety_status": "SAFE_BY_APPROVED_PROVENANCE",
+            "evidence_class": "memory_state_evidence",
+            "evidence_id": "run-trusted-memory-EVIDENCE-001",
+            "payload": {
+              "pattern": "validated memory pattern"
+            },
+            "source_id": "enterprise_memory"
+          }
+        ],
+        "evidence_gaps": [
+          {
+            "agent_id": "business_impact_agent",
+            "audit_id": "run-trusted-memory-AUDIT-003",
+            "gap_id": "run-trusted-memory-GAP-001",
+            "reason": "Agent is not entitled to source.",
+            "source_id": "itil_business_impact_map"
+          }
+        ],
+        "excluded_evidence": [
+          {
+            "allowed_for_reasoning": false,
+            "audit_id": "run-trusted-memory-AUDIT-002",
+            "content_safety_status": "REVIEW_REQUIRED",
+            "evidence_class": "free_text_evidence",
+            "evidence_id": "run-trusted-memory-EVIDENCE-EXCLUDED-001",
+            "payload": {
+              "article": "Review required before reasoning."
+            },
+            "source_id": "support_knowledge"
+          }
+        ],
+        "fusion_result": null,
+        "governance_trace_view": {
+          "rows": [
+            {
+              "agent_id": "memory_pattern_agent",
+              "allowed_for_reasoning": true,
+              "approval_state": "PENDING_HUMAN_REVIEW",
+              "audit_id": "run-trusted-memory-AUDIT-001",
+              "autonomous_action_allowed": false,
+              "content_safety_status": "SAFE_BY_APPROVED_PROVENANCE",
+              "evidence_id": "run-trusted-memory-EVIDENCE-001",
+              "governance_decision": "ALLOW",
+              "reason": "Agent is entitled to source.",
+              "required_controls": [
+                "audit_logging"
+              ],
+              "source_access_purpose": "Retrieve validated memory pattern",
+              "source_id": "enterprise_memory"
+            },
+            {
+              "agent_id": "knowledge_retrieval_agent",
+              "allowed_for_reasoning": false,
+              "approval_state": "PENDING_HUMAN_REVIEW",
+              "audit_id": "run-trusted-memory-AUDIT-002",
+              "autonomous_action_allowed": false,
+              "content_safety_status": "REVIEW_REQUIRED",
+              "evidence_id": "run-trusted-memory-EVIDENCE-EXCLUDED-001",
+              "governance_decision": "ALLOW",
+              "reason": "Knowledge article requires review before reasoning.",
+              "required_controls": [
+                "human_review"
+              ],
+              "source_access_purpose": "Retrieve relevant support knowledge",
+              "source_id": "support_knowledge"
+            },
+            {
+              "agent_id": "business_impact_agent",
+              "allowed_for_reasoning": false,
+              "approval_state": "BLOCKED",
+              "audit_id": "run-trusted-memory-AUDIT-003",
+              "autonomous_action_allowed": false,
+              "content_safety_status": null,
+              "evidence_id": null,
+              "governance_decision": "DENY",
+              "reason": "Agent is not entitled to source.",
+              "required_controls": [
+                "access_review"
+              ],
+              "source_access_purpose": "Assess business impact",
+              "source_id": "itil_business_impact_map"
+            }
+          ]
+        },
+        "joint_goal": "Maintain service health while preserving controls",
+        "operational_confidence": "HIGH",
+        "orchestration_trace": {
+          "agent_steps": [
+            {
+              "agent_id": "memory_pattern_agent",
+              "status": "COMPLETED",
+              "step_id": "run-trusted-memory-STEP-01"
+            },
+            {
+              "agent_id": "telemetry_agent",
+              "status": "COMPLETED",
+              "step_id": "run-trusted-memory-STEP-02"
+            },
+            {
+              "agent_id": "knowledge_retrieval_agent",
+              "status": "COMPLETED",
+              "step_id": "run-trusted-memory-STEP-03"
+            }
+          ],
+          "case_id": "run-trusted-memory"
+        },
+        "pattern_maturity": "TRUSTED",
+        "provenance": {
+          "allowed_for_reasoning_values": [
+            false,
+            true
+          ],
+          "approval_states": [
+            "BLOCKED",
+            "PENDING_HUMAN_REVIEW"
+          ],
+          "audit_ids": [
+            "run-trusted-memory-AUDIT-001",
+            "run-trusted-memory-AUDIT-002",
+            "run-trusted-memory-AUDIT-003"
+          ],
+          "confidence_values": {
+            "confidence_direction": "STABLE",
+            "operational_confidence": "HIGH",
+            "pattern_maturity": "TRUSTED",
+            "selected_due_diligence_level": "TARGETED_VALIDATION"
+          },
+          "content_safety_statuses": [
+            "REVIEW_REQUIRED",
+            "SAFE_BY_APPROVED_PROVENANCE"
+          ],
+          "evidence_ids": [
+            "run-trusted-memory-EVIDENCE-001",
+            "run-trusted-memory-EVIDENCE-EXCLUDED-001"
+          ],
+          "governance_decisions": [
+            "ALLOW",
+            "DENY"
+          ],
+          "safety_boundaries": {
+            "autonomous_action_allowed": false,
+            "governance_required": true,
+            "human_approval_required": true
+          }
+        },
+        "reasoning_explanation": {
+          "candidate_hypotheses": [
+            "Previously validated payment authorization pattern has recurred.",
+            "A new unrelated degradation is possible but less likely."
+          ],
+          "distinctions": [
+            "The same alert receives different due-diligence depth depending on memory and confidence.",
+            "Governance gates remain constant across memory states."
+          ],
+          "is": [
+            "Digital Checkout is affected.",
+            "Payment authorization path is affected.",
+            "Latency and error symptoms are present."
+          ],
+          "is_not": [
+            "Product Catalog is not identified as affected.",
+            "Autonomous production action is not approved.",
+            "Review-required evidence is not allowed into reasoning."
+          ],
+          "limits": [
+            "This is a Sprint 3-UI replay fixture.",
+            "No production action is executed.",
+            "Human approval remains required."
+          ],
+          "selected_hypothesis": "Validated payment authorization pattern likely recurred, pending targeted human validation.",
+          "situation": "Digital Checkout shows payment authorization latency and elevated error rate.",
+          "why_chain": [
+            "EAIOS selected TARGETED_VALIDATION from operational-confidence output.",
+            "Only reasoning-eligible governed evidence is used.",
+            "Evidence gaps and excluded evidence remain visible for human review."
+          ]
+        },
+        "recommendation_candidate": {
+          "approval_state": "PENDING_HUMAN_REVIEW",
+          "autonomous_action_allowed": false,
+          "prohibited_actions": [
+            "Do not execute remediation automatically.",
+            "Do not use review-required evidence for reasoning.",
+            "Do not treat memory as truth."
+          ],
+          "required_controls": [
+            "Human approval",
+            "Audit logging",
+            "No autonomous production action"
+          ],
+          "risk_level": "Medium",
+          "selected_due_diligence_level": "TARGETED_VALIDATION",
+          "summary": "Perform targeted validation against the trusted memory pattern before human approval.",
+          "title": "Human-reviewed operational recommendation"
+        },
+        "run_id": "run-trusted-memory",
+        "safety_boundaries": {
+          "autonomous_action_allowed": false,
+          "governance_required": true,
+          "human_approval_required": true
+        },
+        "scenario_id": "run-trusted-memory",
+        "scenario_label": "Trusted memory / validated pattern",
+        "selected_due_diligence_level": "TARGETED_VALIDATION",
+        "why": [
+          "A trusted validated memory pattern is available.",
+          "Current evidence does not conflict with the trusted pattern.",
+          "Targeted validation is sufficient before human review."
+        ]
+      },
+      {
+        "animation_events": [
+          {
+            "caption": "EAIOS begins with the joint goal.",
+            "event_id": "run-drift-conflict-EVT-001",
+            "event_type": "NODE_ACTIVATED",
+            "node_id": "joint_goal",
+            "run_id": "run-drift-conflict",
+            "timestamp_offset_ms": 0
+          },
+          {
+            "agent_id": "memory_pattern_agent",
+            "caption": "memory_pattern_agent requests governed access to enterprise_memory.",
+            "event_id": "run-drift-conflict-EVT-002",
+            "event_type": "NODE_ACTIVATED",
+            "node_id": "agent::memory_pattern_agent",
+            "run_id": "run-drift-conflict",
+            "source_id": "enterprise_memory",
+            "timestamp_offset_ms": 900
+          },
+          {
+            "agent_id": "memory_pattern_agent",
+            "audit_id": "run-drift-conflict-AUDIT-001",
+            "caption": "Governance stamps ALLOW for memory_pattern_agent \u2192 enterprise_memory.",
+            "decision": "ALLOW",
+            "event_id": "run-drift-conflict-EVT-003",
+            "event_type": "GOVERNANCE_GATE_STAMPED",
+            "evidence_id": "run-drift-conflict-EVIDENCE-001",
+            "node_id": "gate::memory_pattern_agent::enterprise_memory",
+            "run_id": "run-drift-conflict",
+            "source_id": "enterprise_memory",
+            "timestamp_offset_ms": 1800
+          },
+          {
+            "agent_id": "knowledge_retrieval_agent",
+            "caption": "knowledge_retrieval_agent requests governed access to support_knowledge.",
+            "event_id": "run-drift-conflict-EVT-004",
+            "event_type": "NODE_ACTIVATED",
+            "node_id": "agent::knowledge_retrieval_agent",
+            "run_id": "run-drift-conflict",
+            "source_id": "support_knowledge",
+            "timestamp_offset_ms": 2700
+          },
+          {
+            "agent_id": "knowledge_retrieval_agent",
+            "audit_id": "run-drift-conflict-AUDIT-002",
+            "caption": "Governance stamps ALLOW for knowledge_retrieval_agent \u2192 support_knowledge.",
+            "decision": "ALLOW",
+            "event_id": "run-drift-conflict-EVT-005",
+            "event_type": "GOVERNANCE_GATE_STAMPED",
+            "evidence_id": "run-drift-conflict-EVIDENCE-EXCLUDED-001",
+            "node_id": "gate::knowledge_retrieval_agent::support_knowledge",
+            "run_id": "run-drift-conflict",
+            "source_id": "support_knowledge",
+            "timestamp_offset_ms": 3600
+          },
+          {
+            "agent_id": "business_impact_agent",
+            "caption": "business_impact_agent requests governed access to itil_business_impact_map.",
+            "event_id": "run-drift-conflict-EVT-006",
+            "event_type": "NODE_ACTIVATED",
+            "node_id": "agent::business_impact_agent",
+            "run_id": "run-drift-conflict",
+            "source_id": "itil_business_impact_map",
+            "timestamp_offset_ms": 4500
+          },
+          {
+            "agent_id": "business_impact_agent",
+            "audit_id": "run-drift-conflict-AUDIT-003",
+            "caption": "Governance stamps DENY for business_impact_agent \u2192 itil_business_impact_map.",
+            "decision": "DENY",
+            "event_id": "run-drift-conflict-EVT-007",
+            "event_type": "GOVERNANCE_GATE_STAMPED",
+            "node_id": "gate::business_impact_agent::itil_business_impact_map",
+            "run_id": "run-drift-conflict",
+            "source_id": "itil_business_impact_map",
+            "timestamp_offset_ms": 5400
+          },
+          {
+            "agent_id": "business_impact_agent",
+            "audit_id": "run-drift-conflict-AUDIT-003",
+            "caption": "Denied source access creates an evidence gap.",
+            "decision": "DENY",
+            "event_id": "run-drift-conflict-EVT-008",
+            "event_type": "EVIDENCE_GAP_CREATED",
+            "node_id": "gap::business_impact_agent::itil_business_impact_map",
+            "run_id": "run-drift-conflict",
+            "source_id": "itil_business_impact_map",
+            "timestamp_offset_ms": 6300
+          },
+          {
+            "allowed_for_reasoning": true,
+            "audit_id": "run-drift-conflict-AUDIT-001",
+            "caption": "Reasoning-eligible governed evidence flows into fusion.",
+            "content_safety_status": "SAFE_BY_APPROVED_PROVENANCE",
+            "event_id": "run-drift-conflict-EVT-009",
+            "event_type": "EVIDENCE_TOKEN_MOVED",
+            "evidence_id": "run-drift-conflict-EVIDENCE-001",
+            "from_node": "source::enterprise_memory",
+            "node_id": "evidence::run-drift-conflict-EVIDENCE-001",
+            "run_id": "run-drift-conflict",
+            "source_id": "enterprise_memory",
+            "timestamp_offset_ms": 7200,
+            "to_node": "evidence_fusion"
+          },
+          {
+            "allowed_for_reasoning": false,
+            "audit_id": "run-drift-conflict-AUDIT-002",
+            "caption": "Evidence is excluded and does not enter reasoning.",
+            "content_safety_status": "REVIEW_REQUIRED",
+            "event_id": "run-drift-conflict-EVT-010",
+            "event_type": "EVIDENCE_EXCLUDED",
+            "evidence_id": "run-drift-conflict-EVIDENCE-EXCLUDED-001",
+            "from_node": "source::support_knowledge",
+            "node_id": "evidence::run-drift-conflict-EVIDENCE-EXCLUDED-001",
+            "run_id": "run-drift-conflict",
+            "source_id": "support_knowledge",
+            "timestamp_offset_ms": 8100,
+            "to_node": "excluded_evidence"
+          },
+          {
+            "agent_id": "business_impact_agent",
+            "audit_id": "run-drift-conflict-AUDIT-003",
+            "caption": "Evidence gap is visible in the replay.",
+            "event_id": "run-drift-conflict-EVT-011",
+            "event_type": "EVIDENCE_GAP_CREATED",
+            "node_id": "gap::business_impact_agent::itil_business_impact_map",
+            "run_id": "run-drift-conflict",
+            "source_id": "itil_business_impact_map",
+            "timestamp_offset_ms": 9000
+          },
+          {
+            "caption": "Operational confidence is updated from engine output.",
+            "confidence": "MEDIUM",
+            "confidence_direction": "DECREASING",
+            "event_id": "run-drift-conflict-EVT-012",
+            "event_type": "CONFIDENCE_UPDATED",
+            "node_id": "operational_confidence",
+            "pattern_maturity": "DRIFTING",
+            "run_id": "run-drift-conflict",
+            "timestamp_offset_ms": 9900
+          },
+          {
+            "caption": "Due-diligence depth is selected from engine output.",
+            "due_diligence": "EXPANDED_VALIDATION",
+            "event_id": "run-drift-conflict-EVT-013",
+            "event_type": "DUE_DILIGENCE_SELECTED",
+            "node_id": "due_diligence",
+            "run_id": "run-drift-conflict",
+            "timestamp_offset_ms": 10800
+          },
+          {
+            "autonomous_action_allowed": false,
+            "caption": "Replay stops at human review. Autonomous action remains disabled.",
+            "event_id": "run-drift-conflict-EVT-014",
+            "event_type": "HUMAN_REVIEW_REQUIRED",
+            "governance_required": true,
+            "human_approval_required": true,
+            "node_id": "human_review",
+            "run_id": "run-drift-conflict",
+            "timestamp_offset_ms": 11700
+          }
+        ],
+        "business_outcome": "Maintain Application Health",
+        "confidence_direction": "DECREASING",
+        "current_alert": {
+          "application": "Digital Checkout",
+          "severity": "High",
+          "symptom": "Payment authorization latency and elevated error rate"
+        },
+        "evidence_for_reasoning": [
+          {
+            "allowed_for_reasoning": true,
+            "audit_id": "run-drift-conflict-AUDIT-001",
+            "content_safety_status": "SAFE_BY_APPROVED_PROVENANCE",
+            "evidence_class": "memory_state_evidence",
+            "evidence_id": "run-drift-conflict-EVIDENCE-001",
+            "payload": {
+              "pattern": "validated memory pattern"
+            },
+            "source_id": "enterprise_memory"
+          }
+        ],
+        "evidence_gaps": [
+          {
+            "agent_id": "business_impact_agent",
+            "audit_id": "run-drift-conflict-AUDIT-003",
+            "gap_id": "run-drift-conflict-GAP-001",
+            "reason": "Agent is not entitled to source.",
+            "source_id": "itil_business_impact_map"
+          }
+        ],
+        "excluded_evidence": [
+          {
+            "allowed_for_reasoning": false,
+            "audit_id": "run-drift-conflict-AUDIT-002",
+            "content_safety_status": "REVIEW_REQUIRED",
+            "evidence_class": "free_text_evidence",
+            "evidence_id": "run-drift-conflict-EVIDENCE-EXCLUDED-001",
+            "payload": {
+              "article": "Review required before reasoning."
+            },
+            "source_id": "support_knowledge"
+          }
+        ],
+        "fusion_result": null,
+        "governance_trace_view": {
+          "rows": [
+            {
+              "agent_id": "memory_pattern_agent",
+              "allowed_for_reasoning": true,
+              "approval_state": "PENDING_HUMAN_REVIEW",
+              "audit_id": "run-drift-conflict-AUDIT-001",
+              "autonomous_action_allowed": false,
+              "content_safety_status": "SAFE_BY_APPROVED_PROVENANCE",
+              "evidence_id": "run-drift-conflict-EVIDENCE-001",
+              "governance_decision": "ALLOW",
+              "reason": "Agent is entitled to source.",
+              "required_controls": [
+                "audit_logging"
+              ],
+              "source_access_purpose": "Retrieve validated memory pattern",
+              "source_id": "enterprise_memory"
+            },
+            {
+              "agent_id": "knowledge_retrieval_agent",
+              "allowed_for_reasoning": false,
+              "approval_state": "PENDING_HUMAN_REVIEW",
+              "audit_id": "run-drift-conflict-AUDIT-002",
+              "autonomous_action_allowed": false,
+              "content_safety_status": "REVIEW_REQUIRED",
+              "evidence_id": "run-drift-conflict-EVIDENCE-EXCLUDED-001",
+              "governance_decision": "ALLOW",
+              "reason": "Knowledge article requires review before reasoning.",
+              "required_controls": [
+                "human_review"
+              ],
+              "source_access_purpose": "Retrieve relevant support knowledge",
+              "source_id": "support_knowledge"
+            },
+            {
+              "agent_id": "business_impact_agent",
+              "allowed_for_reasoning": false,
+              "approval_state": "BLOCKED",
+              "audit_id": "run-drift-conflict-AUDIT-003",
+              "autonomous_action_allowed": false,
+              "content_safety_status": null,
+              "evidence_id": null,
+              "governance_decision": "DENY",
+              "reason": "Agent is not entitled to source.",
+              "required_controls": [
+                "access_review"
+              ],
+              "source_access_purpose": "Assess business impact",
+              "source_id": "itil_business_impact_map"
+            }
+          ]
+        },
+        "joint_goal": "Maintain service health while preserving controls",
+        "operational_confidence": "MEDIUM",
+        "orchestration_trace": {
+          "agent_steps": [
+            {
+              "agent_id": "memory_pattern_agent",
+              "status": "COMPLETED",
+              "step_id": "run-drift-conflict-STEP-01"
+            },
+            {
+              "agent_id": "telemetry_agent",
+              "status": "COMPLETED",
+              "step_id": "run-drift-conflict-STEP-02"
+            },
+            {
+              "agent_id": "knowledge_retrieval_agent",
+              "status": "COMPLETED",
+              "step_id": "run-drift-conflict-STEP-03"
+            },
+            {
+              "agent_id": "business_impact_agent",
+              "status": "COMPLETED",
+              "step_id": "run-drift-conflict-STEP-04"
+            },
+            {
+              "agent_id": "incident_correlation_agent",
+              "status": "COMPLETED",
+              "step_id": "run-drift-conflict-STEP-05"
+            }
+          ],
+          "case_id": "run-drift-conflict"
+        },
+        "pattern_maturity": "DRIFTING",
+        "provenance": {
+          "allowed_for_reasoning_values": [
+            false,
+            true
+          ],
+          "approval_states": [
+            "BLOCKED",
+            "PENDING_HUMAN_REVIEW"
+          ],
+          "audit_ids": [
+            "run-drift-conflict-AUDIT-001",
+            "run-drift-conflict-AUDIT-002",
+            "run-drift-conflict-AUDIT-003"
+          ],
+          "confidence_values": {
+            "confidence_direction": "DECREASING",
+            "operational_confidence": "MEDIUM",
+            "pattern_maturity": "DRIFTING",
+            "selected_due_diligence_level": "EXPANDED_VALIDATION"
+          },
+          "content_safety_statuses": [
+            "REVIEW_REQUIRED",
+            "SAFE_BY_APPROVED_PROVENANCE"
+          ],
+          "evidence_ids": [
+            "run-drift-conflict-EVIDENCE-001",
+            "run-drift-conflict-EVIDENCE-EXCLUDED-001"
+          ],
+          "governance_decisions": [
+            "ALLOW",
+            "DENY"
+          ],
+          "safety_boundaries": {
+            "autonomous_action_allowed": false,
+            "governance_required": true,
+            "human_approval_required": true
+          }
+        },
+        "reasoning_explanation": {
+          "candidate_hypotheses": [
+            "Known memory pattern may be drifting.",
+            "Current evidence may conflict with prior validated memory."
+          ],
+          "distinctions": [
+            "The same alert receives different due-diligence depth depending on memory and confidence.",
+            "Governance gates remain constant across memory states."
+          ],
+          "is": [
+            "Digital Checkout is affected.",
+            "Payment authorization path is affected.",
+            "Latency and error symptoms are present."
+          ],
+          "is_not": [
+            "Product Catalog is not identified as affected.",
+            "Autonomous production action is not approved.",
+            "Review-required evidence is not allowed into reasoning."
+          ],
+          "limits": [
+            "This is a Sprint 3-UI replay fixture.",
+            "No production action is executed.",
+            "Human approval remains required."
+          ],
+          "selected_hypothesis": "Treat as drift or conflict and expand validation before relying on memory.",
+          "situation": "Digital Checkout shows payment authorization latency and elevated error rate.",
+          "why_chain": [
+            "EAIOS selected EXPANDED_VALIDATION from operational-confidence output.",
+            "Only reasoning-eligible governed evidence is used.",
+            "Evidence gaps and excluded evidence remain visible for human review."
+          ]
+        },
+        "recommendation_candidate": {
+          "approval_state": "PENDING_HUMAN_REVIEW",
+          "autonomous_action_allowed": false,
+          "prohibited_actions": [
+            "Do not execute remediation automatically.",
+            "Do not use review-required evidence for reasoning.",
+            "Do not treat memory as truth."
+          ],
+          "required_controls": [
+            "Human approval",
+            "Audit logging",
+            "No autonomous production action"
+          ],
+          "risk_level": "High",
+          "selected_due_diligence_level": "EXPANDED_VALIDATION",
+          "summary": "Expand validation because memory drift or evidence conflict is present.",
+          "title": "Human-reviewed operational recommendation"
+        },
+        "run_id": "run-drift-conflict",
+        "safety_boundaries": {
+          "autonomous_action_allowed": false,
+          "governance_required": true,
+          "human_approval_required": true
+        },
+        "scenario_id": "run-drift-conflict",
+        "scenario_label": "Drift or conflict",
+        "selected_due_diligence_level": "EXPANDED_VALIDATION",
+        "why": [
+          "The memory pattern shows signs of drift.",
+          "Evidence must be expanded before recommendation confidence can increase.",
+          "Human review remains required."
+        ]
+      }
+    ],
+    "summary": [
+      {
+        "agent_step_count": 7,
+        "autonomous_action_allowed": false,
+        "denied_source_access_count": 1,
+        "evidence_count": 1,
+        "evidence_gap_count": 1,
+        "excluded_evidence_count": 1,
+        "governance_required": true,
+        "human_approval_required": true,
+        "operational_confidence": "LOW",
+        "run_id": "run-no-memory",
+        "scenario_label": "First-time / no memory",
+        "selected_due_diligence_level": "FULL_DUE_DILIGENCE"
+      },
+      {
+        "agent_step_count": 3,
+        "autonomous_action_allowed": false,
+        "denied_source_access_count": 1,
+        "evidence_count": 1,
+        "evidence_gap_count": 1,
+        "excluded_evidence_count": 1,
+        "governance_required": true,
+        "human_approval_required": true,
+        "operational_confidence": "HIGH",
+        "run_id": "run-trusted-memory",
+        "scenario_label": "Trusted memory / validated pattern",
+        "selected_due_diligence_level": "TARGETED_VALIDATION"
+      },
+      {
+        "agent_step_count": 5,
+        "autonomous_action_allowed": false,
+        "denied_source_access_count": 1,
+        "evidence_count": 1,
+        "evidence_gap_count": 1,
+        "excluded_evidence_count": 1,
+        "governance_required": true,
+        "human_approval_required": true,
+        "operational_confidence": "MEDIUM",
+        "run_id": "run-drift-conflict",
+        "scenario_label": "Drift or conflict",
+        "selected_due_diligence_level": "EXPANDED_VALIDATION"
+      }
+    ]
+  },
+  "export_purpose": "standalone_replay_renderer",
+  "provenance_summary": {
+    "approval_states": [
+      "BLOCKED",
+      "PENDING_HUMAN_REVIEW"
+    ],
+    "audit_ids": [
+      "run-drift-conflict-AUDIT-001",
+      "run-drift-conflict-AUDIT-002",
+      "run-drift-conflict-AUDIT-003",
+      "run-no-memory-AUDIT-001",
+      "run-no-memory-AUDIT-002",
+      "run-no-memory-AUDIT-003",
+      "run-trusted-memory-AUDIT-001",
+      "run-trusted-memory-AUDIT-002",
+      "run-trusted-memory-AUDIT-003"
+    ],
+    "due_diligence_values": [
+      "EXPANDED_VALIDATION",
+      "FULL_DUE_DILIGENCE",
+      "TARGETED_VALIDATION"
+    ],
+    "evidence_ids": [
+      "run-drift-conflict-EVIDENCE-001",
+      "run-drift-conflict-EVIDENCE-EXCLUDED-001",
+      "run-no-memory-EVIDENCE-001",
+      "run-no-memory-EVIDENCE-EXCLUDED-001",
+      "run-trusted-memory-EVIDENCE-001",
+      "run-trusted-memory-EVIDENCE-EXCLUDED-001"
+    ],
+    "governance_decisions": [
+      "ALLOW",
+      "DENY"
+    ],
+    "operational_confidence_values": [
+      "HIGH",
+      "LOW",
+      "MEDIUM"
+    ]
+  },
+  "renderer_contract": {
+    "direction": "one_way_json",
+    "python_owns_decisions": true,
+    "renderer_must_not_invent_decisions": true,
+    "renderer_owns_playhead": true
+  },
+  "runs": [
+    {
+      "animation_events": [
+        {
+          "caption": "EAIOS begins with the joint goal.",
+          "event_id": "run-no-memory-EVT-001",
+          "event_type": "NODE_ACTIVATED",
+          "node_id": "joint_goal",
+          "run_id": "run-no-memory",
+          "timestamp_offset_ms": 0
+        },
+        {
+          "agent_id": "memory_pattern_agent",
+          "caption": "memory_pattern_agent requests governed access to enterprise_memory.",
+          "event_id": "run-no-memory-EVT-002",
+          "event_type": "NODE_ACTIVATED",
+          "node_id": "agent::memory_pattern_agent",
+          "run_id": "run-no-memory",
+          "source_id": "enterprise_memory",
+          "timestamp_offset_ms": 900
+        },
+        {
+          "agent_id": "memory_pattern_agent",
+          "audit_id": "run-no-memory-AUDIT-001",
+          "caption": "Governance stamps ALLOW for memory_pattern_agent \u2192 enterprise_memory.",
+          "decision": "ALLOW",
+          "event_id": "run-no-memory-EVT-003",
+          "event_type": "GOVERNANCE_GATE_STAMPED",
+          "evidence_id": "run-no-memory-EVIDENCE-001",
+          "node_id": "gate::memory_pattern_agent::enterprise_memory",
+          "run_id": "run-no-memory",
+          "source_id": "enterprise_memory",
+          "timestamp_offset_ms": 1800
+        },
+        {
+          "agent_id": "knowledge_retrieval_agent",
+          "caption": "knowledge_retrieval_agent requests governed access to support_knowledge.",
+          "event_id": "run-no-memory-EVT-004",
+          "event_type": "NODE_ACTIVATED",
+          "node_id": "agent::knowledge_retrieval_agent",
+          "run_id": "run-no-memory",
+          "source_id": "support_knowledge",
+          "timestamp_offset_ms": 2700
+        },
+        {
+          "agent_id": "knowledge_retrieval_agent",
+          "audit_id": "run-no-memory-AUDIT-002",
+          "caption": "Governance stamps ALLOW for knowledge_retrieval_agent \u2192 support_knowledge.",
+          "decision": "ALLOW",
+          "event_id": "run-no-memory-EVT-005",
+          "event_type": "GOVERNANCE_GATE_STAMPED",
+          "evidence_id": "run-no-memory-EVIDENCE-EXCLUDED-001",
+          "node_id": "gate::knowledge_retrieval_agent::support_knowledge",
+          "run_id": "run-no-memory",
+          "source_id": "support_knowledge",
+          "timestamp_offset_ms": 3600
+        },
+        {
+          "agent_id": "business_impact_agent",
+          "caption": "business_impact_agent requests governed access to itil_business_impact_map.",
+          "event_id": "run-no-memory-EVT-006",
+          "event_type": "NODE_ACTIVATED",
+          "node_id": "agent::business_impact_agent",
+          "run_id": "run-no-memory",
+          "source_id": "itil_business_impact_map",
+          "timestamp_offset_ms": 4500
+        },
+        {
+          "agent_id": "business_impact_agent",
+          "audit_id": "run-no-memory-AUDIT-003",
+          "caption": "Governance stamps DENY for business_impact_agent \u2192 itil_business_impact_map.",
+          "decision": "DENY",
+          "event_id": "run-no-memory-EVT-007",
+          "event_type": "GOVERNANCE_GATE_STAMPED",
+          "node_id": "gate::business_impact_agent::itil_business_impact_map",
+          "run_id": "run-no-memory",
+          "source_id": "itil_business_impact_map",
+          "timestamp_offset_ms": 5400
+        },
+        {
+          "agent_id": "business_impact_agent",
+          "audit_id": "run-no-memory-AUDIT-003",
+          "caption": "Denied source access creates an evidence gap.",
+          "decision": "DENY",
+          "event_id": "run-no-memory-EVT-008",
+          "event_type": "EVIDENCE_GAP_CREATED",
+          "node_id": "gap::business_impact_agent::itil_business_impact_map",
+          "run_id": "run-no-memory",
+          "source_id": "itil_business_impact_map",
+          "timestamp_offset_ms": 6300
+        },
+        {
+          "allowed_for_reasoning": true,
+          "audit_id": "run-no-memory-AUDIT-001",
+          "caption": "Reasoning-eligible governed evidence flows into fusion.",
+          "content_safety_status": "SAFE_BY_APPROVED_PROVENANCE",
+          "event_id": "run-no-memory-EVT-009",
+          "event_type": "EVIDENCE_TOKEN_MOVED",
+          "evidence_id": "run-no-memory-EVIDENCE-001",
+          "from_node": "source::enterprise_memory",
+          "node_id": "evidence::run-no-memory-EVIDENCE-001",
+          "run_id": "run-no-memory",
+          "source_id": "enterprise_memory",
+          "timestamp_offset_ms": 7200,
+          "to_node": "evidence_fusion"
+        },
+        {
+          "allowed_for_reasoning": false,
+          "audit_id": "run-no-memory-AUDIT-002",
+          "caption": "Evidence is excluded and does not enter reasoning.",
+          "content_safety_status": "REVIEW_REQUIRED",
+          "event_id": "run-no-memory-EVT-010",
+          "event_type": "EVIDENCE_EXCLUDED",
+          "evidence_id": "run-no-memory-EVIDENCE-EXCLUDED-001",
+          "from_node": "source::support_knowledge",
+          "node_id": "evidence::run-no-memory-EVIDENCE-EXCLUDED-001",
+          "run_id": "run-no-memory",
+          "source_id": "support_knowledge",
+          "timestamp_offset_ms": 8100,
+          "to_node": "excluded_evidence"
+        },
+        {
+          "agent_id": "business_impact_agent",
+          "audit_id": "run-no-memory-AUDIT-003",
+          "caption": "Evidence gap is visible in the replay.",
+          "event_id": "run-no-memory-EVT-011",
+          "event_type": "EVIDENCE_GAP_CREATED",
+          "node_id": "gap::business_impact_agent::itil_business_impact_map",
+          "run_id": "run-no-memory",
+          "source_id": "itil_business_impact_map",
+          "timestamp_offset_ms": 9000
+        },
+        {
+          "caption": "Operational confidence is updated from engine output.",
+          "confidence": "LOW",
+          "confidence_direction": "NEW",
+          "event_id": "run-no-memory-EVT-012",
+          "event_type": "CONFIDENCE_UPDATED",
+          "node_id": "operational_confidence",
+          "pattern_maturity": "NONE",
+          "run_id": "run-no-memory",
+          "timestamp_offset_ms": 9900
+        },
+        {
+          "caption": "Due-diligence depth is selected from engine output.",
+          "due_diligence": "FULL_DUE_DILIGENCE",
+          "event_id": "run-no-memory-EVT-013",
+          "event_type": "DUE_DILIGENCE_SELECTED",
+          "node_id": "due_diligence",
+          "run_id": "run-no-memory",
+          "timestamp_offset_ms": 10800
+        },
+        {
+          "autonomous_action_allowed": false,
+          "caption": "Replay stops at human review. Autonomous action remains disabled.",
+          "event_id": "run-no-memory-EVT-014",
+          "event_type": "HUMAN_REVIEW_REQUIRED",
+          "governance_required": true,
+          "human_approval_required": true,
+          "node_id": "human_review",
+          "run_id": "run-no-memory",
+          "timestamp_offset_ms": 11700
+        }
+      ],
+      "business_outcome": "Maintain Application Health",
+      "confidence_direction": "NEW",
+      "current_alert": {
+        "application": "Digital Checkout",
+        "severity": "High",
+        "symptom": "Payment authorization latency and elevated error rate"
+      },
+      "evidence_for_reasoning": [
+        {
+          "allowed_for_reasoning": true,
+          "audit_id": "run-no-memory-AUDIT-001",
+          "content_safety_status": "SAFE_BY_APPROVED_PROVENANCE",
+          "evidence_class": "memory_state_evidence",
+          "evidence_id": "run-no-memory-EVIDENCE-001",
+          "payload": {
+            "pattern": "validated memory pattern"
+          },
+          "source_id": "enterprise_memory"
+        }
+      ],
+      "evidence_gaps": [
+        {
+          "agent_id": "business_impact_agent",
+          "audit_id": "run-no-memory-AUDIT-003",
+          "gap_id": "run-no-memory-GAP-001",
+          "reason": "Agent is not entitled to source.",
+          "source_id": "itil_business_impact_map"
+        }
+      ],
+      "excluded_evidence": [
+        {
+          "allowed_for_reasoning": false,
+          "audit_id": "run-no-memory-AUDIT-002",
+          "content_safety_status": "REVIEW_REQUIRED",
+          "evidence_class": "free_text_evidence",
+          "evidence_id": "run-no-memory-EVIDENCE-EXCLUDED-001",
+          "payload": {
+            "article": "Review required before reasoning."
+          },
+          "source_id": "support_knowledge"
+        }
+      ],
+      "fusion_result": null,
+      "governance_trace_view": {
+        "rows": [
+          {
+            "agent_id": "memory_pattern_agent",
+            "allowed_for_reasoning": true,
+            "approval_state": "PENDING_HUMAN_REVIEW",
+            "audit_id": "run-no-memory-AUDIT-001",
+            "autonomous_action_allowed": false,
+            "content_safety_status": "SAFE_BY_APPROVED_PROVENANCE",
+            "evidence_id": "run-no-memory-EVIDENCE-001",
+            "governance_decision": "ALLOW",
+            "reason": "Agent is entitled to source.",
+            "required_controls": [
+              "audit_logging"
+            ],
+            "source_access_purpose": "Retrieve validated memory pattern",
+            "source_id": "enterprise_memory"
+          },
+          {
+            "agent_id": "knowledge_retrieval_agent",
+            "allowed_for_reasoning": false,
+            "approval_state": "PENDING_HUMAN_REVIEW",
+            "audit_id": "run-no-memory-AUDIT-002",
+            "autonomous_action_allowed": false,
+            "content_safety_status": "REVIEW_REQUIRED",
+            "evidence_id": "run-no-memory-EVIDENCE-EXCLUDED-001",
+            "governance_decision": "ALLOW",
+            "reason": "Knowledge article requires review before reasoning.",
+            "required_controls": [
+              "human_review"
+            ],
+            "source_access_purpose": "Retrieve relevant support knowledge",
+            "source_id": "support_knowledge"
+          },
+          {
+            "agent_id": "business_impact_agent",
+            "allowed_for_reasoning": false,
+            "approval_state": "BLOCKED",
+            "audit_id": "run-no-memory-AUDIT-003",
+            "autonomous_action_allowed": false,
+            "content_safety_status": null,
+            "evidence_id": null,
+            "governance_decision": "DENY",
+            "reason": "Agent is not entitled to source.",
+            "required_controls": [
+              "access_review"
+            ],
+            "source_access_purpose": "Assess business impact",
+            "source_id": "itil_business_impact_map"
+          }
+        ]
+      },
+      "joint_goal": "Maintain service health while preserving controls",
+      "operational_confidence": "LOW",
+      "orchestration_trace": {
+        "agent_steps": [
+          {
+            "agent_id": "memory_pattern_agent",
+            "status": "COMPLETED",
+            "step_id": "run-no-memory-STEP-01"
+          },
+          {
+            "agent_id": "telemetry_agent",
+            "status": "COMPLETED",
+            "step_id": "run-no-memory-STEP-02"
+          },
+          {
+            "agent_id": "knowledge_retrieval_agent",
+            "status": "COMPLETED",
+            "step_id": "run-no-memory-STEP-03"
+          },
+          {
+            "agent_id": "business_impact_agent",
+            "status": "COMPLETED",
+            "step_id": "run-no-memory-STEP-04"
+          },
+          {
+            "agent_id": "incident_correlation_agent",
+            "status": "COMPLETED",
+            "step_id": "run-no-memory-STEP-05"
+          },
+          {
+            "agent_id": "evidence_fusion_agent",
+            "status": "COMPLETED",
+            "step_id": "run-no-memory-STEP-06"
+          },
+          {
+            "agent_id": "recommendation_agent",
+            "status": "COMPLETED",
+            "step_id": "run-no-memory-STEP-07"
+          }
+        ],
+        "case_id": "run-no-memory"
+      },
+      "pattern_maturity": "NONE",
+      "provenance": {
+        "allowed_for_reasoning_values": [
+          false,
+          true
+        ],
+        "approval_states": [
+          "BLOCKED",
+          "PENDING_HUMAN_REVIEW"
+        ],
+        "audit_ids": [
+          "run-no-memory-AUDIT-001",
+          "run-no-memory-AUDIT-002",
+          "run-no-memory-AUDIT-003"
+        ],
+        "confidence_values": {
+          "confidence_direction": "NEW",
+          "operational_confidence": "LOW",
+          "pattern_maturity": "NONE",
+          "selected_due_diligence_level": "FULL_DUE_DILIGENCE"
+        },
+        "content_safety_statuses": [
+          "REVIEW_REQUIRED",
+          "SAFE_BY_APPROVED_PROVENANCE"
+        ],
+        "evidence_ids": [
+          "run-no-memory-EVIDENCE-001",
+          "run-no-memory-EVIDENCE-EXCLUDED-001"
+        ],
+        "governance_decisions": [
+          "ALLOW",
+          "DENY"
+        ],
+        "safety_boundaries": {
+          "autonomous_action_allowed": false,
+          "governance_required": true,
+          "human_approval_required": true
+        }
+      },
+      "reasoning_explanation": {
+        "candidate_hypotheses": [
+          "New operational degradation requiring full due diligence.",
+          "Known payment authorization issue not yet validated as memory."
+        ],
+        "distinctions": [
+          "The same alert receives different due-diligence depth depending on memory and confidence.",
+          "Governance gates remain constant across memory states."
+        ],
+        "is": [
+          "Digital Checkout is affected.",
+          "Payment authorization path is affected.",
+          "Latency and error symptoms are present."
+        ],
+        "is_not": [
+          "Product Catalog is not identified as affected.",
+          "Autonomous production action is not approved.",
+          "Review-required evidence is not allowed into reasoning."
+        ],
+        "limits": [
+          "This is a Sprint 3-UI replay fixture.",
+          "No production action is executed.",
+          "Human approval remains required."
+        ],
+        "selected_hypothesis": "Treat as a new operational degradation until evidence matures.",
+        "situation": "Digital Checkout shows payment authorization latency and elevated error rate.",
+        "why_chain": [
+          "EAIOS selected FULL_DUE_DILIGENCE from operational-confidence output.",
+          "Only reasoning-eligible governed evidence is used.",
+          "Evidence gaps and excluded evidence remain visible for human review."
+        ]
+      },
+      "recommendation_candidate": {
+        "approval_state": "PENDING_HUMAN_REVIEW",
+        "autonomous_action_allowed": false,
+        "prohibited_actions": [
+          "Do not execute remediation automatically.",
+          "Do not use review-required evidence for reasoning.",
+          "Do not treat memory as truth."
+        ],
+        "required_controls": [
+          "Human approval",
+          "Audit logging",
+          "No autonomous production action"
+        ],
+        "risk_level": "High",
+        "selected_due_diligence_level": "FULL_DUE_DILIGENCE",
+        "summary": "Collect full due-diligence evidence and route recommendation package to human review.",
+        "title": "Human-reviewed operational recommendation"
+      },
+      "run_id": "run-no-memory",
+      "safety_boundaries": {
+        "autonomous_action_allowed": false,
+        "governance_required": true,
+        "human_approval_required": true
+      },
+      "scenario_id": "run-no-memory",
+      "scenario_label": "First-time / no memory",
+      "selected_due_diligence_level": "FULL_DUE_DILIGENCE",
+      "why": [
+        "No reliable prior memory pattern is available.",
+        "The condition must be treated as a new operational case.",
+        "Full due diligence is required before human review."
+      ]
+    },
+    {
+      "animation_events": [
+        {
+          "caption": "EAIOS begins with the joint goal.",
+          "event_id": "run-trusted-memory-EVT-001",
+          "event_type": "NODE_ACTIVATED",
+          "node_id": "joint_goal",
+          "run_id": "run-trusted-memory",
+          "timestamp_offset_ms": 0
+        },
+        {
+          "agent_id": "memory_pattern_agent",
+          "caption": "memory_pattern_agent requests governed access to enterprise_memory.",
+          "event_id": "run-trusted-memory-EVT-002",
+          "event_type": "NODE_ACTIVATED",
+          "node_id": "agent::memory_pattern_agent",
+          "run_id": "run-trusted-memory",
+          "source_id": "enterprise_memory",
+          "timestamp_offset_ms": 900
+        },
+        {
+          "agent_id": "memory_pattern_agent",
+          "audit_id": "run-trusted-memory-AUDIT-001",
+          "caption": "Governance stamps ALLOW for memory_pattern_agent \u2192 enterprise_memory.",
+          "decision": "ALLOW",
+          "event_id": "run-trusted-memory-EVT-003",
+          "event_type": "GOVERNANCE_GATE_STAMPED",
+          "evidence_id": "run-trusted-memory-EVIDENCE-001",
+          "node_id": "gate::memory_pattern_agent::enterprise_memory",
+          "run_id": "run-trusted-memory",
+          "source_id": "enterprise_memory",
+          "timestamp_offset_ms": 1800
+        },
+        {
+          "agent_id": "knowledge_retrieval_agent",
+          "caption": "knowledge_retrieval_agent requests governed access to support_knowledge.",
+          "event_id": "run-trusted-memory-EVT-004",
+          "event_type": "NODE_ACTIVATED",
+          "node_id": "agent::knowledge_retrieval_agent",
+          "run_id": "run-trusted-memory",
+          "source_id": "support_knowledge",
+          "timestamp_offset_ms": 2700
+        },
+        {
+          "agent_id": "knowledge_retrieval_agent",
+          "audit_id": "run-trusted-memory-AUDIT-002",
+          "caption": "Governance stamps ALLOW for knowledge_retrieval_agent \u2192 support_knowledge.",
+          "decision": "ALLOW",
+          "event_id": "run-trusted-memory-EVT-005",
+          "event_type": "GOVERNANCE_GATE_STAMPED",
+          "evidence_id": "run-trusted-memory-EVIDENCE-EXCLUDED-001",
+          "node_id": "gate::knowledge_retrieval_agent::support_knowledge",
+          "run_id": "run-trusted-memory",
+          "source_id": "support_knowledge",
+          "timestamp_offset_ms": 3600
+        },
+        {
+          "agent_id": "business_impact_agent",
+          "caption": "business_impact_agent requests governed access to itil_business_impact_map.",
+          "event_id": "run-trusted-memory-EVT-006",
+          "event_type": "NODE_ACTIVATED",
+          "node_id": "agent::business_impact_agent",
+          "run_id": "run-trusted-memory",
+          "source_id": "itil_business_impact_map",
+          "timestamp_offset_ms": 4500
+        },
+        {
+          "agent_id": "business_impact_agent",
+          "audit_id": "run-trusted-memory-AUDIT-003",
+          "caption": "Governance stamps DENY for business_impact_agent \u2192 itil_business_impact_map.",
+          "decision": "DENY",
+          "event_id": "run-trusted-memory-EVT-007",
+          "event_type": "GOVERNANCE_GATE_STAMPED",
+          "node_id": "gate::business_impact_agent::itil_business_impact_map",
+          "run_id": "run-trusted-memory",
+          "source_id": "itil_business_impact_map",
+          "timestamp_offset_ms": 5400
+        },
+        {
+          "agent_id": "business_impact_agent",
+          "audit_id": "run-trusted-memory-AUDIT-003",
+          "caption": "Denied source access creates an evidence gap.",
+          "decision": "DENY",
+          "event_id": "run-trusted-memory-EVT-008",
+          "event_type": "EVIDENCE_GAP_CREATED",
+          "node_id": "gap::business_impact_agent::itil_business_impact_map",
+          "run_id": "run-trusted-memory",
+          "source_id": "itil_business_impact_map",
+          "timestamp_offset_ms": 6300
+        },
+        {
+          "allowed_for_reasoning": true,
+          "audit_id": "run-trusted-memory-AUDIT-001",
+          "caption": "Reasoning-eligible governed evidence flows into fusion.",
+          "content_safety_status": "SAFE_BY_APPROVED_PROVENANCE",
+          "event_id": "run-trusted-memory-EVT-009",
+          "event_type": "EVIDENCE_TOKEN_MOVED",
+          "evidence_id": "run-trusted-memory-EVIDENCE-001",
+          "from_node": "source::enterprise_memory",
+          "node_id": "evidence::run-trusted-memory-EVIDENCE-001",
+          "run_id": "run-trusted-memory",
+          "source_id": "enterprise_memory",
+          "timestamp_offset_ms": 7200,
+          "to_node": "evidence_fusion"
+        },
+        {
+          "allowed_for_reasoning": false,
+          "audit_id": "run-trusted-memory-AUDIT-002",
+          "caption": "Evidence is excluded and does not enter reasoning.",
+          "content_safety_status": "REVIEW_REQUIRED",
+          "event_id": "run-trusted-memory-EVT-010",
+          "event_type": "EVIDENCE_EXCLUDED",
+          "evidence_id": "run-trusted-memory-EVIDENCE-EXCLUDED-001",
+          "from_node": "source::support_knowledge",
+          "node_id": "evidence::run-trusted-memory-EVIDENCE-EXCLUDED-001",
+          "run_id": "run-trusted-memory",
+          "source_id": "support_knowledge",
+          "timestamp_offset_ms": 8100,
+          "to_node": "excluded_evidence"
+        },
+        {
+          "agent_id": "business_impact_agent",
+          "audit_id": "run-trusted-memory-AUDIT-003",
+          "caption": "Evidence gap is visible in the replay.",
+          "event_id": "run-trusted-memory-EVT-011",
+          "event_type": "EVIDENCE_GAP_CREATED",
+          "node_id": "gap::business_impact_agent::itil_business_impact_map",
+          "run_id": "run-trusted-memory",
+          "source_id": "itil_business_impact_map",
+          "timestamp_offset_ms": 9000
+        },
+        {
+          "caption": "Operational confidence is updated from engine output.",
+          "confidence": "HIGH",
+          "confidence_direction": "STABLE",
+          "event_id": "run-trusted-memory-EVT-012",
+          "event_type": "CONFIDENCE_UPDATED",
+          "node_id": "operational_confidence",
+          "pattern_maturity": "TRUSTED",
+          "run_id": "run-trusted-memory",
+          "timestamp_offset_ms": 9900
+        },
+        {
+          "caption": "Due-diligence depth is selected from engine output.",
+          "due_diligence": "TARGETED_VALIDATION",
+          "event_id": "run-trusted-memory-EVT-013",
+          "event_type": "DUE_DILIGENCE_SELECTED",
+          "node_id": "due_diligence",
+          "run_id": "run-trusted-memory",
+          "timestamp_offset_ms": 10800
+        },
+        {
+          "autonomous_action_allowed": false,
+          "caption": "Replay stops at human review. Autonomous action remains disabled.",
+          "event_id": "run-trusted-memory-EVT-014",
+          "event_type": "HUMAN_REVIEW_REQUIRED",
+          "governance_required": true,
+          "human_approval_required": true,
+          "node_id": "human_review",
+          "run_id": "run-trusted-memory",
+          "timestamp_offset_ms": 11700
+        }
+      ],
+      "business_outcome": "Maintain Application Health",
+      "confidence_direction": "STABLE",
+      "current_alert": {
+        "application": "Digital Checkout",
+        "severity": "High",
+        "symptom": "Payment authorization latency and elevated error rate"
+      },
+      "evidence_for_reasoning": [
+        {
+          "allowed_for_reasoning": true,
+          "audit_id": "run-trusted-memory-AUDIT-001",
+          "content_safety_status": "SAFE_BY_APPROVED_PROVENANCE",
+          "evidence_class": "memory_state_evidence",
+          "evidence_id": "run-trusted-memory-EVIDENCE-001",
+          "payload": {
+            "pattern": "validated memory pattern"
+          },
+          "source_id": "enterprise_memory"
+        }
+      ],
+      "evidence_gaps": [
+        {
+          "agent_id": "business_impact_agent",
+          "audit_id": "run-trusted-memory-AUDIT-003",
+          "gap_id": "run-trusted-memory-GAP-001",
+          "reason": "Agent is not entitled to source.",
+          "source_id": "itil_business_impact_map"
+        }
+      ],
+      "excluded_evidence": [
+        {
+          "allowed_for_reasoning": false,
+          "audit_id": "run-trusted-memory-AUDIT-002",
+          "content_safety_status": "REVIEW_REQUIRED",
+          "evidence_class": "free_text_evidence",
+          "evidence_id": "run-trusted-memory-EVIDENCE-EXCLUDED-001",
+          "payload": {
+            "article": "Review required before reasoning."
+          },
+          "source_id": "support_knowledge"
+        }
+      ],
+      "fusion_result": null,
+      "governance_trace_view": {
+        "rows": [
+          {
+            "agent_id": "memory_pattern_agent",
+            "allowed_for_reasoning": true,
+            "approval_state": "PENDING_HUMAN_REVIEW",
+            "audit_id": "run-trusted-memory-AUDIT-001",
+            "autonomous_action_allowed": false,
+            "content_safety_status": "SAFE_BY_APPROVED_PROVENANCE",
+            "evidence_id": "run-trusted-memory-EVIDENCE-001",
+            "governance_decision": "ALLOW",
+            "reason": "Agent is entitled to source.",
+            "required_controls": [
+              "audit_logging"
+            ],
+            "source_access_purpose": "Retrieve validated memory pattern",
+            "source_id": "enterprise_memory"
+          },
+          {
+            "agent_id": "knowledge_retrieval_agent",
+            "allowed_for_reasoning": false,
+            "approval_state": "PENDING_HUMAN_REVIEW",
+            "audit_id": "run-trusted-memory-AUDIT-002",
+            "autonomous_action_allowed": false,
+            "content_safety_status": "REVIEW_REQUIRED",
+            "evidence_id": "run-trusted-memory-EVIDENCE-EXCLUDED-001",
+            "governance_decision": "ALLOW",
+            "reason": "Knowledge article requires review before reasoning.",
+            "required_controls": [
+              "human_review"
+            ],
+            "source_access_purpose": "Retrieve relevant support knowledge",
+            "source_id": "support_knowledge"
+          },
+          {
+            "agent_id": "business_impact_agent",
+            "allowed_for_reasoning": false,
+            "approval_state": "BLOCKED",
+            "audit_id": "run-trusted-memory-AUDIT-003",
+            "autonomous_action_allowed": false,
+            "content_safety_status": null,
+            "evidence_id": null,
+            "governance_decision": "DENY",
+            "reason": "Agent is not entitled to source.",
+            "required_controls": [
+              "access_review"
+            ],
+            "source_access_purpose": "Assess business impact",
+            "source_id": "itil_business_impact_map"
+          }
+        ]
+      },
+      "joint_goal": "Maintain service health while preserving controls",
+      "operational_confidence": "HIGH",
+      "orchestration_trace": {
+        "agent_steps": [
+          {
+            "agent_id": "memory_pattern_agent",
+            "status": "COMPLETED",
+            "step_id": "run-trusted-memory-STEP-01"
+          },
+          {
+            "agent_id": "telemetry_agent",
+            "status": "COMPLETED",
+            "step_id": "run-trusted-memory-STEP-02"
+          },
+          {
+            "agent_id": "knowledge_retrieval_agent",
+            "status": "COMPLETED",
+            "step_id": "run-trusted-memory-STEP-03"
+          }
+        ],
+        "case_id": "run-trusted-memory"
+      },
+      "pattern_maturity": "TRUSTED",
+      "provenance": {
+        "allowed_for_reasoning_values": [
+          false,
+          true
+        ],
+        "approval_states": [
+          "BLOCKED",
+          "PENDING_HUMAN_REVIEW"
+        ],
+        "audit_ids": [
+          "run-trusted-memory-AUDIT-001",
+          "run-trusted-memory-AUDIT-002",
+          "run-trusted-memory-AUDIT-003"
+        ],
+        "confidence_values": {
+          "confidence_direction": "STABLE",
+          "operational_confidence": "HIGH",
+          "pattern_maturity": "TRUSTED",
+          "selected_due_diligence_level": "TARGETED_VALIDATION"
+        },
+        "content_safety_statuses": [
+          "REVIEW_REQUIRED",
+          "SAFE_BY_APPROVED_PROVENANCE"
+        ],
+        "evidence_ids": [
+          "run-trusted-memory-EVIDENCE-001",
+          "run-trusted-memory-EVIDENCE-EXCLUDED-001"
+        ],
+        "governance_decisions": [
+          "ALLOW",
+          "DENY"
+        ],
+        "safety_boundaries": {
+          "autonomous_action_allowed": false,
+          "governance_required": true,
+          "human_approval_required": true
+        }
+      },
+      "reasoning_explanation": {
+        "candidate_hypotheses": [
+          "Previously validated payment authorization pattern has recurred.",
+          "A new unrelated degradation is possible but less likely."
+        ],
+        "distinctions": [
+          "The same alert receives different due-diligence depth depending on memory and confidence.",
+          "Governance gates remain constant across memory states."
+        ],
+        "is": [
+          "Digital Checkout is affected.",
+          "Payment authorization path is affected.",
+          "Latency and error symptoms are present."
+        ],
+        "is_not": [
+          "Product Catalog is not identified as affected.",
+          "Autonomous production action is not approved.",
+          "Review-required evidence is not allowed into reasoning."
+        ],
+        "limits": [
+          "This is a Sprint 3-UI replay fixture.",
+          "No production action is executed.",
+          "Human approval remains required."
+        ],
+        "selected_hypothesis": "Validated payment authorization pattern likely recurred, pending targeted human validation.",
+        "situation": "Digital Checkout shows payment authorization latency and elevated error rate.",
+        "why_chain": [
+          "EAIOS selected TARGETED_VALIDATION from operational-confidence output.",
+          "Only reasoning-eligible governed evidence is used.",
+          "Evidence gaps and excluded evidence remain visible for human review."
+        ]
+      },
+      "recommendation_candidate": {
+        "approval_state": "PENDING_HUMAN_REVIEW",
+        "autonomous_action_allowed": false,
+        "prohibited_actions": [
+          "Do not execute remediation automatically.",
+          "Do not use review-required evidence for reasoning.",
+          "Do not treat memory as truth."
+        ],
+        "required_controls": [
+          "Human approval",
+          "Audit logging",
+          "No autonomous production action"
+        ],
+        "risk_level": "Medium",
+        "selected_due_diligence_level": "TARGETED_VALIDATION",
+        "summary": "Perform targeted validation against the trusted memory pattern before human approval.",
+        "title": "Human-reviewed operational recommendation"
+      },
+      "run_id": "run-trusted-memory",
+      "safety_boundaries": {
+        "autonomous_action_allowed": false,
+        "governance_required": true,
+        "human_approval_required": true
+      },
+      "scenario_id": "run-trusted-memory",
+      "scenario_label": "Trusted memory / validated pattern",
+      "selected_due_diligence_level": "TARGETED_VALIDATION",
+      "why": [
+        "A trusted validated memory pattern is available.",
+        "Current evidence does not conflict with the trusted pattern.",
+        "Targeted validation is sufficient before human review."
+      ]
+    },
+    {
+      "animation_events": [
+        {
+          "caption": "EAIOS begins with the joint goal.",
+          "event_id": "run-drift-conflict-EVT-001",
+          "event_type": "NODE_ACTIVATED",
+          "node_id": "joint_goal",
+          "run_id": "run-drift-conflict",
+          "timestamp_offset_ms": 0
+        },
+        {
+          "agent_id": "memory_pattern_agent",
+          "caption": "memory_pattern_agent requests governed access to enterprise_memory.",
+          "event_id": "run-drift-conflict-EVT-002",
+          "event_type": "NODE_ACTIVATED",
+          "node_id": "agent::memory_pattern_agent",
+          "run_id": "run-drift-conflict",
+          "source_id": "enterprise_memory",
+          "timestamp_offset_ms": 900
+        },
+        {
+          "agent_id": "memory_pattern_agent",
+          "audit_id": "run-drift-conflict-AUDIT-001",
+          "caption": "Governance stamps ALLOW for memory_pattern_agent \u2192 enterprise_memory.",
+          "decision": "ALLOW",
+          "event_id": "run-drift-conflict-EVT-003",
+          "event_type": "GOVERNANCE_GATE_STAMPED",
+          "evidence_id": "run-drift-conflict-EVIDENCE-001",
+          "node_id": "gate::memory_pattern_agent::enterprise_memory",
+          "run_id": "run-drift-conflict",
+          "source_id": "enterprise_memory",
+          "timestamp_offset_ms": 1800
+        },
+        {
+          "agent_id": "knowledge_retrieval_agent",
+          "caption": "knowledge_retrieval_agent requests governed access to support_knowledge.",
+          "event_id": "run-drift-conflict-EVT-004",
+          "event_type": "NODE_ACTIVATED",
+          "node_id": "agent::knowledge_retrieval_agent",
+          "run_id": "run-drift-conflict",
+          "source_id": "support_knowledge",
+          "timestamp_offset_ms": 2700
+        },
+        {
+          "agent_id": "knowledge_retrieval_agent",
+          "audit_id": "run-drift-conflict-AUDIT-002",
+          "caption": "Governance stamps ALLOW for knowledge_retrieval_agent \u2192 support_knowledge.",
+          "decision": "ALLOW",
+          "event_id": "run-drift-conflict-EVT-005",
+          "event_type": "GOVERNANCE_GATE_STAMPED",
+          "evidence_id": "run-drift-conflict-EVIDENCE-EXCLUDED-001",
+          "node_id": "gate::knowledge_retrieval_agent::support_knowledge",
+          "run_id": "run-drift-conflict",
+          "source_id": "support_knowledge",
+          "timestamp_offset_ms": 3600
+        },
+        {
+          "agent_id": "business_impact_agent",
+          "caption": "business_impact_agent requests governed access to itil_business_impact_map.",
+          "event_id": "run-drift-conflict-EVT-006",
+          "event_type": "NODE_ACTIVATED",
+          "node_id": "agent::business_impact_agent",
+          "run_id": "run-drift-conflict",
+          "source_id": "itil_business_impact_map",
+          "timestamp_offset_ms": 4500
+        },
+        {
+          "agent_id": "business_impact_agent",
+          "audit_id": "run-drift-conflict-AUDIT-003",
+          "caption": "Governance stamps DENY for business_impact_agent \u2192 itil_business_impact_map.",
+          "decision": "DENY",
+          "event_id": "run-drift-conflict-EVT-007",
+          "event_type": "GOVERNANCE_GATE_STAMPED",
+          "node_id": "gate::business_impact_agent::itil_business_impact_map",
+          "run_id": "run-drift-conflict",
+          "source_id": "itil_business_impact_map",
+          "timestamp_offset_ms": 5400
+        },
+        {
+          "agent_id": "business_impact_agent",
+          "audit_id": "run-drift-conflict-AUDIT-003",
+          "caption": "Denied source access creates an evidence gap.",
+          "decision": "DENY",
+          "event_id": "run-drift-conflict-EVT-008",
+          "event_type": "EVIDENCE_GAP_CREATED",
+          "node_id": "gap::business_impact_agent::itil_business_impact_map",
+          "run_id": "run-drift-conflict",
+          "source_id": "itil_business_impact_map",
+          "timestamp_offset_ms": 6300
+        },
+        {
+          "allowed_for_reasoning": true,
+          "audit_id": "run-drift-conflict-AUDIT-001",
+          "caption": "Reasoning-eligible governed evidence flows into fusion.",
+          "content_safety_status": "SAFE_BY_APPROVED_PROVENANCE",
+          "event_id": "run-drift-conflict-EVT-009",
+          "event_type": "EVIDENCE_TOKEN_MOVED",
+          "evidence_id": "run-drift-conflict-EVIDENCE-001",
+          "from_node": "source::enterprise_memory",
+          "node_id": "evidence::run-drift-conflict-EVIDENCE-001",
+          "run_id": "run-drift-conflict",
+          "source_id": "enterprise_memory",
+          "timestamp_offset_ms": 7200,
+          "to_node": "evidence_fusion"
+        },
+        {
+          "allowed_for_reasoning": false,
+          "audit_id": "run-drift-conflict-AUDIT-002",
+          "caption": "Evidence is excluded and does not enter reasoning.",
+          "content_safety_status": "REVIEW_REQUIRED",
+          "event_id": "run-drift-conflict-EVT-010",
+          "event_type": "EVIDENCE_EXCLUDED",
+          "evidence_id": "run-drift-conflict-EVIDENCE-EXCLUDED-001",
+          "from_node": "source::support_knowledge",
+          "node_id": "evidence::run-drift-conflict-EVIDENCE-EXCLUDED-001",
+          "run_id": "run-drift-conflict",
+          "source_id": "support_knowledge",
+          "timestamp_offset_ms": 8100,
+          "to_node": "excluded_evidence"
+        },
+        {
+          "agent_id": "business_impact_agent",
+          "audit_id": "run-drift-conflict-AUDIT-003",
+          "caption": "Evidence gap is visible in the replay.",
+          "event_id": "run-drift-conflict-EVT-011",
+          "event_type": "EVIDENCE_GAP_CREATED",
+          "node_id": "gap::business_impact_agent::itil_business_impact_map",
+          "run_id": "run-drift-conflict",
+          "source_id": "itil_business_impact_map",
+          "timestamp_offset_ms": 9000
+        },
+        {
+          "caption": "Operational confidence is updated from engine output.",
+          "confidence": "MEDIUM",
+          "confidence_direction": "DECREASING",
+          "event_id": "run-drift-conflict-EVT-012",
+          "event_type": "CONFIDENCE_UPDATED",
+          "node_id": "operational_confidence",
+          "pattern_maturity": "DRIFTING",
+          "run_id": "run-drift-conflict",
+          "timestamp_offset_ms": 9900
+        },
+        {
+          "caption": "Due-diligence depth is selected from engine output.",
+          "due_diligence": "EXPANDED_VALIDATION",
+          "event_id": "run-drift-conflict-EVT-013",
+          "event_type": "DUE_DILIGENCE_SELECTED",
+          "node_id": "due_diligence",
+          "run_id": "run-drift-conflict",
+          "timestamp_offset_ms": 10800
+        },
+        {
+          "autonomous_action_allowed": false,
+          "caption": "Replay stops at human review. Autonomous action remains disabled.",
+          "event_id": "run-drift-conflict-EVT-014",
+          "event_type": "HUMAN_REVIEW_REQUIRED",
+          "governance_required": true,
+          "human_approval_required": true,
+          "node_id": "human_review",
+          "run_id": "run-drift-conflict",
+          "timestamp_offset_ms": 11700
+        }
+      ],
+      "business_outcome": "Maintain Application Health",
+      "confidence_direction": "DECREASING",
+      "current_alert": {
+        "application": "Digital Checkout",
+        "severity": "High",
+        "symptom": "Payment authorization latency and elevated error rate"
+      },
+      "evidence_for_reasoning": [
+        {
+          "allowed_for_reasoning": true,
+          "audit_id": "run-drift-conflict-AUDIT-001",
+          "content_safety_status": "SAFE_BY_APPROVED_PROVENANCE",
+          "evidence_class": "memory_state_evidence",
+          "evidence_id": "run-drift-conflict-EVIDENCE-001",
+          "payload": {
+            "pattern": "validated memory pattern"
+          },
+          "source_id": "enterprise_memory"
+        }
+      ],
+      "evidence_gaps": [
+        {
+          "agent_id": "business_impact_agent",
+          "audit_id": "run-drift-conflict-AUDIT-003",
+          "gap_id": "run-drift-conflict-GAP-001",
+          "reason": "Agent is not entitled to source.",
+          "source_id": "itil_business_impact_map"
+        }
+      ],
+      "excluded_evidence": [
+        {
+          "allowed_for_reasoning": false,
+          "audit_id": "run-drift-conflict-AUDIT-002",
+          "content_safety_status": "REVIEW_REQUIRED",
+          "evidence_class": "free_text_evidence",
+          "evidence_id": "run-drift-conflict-EVIDENCE-EXCLUDED-001",
+          "payload": {
+            "article": "Review required before reasoning."
+          },
+          "source_id": "support_knowledge"
+        }
+      ],
+      "fusion_result": null,
+      "governance_trace_view": {
+        "rows": [
+          {
+            "agent_id": "memory_pattern_agent",
+            "allowed_for_reasoning": true,
+            "approval_state": "PENDING_HUMAN_REVIEW",
+            "audit_id": "run-drift-conflict-AUDIT-001",
+            "autonomous_action_allowed": false,
+            "content_safety_status": "SAFE_BY_APPROVED_PROVENANCE",
+            "evidence_id": "run-drift-conflict-EVIDENCE-001",
+            "governance_decision": "ALLOW",
+            "reason": "Agent is entitled to source.",
+            "required_controls": [
+              "audit_logging"
+            ],
+            "source_access_purpose": "Retrieve validated memory pattern",
+            "source_id": "enterprise_memory"
+          },
+          {
+            "agent_id": "knowledge_retrieval_agent",
+            "allowed_for_reasoning": false,
+            "approval_state": "PENDING_HUMAN_REVIEW",
+            "audit_id": "run-drift-conflict-AUDIT-002",
+            "autonomous_action_allowed": false,
+            "content_safety_status": "REVIEW_REQUIRED",
+            "evidence_id": "run-drift-conflict-EVIDENCE-EXCLUDED-001",
+            "governance_decision": "ALLOW",
+            "reason": "Knowledge article requires review before reasoning.",
+            "required_controls": [
+              "human_review"
+            ],
+            "source_access_purpose": "Retrieve relevant support knowledge",
+            "source_id": "support_knowledge"
+          },
+          {
+            "agent_id": "business_impact_agent",
+            "allowed_for_reasoning": false,
+            "approval_state": "BLOCKED",
+            "audit_id": "run-drift-conflict-AUDIT-003",
+            "autonomous_action_allowed": false,
+            "content_safety_status": null,
+            "evidence_id": null,
+            "governance_decision": "DENY",
+            "reason": "Agent is not entitled to source.",
+            "required_controls": [
+              "access_review"
+            ],
+            "source_access_purpose": "Assess business impact",
+            "source_id": "itil_business_impact_map"
+          }
+        ]
+      },
+      "joint_goal": "Maintain service health while preserving controls",
+      "operational_confidence": "MEDIUM",
+      "orchestration_trace": {
+        "agent_steps": [
+          {
+            "agent_id": "memory_pattern_agent",
+            "status": "COMPLETED",
+            "step_id": "run-drift-conflict-STEP-01"
+          },
+          {
+            "agent_id": "telemetry_agent",
+            "status": "COMPLETED",
+            "step_id": "run-drift-conflict-STEP-02"
+          },
+          {
+            "agent_id": "knowledge_retrieval_agent",
+            "status": "COMPLETED",
+            "step_id": "run-drift-conflict-STEP-03"
+          },
+          {
+            "agent_id": "business_impact_agent",
+            "status": "COMPLETED",
+            "step_id": "run-drift-conflict-STEP-04"
+          },
+          {
+            "agent_id": "incident_correlation_agent",
+            "status": "COMPLETED",
+            "step_id": "run-drift-conflict-STEP-05"
+          }
+        ],
+        "case_id": "run-drift-conflict"
+      },
+      "pattern_maturity": "DRIFTING",
+      "provenance": {
+        "allowed_for_reasoning_values": [
+          false,
+          true
+        ],
+        "approval_states": [
+          "BLOCKED",
+          "PENDING_HUMAN_REVIEW"
+        ],
+        "audit_ids": [
+          "run-drift-conflict-AUDIT-001",
+          "run-drift-conflict-AUDIT-002",
+          "run-drift-conflict-AUDIT-003"
+        ],
+        "confidence_values": {
+          "confidence_direction": "DECREASING",
+          "operational_confidence": "MEDIUM",
+          "pattern_maturity": "DRIFTING",
+          "selected_due_diligence_level": "EXPANDED_VALIDATION"
+        },
+        "content_safety_statuses": [
+          "REVIEW_REQUIRED",
+          "SAFE_BY_APPROVED_PROVENANCE"
+        ],
+        "evidence_ids": [
+          "run-drift-conflict-EVIDENCE-001",
+          "run-drift-conflict-EVIDENCE-EXCLUDED-001"
+        ],
+        "governance_decisions": [
+          "ALLOW",
+          "DENY"
+        ],
+        "safety_boundaries": {
+          "autonomous_action_allowed": false,
+          "governance_required": true,
+          "human_approval_required": true
+        }
+      },
+      "reasoning_explanation": {
+        "candidate_hypotheses": [
+          "Known memory pattern may be drifting.",
+          "Current evidence may conflict with prior validated memory."
+        ],
+        "distinctions": [
+          "The same alert receives different due-diligence depth depending on memory and confidence.",
+          "Governance gates remain constant across memory states."
+        ],
+        "is": [
+          "Digital Checkout is affected.",
+          "Payment authorization path is affected.",
+          "Latency and error symptoms are present."
+        ],
+        "is_not": [
+          "Product Catalog is not identified as affected.",
+          "Autonomous production action is not approved.",
+          "Review-required evidence is not allowed into reasoning."
+        ],
+        "limits": [
+          "This is a Sprint 3-UI replay fixture.",
+          "No production action is executed.",
+          "Human approval remains required."
+        ],
+        "selected_hypothesis": "Treat as drift or conflict and expand validation before relying on memory.",
+        "situation": "Digital Checkout shows payment authorization latency and elevated error rate.",
+        "why_chain": [
+          "EAIOS selected EXPANDED_VALIDATION from operational-confidence output.",
+          "Only reasoning-eligible governed evidence is used.",
+          "Evidence gaps and excluded evidence remain visible for human review."
+        ]
+      },
+      "recommendation_candidate": {
+        "approval_state": "PENDING_HUMAN_REVIEW",
+        "autonomous_action_allowed": false,
+        "prohibited_actions": [
+          "Do not execute remediation automatically.",
+          "Do not use review-required evidence for reasoning.",
+          "Do not treat memory as truth."
+        ],
+        "required_controls": [
+          "Human approval",
+          "Audit logging",
+          "No autonomous production action"
+        ],
+        "risk_level": "High",
+        "selected_due_diligence_level": "EXPANDED_VALIDATION",
+        "summary": "Expand validation because memory drift or evidence conflict is present.",
+        "title": "Human-reviewed operational recommendation"
+      },
+      "run_id": "run-drift-conflict",
+      "safety_boundaries": {
+        "autonomous_action_allowed": false,
+        "governance_required": true,
+        "human_approval_required": true
+      },
+      "scenario_id": "run-drift-conflict",
+      "scenario_label": "Drift or conflict",
+      "selected_due_diligence_level": "EXPANDED_VALIDATION",
+      "why": [
+        "The memory pattern shows signs of drift.",
+        "Evidence must be expanded before recommendation confidence can increase.",
+        "Human review remains required."
+      ]
+    }
+  ],
+  "safety_boundaries": {
+    "autonomous_action_allowed_values": [
+      false
+    ],
+    "governance_required_values": [
+      true
+    ],
+    "human_approval_required_values": [
+      true
+    ]
+  },
+  "schema_version": "eaios-ui-replay-v1",
+  "source_of_truth": "Sprint 3 tested headless view-model outputs"
+}
