@@ -16,6 +16,7 @@ from ui.components.control_header import control_header_model
 from ui.components.governance_trace_panel import governance_passport_rows
 from ui.components.human_review_panel import human_review_boundary_model
 from ui.components.story_replay_panel import replay_story_cards, story_thesis_model
+from ui.components.replay_canvas import replay_canvas_model
 from ui.components.scenario_selector import scenario_selector_options
 from ui.components.side_by_side_replay import side_by_side_columns
 from ui.demo_fixtures import build_demo_comparison_view_model
@@ -93,6 +94,10 @@ def main() -> None:
     left, right = st.columns([2, 1])
 
     with left:
+        st.markdown("### Orchestration replay canvas")
+        canvas = replay_canvas_model(selected_run)
+        st.graphviz_chart(canvas["dot"], use_container_width=True)
+
         st.markdown("### Governance passport")
         st.dataframe(governance_passport_rows(selected_run), use_container_width=True)
 
