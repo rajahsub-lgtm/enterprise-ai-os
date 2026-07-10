@@ -212,3 +212,24 @@ label { color:var(--muted); display:flex; gap:8px; align-items:center; }
   }
 }
 
+.path-step {
+  flex-direction: column;
+  gap: 4px;
+}
+
+.path-step small {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.path-step strong {
+  color: var(--text);
+  font-size: 13px;
+}
+
+.path-step em {
+  color: var(--muted);
+  font-size: 11px;
+  font-style: normal;
+}
+

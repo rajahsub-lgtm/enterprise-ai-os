@@ -179,6 +179,7 @@ function renderSummary() {
     ${metric("Direction", currentRun.confidence_direction)}
     ${metric("Pattern maturity", currentRun.pattern_maturity)}
     ${metric("Due diligence", currentRun.selected_due_diligence_level)}
+    ${metric("Visual path steps", agentStepsForCurrentRun().length)}
     ${metric("Governance", "Mandatory")}
     ${metric("Human approval", "Required")}
     ${metric("Autonomous action", "Off")}
@@ -193,23 +194,64 @@ function renderNodes() {
   const lane = document.getElementById("agent-lane");
   lane.innerHTML = "";
 
+  const agentSteps = agentStepsForCurrentRun();
+  const gateEventsByAgent = governanceGateEventsByAgent();
+
+  agentSteps.forEach((step, index) => {
+    const agent = document.createElement("div");
+    agent.className = "node path-step";
+    agent.dataset.nodeId = `agent::${step.agent_id}`;
+    agent.dataset.stepId = step.step_id;
+    agent.innerHTML = `
+      <small>Step ${index + 1}</small>
+      <strong>${escapeHtml(readable(step.agent_id))}</strong>
+      <em>${escapeHtml(step.status)}</em>
+    `;
+    lane.appendChild(agent);
+
+    const gateEvents = gateEventsByAgent.get(step.agent_id) || [];
+    const gateEvent = gateEvents.shift();
+
+    if (gateEvent) {
+      const gate = document.createElement("div");
+      gate.className = `node gate ${decisionClass(gateEvent.decision)}`;
+      gate.dataset.nodeId = gateEvent.node_id;
+      gate.innerHTML = `<strong>${escapeHtml(gateEvent.decision)}</strong><br>${escapeHtml(gateEvent.source_id)}`;
+      lane.appendChild(gate);
+    }
+  });
+
+  document.querySelectorAll(".node").forEach((node) => node.classList.remove("active"));
+}
+
+function agentStepsForCurrentRun() {
+  const steps =
+    currentRun.agent_steps ||
+    currentRun.orchestration_steps ||
+    currentRun.orchestration_trace?.agent_steps ||
+    [];
+
+  return steps.map((step, index) => {
+    return {
+      step_id: step.step_id || `visual-step-${index + 1}`,
+      agent_id: step.agent_id || step.agent || step.name || "unknown_agent",
+      status: step.status || "PLANNED"
+    };
+  });
+}
+
+function governanceGateEventsByAgent() {
+  const grouped = new Map();
+
   currentRun.animation_events
     .filter((event) => event.event_type === "GOVERNANCE_GATE_STAMPED")
     .forEach((event) => {
-      const agent = document.createElement("div");
-      agent.className = "node";
-      agent.dataset.nodeId = `agent::${event.agent_id}`;
-      agent.textContent = readable(event.agent_id);
-      lane.appendChild(agent);
-
-      const gate = document.createElement("div");
-      gate.className = `node gate ${decisionClass(event.decision)}`;
-      gate.dataset.nodeId = event.node_id;
-      gate.innerHTML = `<strong>${escapeHtml(event.decision)}</strong><br>${escapeHtml(event.source_id)}`;
-      lane.appendChild(gate);
+      const existing = grouped.get(event.agent_id) || [];
+      existing.push(event);
+      grouped.set(event.agent_id, existing);
     });
 
-  document.querySelectorAll(".node").forEach((node) => node.classList.remove("active"));
+  return grouped;
 }
 
 function renderEvidence() {

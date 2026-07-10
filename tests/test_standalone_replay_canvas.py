@@ -177,3 +177,32 @@ def test_standalone_replay_canvas_styles_presenter_mode():
     assert ".presenter-script" in text
     assert ".closing-line" in text
 
+
+def test_standalone_replay_canvas_renders_run_specific_agent_step_lane():
+    text = JS.read_text(encoding="utf-8")
+
+    assert "function agentStepsForCurrentRun()" in text
+    assert "currentRun.agent_steps" in text
+    assert "currentRun.orchestration_steps" in text
+    assert "currentRun.orchestration_trace?.agent_steps" in text
+    assert "agentSteps.forEach" in text
+    assert "Visual path steps" in text
+
+
+def test_standalone_replay_canvas_groups_governance_gates_under_agent_steps():
+    text = JS.read_text(encoding="utf-8")
+
+    assert "function governanceGateEventsByAgent()" in text
+    assert "GOVERNANCE_GATE_STAMPED" in text
+    assert "gateEventsByAgent.get(step.agent_id)" in text
+    assert "gateEvents.shift()" in text
+
+
+def test_standalone_replay_canvas_styles_path_step_nodes():
+    text = CSS.read_text(encoding="utf-8")
+
+    assert ".path-step" in text
+    assert ".path-step small" in text
+    assert ".path-step strong" in text
+    assert ".path-step em" in text
+
