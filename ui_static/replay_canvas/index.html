@@ -69,6 +69,35 @@
         <ol id="event-log"></ol>
       </aside>
     </section>
+
+    <section class="traceability-footer panel">
+      <div>
+        <h3>Replay contract</h3>
+        <div id="renderer-contract" class="trace-card"></div>
+      </div>
+      <div>
+        <h3>Execution trace</h3>
+        <div class="trace-grid">
+          <div class="trace-card">
+            <span>Schema version</span>
+            <strong id="schema-version">Loading?</strong>
+          </div>
+          <div class="trace-card">
+            <span>Current event</span>
+            <strong id="event-counter">0 / 0</strong>
+          </div>
+          <div class="trace-card">
+            <span>Total exported events</span>
+            <strong id="animation-event-count">0</strong>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h3>Provenance summary</h3>
+        <div id="provenance-summary" class="trace-card"></div>
+      </div>
+    </section>
+
   </main>
 
   <script src="./replay_canvas.js"></script>

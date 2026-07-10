@@ -1,4 +1,4 @@
-﻿from pathlib import Path
+from pathlib import Path
 
 
 HTML = Path("ui_static/replay_canvas/index.html")
@@ -78,3 +78,41 @@ def test_standalone_replay_canvas_documents_local_server_fallback():
 
     assert "python -m http.server 8765" in text
     assert "http://localhost:8765/ui_static/replay_canvas/index.html" in text
+
+
+def test_standalone_replay_canvas_has_traceability_footer():
+    text = HTML.read_text(encoding="utf-8")
+
+    assert "Replay contract" in text
+    assert "Execution trace" in text
+    assert "Provenance summary" in text
+    assert 'id="renderer-contract"' in text
+    assert 'id="schema-version"' in text
+    assert 'id="event-counter"' in text
+    assert 'id="animation-event-count"' in text
+    assert 'id="provenance-summary"' in text
+
+
+def test_standalone_replay_canvas_updates_traceability_footer_from_export_payload():
+    text = JS.read_text(encoding="utf-8")
+
+    assert "function renderTraceabilityFooter()" in text
+    assert "payload.schema_version" in text
+    assert "payload.animation_event_count" in text
+    assert "payload.renderer_contract.direction" in text
+    assert "payload.renderer_contract.python_owns_decisions" in text
+    assert "payload.renderer_contract.renderer_owns_playhead" in text
+    assert "payload.renderer_contract.renderer_must_not_invent_decisions" in text
+    assert "payload.provenance_summary.audit_ids.length" in text
+    assert "payload.provenance_summary.evidence_ids.length" in text
+    assert "payload.provenance_summary.governance_decisions.join" in text
+    assert "payload.provenance_summary.approval_states.join" in text
+
+
+def test_standalone_replay_canvas_event_counter_advances_with_playhead():
+    text = JS.read_text(encoding="utf-8")
+
+    assert "currentEventIndex + 1" in text
+    assert "currentRun.animation_events.length" in text
+    assert "renderTraceabilityFooter();" in text
+

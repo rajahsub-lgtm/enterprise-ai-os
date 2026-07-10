@@ -45,6 +45,7 @@ function resetReplay() {
   renderEvidence();
   renderCurrentEvent(null);
   renderLog([]);
+  renderTraceabilityFooter();
 }
 
 function togglePlay() {
@@ -68,6 +69,7 @@ function nextEvent() {
   applyEvent(event);
   renderCurrentEvent(event);
   renderLog(currentRun.animation_events.slice(0, currentEventIndex + 1));
+  renderTraceabilityFooter();
   return true;
 }
 
@@ -202,6 +204,41 @@ function renderLog(events) {
     log.appendChild(item);
   });
 }
+
+
+function renderTraceabilityFooter() {
+  if (!payload || !currentRun) return;
+
+  const schemaVersion = document.getElementById("schema-version");
+  const eventCounter = document.getElementById("event-counter");
+  const animationEventCount = document.getElementById("animation-event-count");
+  const rendererContract = document.getElementById("renderer-contract");
+  const provenanceSummary = document.getElementById("provenance-summary");
+
+  const current = Math.max(currentEventIndex + 1, 0);
+  const total = currentRun.animation_events.length;
+
+  schemaVersion.textContent = payload.schema_version;
+  eventCounter.textContent = `${current} / ${total}`;
+  animationEventCount.textContent = String(payload.animation_event_count);
+
+  rendererContract.innerHTML = `
+    <div><strong>Direction:</strong> ${escapeHtml(payload.renderer_contract.direction)}</div>
+    <div><strong>Python owns decisions:</strong> ${escapeHtml(payload.renderer_contract.python_owns_decisions)}</div>
+    <div><strong>Renderer owns play-head:</strong> ${escapeHtml(payload.renderer_contract.renderer_owns_playhead)}</div>
+    <div><strong>Renderer must not invent decisions:</strong> ${escapeHtml(payload.renderer_contract.renderer_must_not_invent_decisions)}</div>
+  `;
+
+  provenanceSummary.innerHTML = `
+    <div><strong>Audit IDs:</strong> ${escapeHtml(payload.provenance_summary.audit_ids.length)}</div>
+    <div><strong>Evidence IDs:</strong> ${escapeHtml(payload.provenance_summary.evidence_ids.length)}</div>
+    <div><strong>Governance decisions:</strong> ${escapeHtml(payload.provenance_summary.governance_decisions.join(", "))}</div>
+    <div><strong>Approval states:</strong> ${escapeHtml(payload.provenance_summary.approval_states.join(", "))}</div>
+    <div><strong>Confidence values:</strong> ${escapeHtml(payload.provenance_summary.operational_confidence_values.join(", "))}</div>
+    <div><strong>Due diligence values:</strong> ${escapeHtml(payload.provenance_summary.due_diligence_values.join(", "))}</div>
+  `;
+}
+
 
 function eventClass(event) {
   if (event.decision === "ALLOW") return "event-allow";
