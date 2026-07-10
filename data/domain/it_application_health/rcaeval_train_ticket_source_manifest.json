@@ -1,0 +1,66 @@
+{
+  "schema_version": "eaios-sprint4-public-dataset-manifest-v1",
+  "dataset_name": "RCAEval / Train Ticket",
+  "dataset_role": "benchmark_truth_layer",
+  "dataset_source_type": "public_research_benchmark",
+  "source_repository": "https://github.com/phamquiluan/RCAEval",
+  "source_dataset_record": "https://zenodo.org/records/14590730",
+  "license_status": "UNVERIFIED_PENDING_4A_LICENSE_CHECK",
+  "license_verification_required_before_commit_of_derived_samples": true,
+  "raw_data_committed": false,
+  "large_dataset_committed": false,
+  "sample_committed": false,
+  "permitted_repo_artifacts_until_license_verified": [
+    "source manifest",
+    "schema contract",
+    "adapter tests",
+    "small hand-authored structural sample with no copied benchmark records",
+    "download instructions",
+    "regeneration fallback notes"
+  ],
+  "prohibited_repo_artifacts_until_license_verified": [
+    "large raw RCAEval archives",
+    "bulk metrics",
+    "bulk logs",
+    "bulk traces",
+    "copied benchmark failure records",
+    "unverified third-party data"
+  ],
+  "truth_layer_fields_expected": [
+    "failure_case_id",
+    "service_topology",
+    "telemetry_symptoms",
+    "root_cause_service",
+    "root_cause_indicator",
+    "fault_type",
+    "time_window"
+  ],
+  "synthetic_augmentation_fields": [
+    "SyntheticIncident",
+    "SyntheticAlert",
+    "SyntheticProblem",
+    "SyntheticChange",
+    "SyntheticKnownError",
+    "SyntheticKnowledgeArticle",
+    "SyntheticBusinessImpactRecord",
+    "SyntheticSupportGroup",
+    "SyntheticOwnershipRecord"
+  ],
+  "anti_circularity_rules": {
+    "root_cause_labels_from_synthetic_generator_allowed": false,
+    "benchmark_scoring_against_kb_content_allowed": false,
+    "cluster_membership_source": "deterministic scenario composition using source_failure_case_id",
+    "root_cause_source": "RCAEval-derived root_cause_service and root_cause_indicator",
+    "knowledge_base_role": "governed evidence source, not answer key"
+  },
+  "benchmark_verification_objects": {
+    "target": "BenchmarkVerificationTarget",
+    "result": "BenchmarkVerificationResult"
+  },
+  "regeneration_fallback": {
+    "required": true,
+    "reason": "If dataset license or redistribution constraints block derived samples, regenerate telemetry from open-source Train Ticket style scenarios and mark generated labels as synthetic-only unless externally verified.",
+    "synthetic_only_labels_benchmark_scorable": false
+  },
+  "next_slice": "4A-2 RCAEval structural sample and adapter contract"
+}
