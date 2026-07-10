@@ -1,59 +1,38 @@
-import os
-import io
-import runpy
-import html
-from contextlib import redirect_stdout
-from http.server import BaseHTTPRequestHandler, HTTPServer
+﻿import json
+
+from src.domain_adapters.it_application_health.application_health_concept_demo import (
+    ApplicationHealthConceptDemo,
+)
 
 
-class EAIOSHandler(BaseHTTPRequestHandler):
-    def do_GET(self):
-        buffer = io.StringIO()
+def main() -> None:
+    result = ApplicationHealthConceptDemo().run("GS-001")
 
-        with redirect_stdout(buffer):
-            runpy.run_path("demo.py", run_name="__main__")
+    summary = {
+        "demo": "EAIOS 2 Application Health Concept Demo",
+        "business_outcome": result["business_outcome"],
+        "scenario_id": result["scenario_id"],
+        "case_summary": result["case_context"]["case_summary"],
+        "fusion_confidence": result["evidence_fusion"]["fusion_confidence"],
+        "reasoning_summary": result["reasoning_explanation"]["reasoning_summary"],
+        "recommendation_summary": result["recommendation_candidate"]["summary"],
+        "requires_human_approval": result["safety_summary"]["requires_human_approval"],
+        "autonomous_action_allowed": result["safety_summary"]["autonomous_action_allowed"],
+    }
 
-        output = html.escape(buffer.getvalue())
+    if "operational_confidence" in result:
+        summary["operational_confidence"] = result["operational_confidence"][
+            "operational_confidence"
+        ]
+        summary["selected_due_diligence_level"] = result["operational_confidence"][
+            "selected_due_diligence_level"
+        ]
+        summary["knowledge_retrieval_required"] = result["operational_confidence"][
+            "knowledge_retrieval_required"
+        ]
 
-        html_page = f"""
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>EAIOS Demo</title>
-    <style>
-        body {{
-            font-family: Arial, sans-serif;
-            margin: 40px;
-            background: #f7f7f7;
-        }}
-        pre {{
-            background: #111;
-            color: #f5f5f5;
-            padding: 24px;
-            border-radius: 8px;
-            overflow-x: auto;
-            white-space: pre-wrap;
-            font-family: Consolas, monospace;
-        }}
-    </style>
-</head>
-<body>
-    <h1>Enterprise AI Operating System</h1>
-    <h2>EAIOS Runtime Demo</h2>
-    <pre>{output}</pre>
-</body>
-</html>
-"""
-
-        self.send_response(200)
-        self.send_header("Content-type", "text/html; charset=utf-8")
-        self.end_headers()
-        self.wfile.write(html_page.encode("utf-8"))
+    print(json.dumps(summary, indent=2))
 
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", "8080"))
-    server = HTTPServer(("0.0.0.0", port), EAIOSHandler)
-    print(f"EAIOS web server running on port {port}")
-    server.serve_forever()
+    main()

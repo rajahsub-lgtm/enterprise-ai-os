@@ -1,3 +1,11 @@
+# Historical Note
+
+This document is retained as an EAIOS 1 historical portability review.
+
+The original `demo.py` and hard-coded application-health example files have been retired. The current EAIOS 2 demo path is `app.py`, backed by the synthetic ITIL application-health repository and the Sprint 2.5 governance architecture.
+
+---
+
 \# EAIOS 1 Portability Review
 
 
